@@ -384,14 +384,13 @@
 
             const { data, error } = await supabase.auth.signUp({
                 email: email,
-                password: '123456789' // رمز موقت (کاربر فقط با کد تایید وارد می‌شه)
+                password: '123456789'
             });
 
             if (error) {
                 alert('❌ خطا: ' + error.message);
             } else {
                 alert('✅ کد تایید به ایمیل شما ارسال شد. لطفاً صندوق ورودی خود را بررسی کنید.');
-                // بعد از ثبت‌نام، کاربر رو به تب ورود می‌بریم
                 switchTab('login');
             }
         });
@@ -407,9 +406,6 @@
                 alert('❌ خطا: ' + error.message);
             } else {
                 alert('✅ کد تایید به ایمیل شما ارسال شد. لطفاً صندوق ورودی خود را بررسی کنید.');
-                // بعد از ارسال کد، باید کاربر کد رو از ایمیل بگیره و توی یه فیلد وارد کنه
-                // ولی Supabase به‌صورت خودکار با لینک جادویی (Magic Link) کار می‌کنه
-                // کاربر روی لینک کلیک می‌کنه و وارد میشه
             }
         });
 
@@ -435,6 +431,15 @@
                 document.getElementById('dashboard-section').classList.add('hidden');
             }
         }
+
+        // ===== بررسی آیا از تأیید ایمیل برگشته =====
+        window.addEventListener('load', function() {
+            if (window.location.hash === '#confirmation_success') {
+                alert('✅ ایمیل شما تأیید شد! خوش آمدید.');
+                history.replaceState(null, null, window.location.pathname);
+                checkAuth();
+            }
+        });
 
         // ===== گوش دادن به تغییرات وضعیت لاگین =====
         supabase.auth.onAuthStateChange((event, session) => {
