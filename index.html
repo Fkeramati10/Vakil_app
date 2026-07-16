@@ -46,6 +46,9 @@
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
+        .hidden { display: none !important; }
+
+        /* ===== ورود ===== */
         .account-card {
             background: #ffffff;
             border-radius: 24px;
@@ -77,6 +80,7 @@
         .btn-google:active { transform: scale(0.97); background: #f5f5f5; }
         .btn-google i { font-size: 22px; color: #EA4335; }
 
+        /* ===== داشبورد ===== */
         .dashboard-header {
             display: flex;
             align-items: center;
@@ -91,7 +95,10 @@
             background: linear-gradient(135deg, #6C63FF, #4A3DBF);
             display: flex; align-items: center; justify-content: center;
             font-size: 24px; font-weight: 700; color: #fff;
+            flex-shrink: 0;
+            overflow: hidden;
         }
+        .dashboard-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .dashboard-user h2 { font-size: 18px; color: #1a1a2e; }
         .dashboard-user p { font-size: 13px; color: #8A8A9A; }
 
@@ -114,6 +121,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
+            margin-bottom: 16px;
         }
         .dash-item {
             background: #ffffff;
@@ -127,9 +135,175 @@
         .dash-item:active { transform: scale(0.96); background: #f8f9fe; }
         .dash-item i { font-size: 28px; color: #6C63FF; margin-bottom: 8px; display: block; }
         .dash-item span { font-size: 13px; font-weight: 500; color: #1a1a2e; }
+        .dash-item.logout { border-color: #ff6b6b; }
+        .dash-item.logout i { color: #ff6b6b; }
+        .dash-item.logout span { color: #ff6b6b; }
 
-        .hidden { display: none !important; }
+        /* ===== پروفایل ===== */
+        .profile-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            margin-bottom: 16px;
+        }
+        .profile-card .title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+        }
+        .profile-card .subtitle {
+            font-size: 13px;
+            color: #8A8A9A;
+            margin-bottom: 16px;
+        }
 
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+        }
+        .form-group label .required {
+            color: #ff6b6b;
+            margin-right: 2px;
+        }
+        .form-group .input-wrapper {
+            display: flex;
+            align-items: center;
+            background: #f5f7fb;
+            border-radius: 14px;
+            padding: 0 14px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .form-group .input-wrapper:focus-within {
+            border-color: #6C63FF;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.06);
+        }
+        .form-group .input-wrapper i {
+            color: #8A8A9A;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+        .form-group .input-wrapper input,
+        .form-group .input-wrapper select,
+        .form-group .input-wrapper textarea {
+            width: 100%;
+            padding: 14px 0;
+            border: none;
+            background: transparent;
+            font-size: 15px;
+            color: #1a1a2e;
+            outline: none;
+            font-family: inherit;
+            resize: none;
+        }
+        .form-group .input-wrapper input::placeholder,
+        .form-group .input-wrapper textarea::placeholder {
+            color: #bbb;
+            font-size: 14px;
+        }
+        .form-group .input-wrapper select {
+            padding: 14px 0;
+            appearance: none;
+        }
+        .form-group .input-wrapper textarea {
+            min-height: 80px;
+            padding: 12px 0;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #6C63FF, #4A3DBF);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(108, 99, 255, 0.3);
+        }
+        .btn-primary:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(108, 99, 255, 0.2); }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #6C63FF;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 0;
+            margin-bottom: 8px;
+        }
+        .back-btn:active { opacity: 0.6; }
+
+        .profile-completion {
+            background: #f5f7fb;
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .profile-completion .bar {
+            flex: 1;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin: 0 12px;
+            overflow: hidden;
+        }
+        .profile-completion .bar .fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6C63FF, #4A3DBF);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        .profile-completion .label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            white-space: nowrap;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            border-radius: 14px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            z-index: 999;
+            animation: slideDown 0.4s ease;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.success { background: #10b981; }
+        .toast.error { background: #ef4444; }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        /* ===== منوی پایین ===== */
         #bottom-nav {
             position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
             width: calc(100% - 32px); max-width: 400px;
@@ -190,25 +364,11 @@
         </div>
     </header>
 
-    <!-- صفحه خانه -->
-    <div id="page-home" class="page">
-        <div class="page-placeholder"><i class="fas fa-home"></i><p>صفحه‌ی خانه</p><p style="font-size:14px; color:#ccc;">به‌زودی تکمیل می‌شود</p></div>
-    </div>
-
-    <!-- صفحه نوبت‌دهی -->
-    <div id="page-appointments" class="page">
-        <div class="page-placeholder"><i class="fas fa-calendar-check"></i><p>نوبت‌دهی</p><p style="font-size:14px; color:#ccc;">به‌زودی تکمیل می‌شود</p></div>
-    </div>
-
-    <!-- صفحه شبکه‌های اجتماعی -->
-    <div id="page-social" class="page">
-        <div class="page-placeholder"><i class="fas fa-share-alt"></i><p>شبکه‌های اجتماعی</p><p style="font-size:14px; color:#ccc;">به‌زودی تکمیل می‌شود</p></div>
-    </div>
-
-    <!-- صفحه تماس و لوکیشن -->
-    <div id="page-contact" class="page">
-        <div class="page-placeholder"><i class="fas fa-map-pin"></i><p>تماس و لوکیشن</p><p style="font-size:14px; color:#ccc;">به‌زودی تکمیل می‌شود</p></div>
-    </div>
+    <!-- ===== صفحات ===== -->
+    <div id="page-home" class="page"><div class="page-placeholder"><i class="fas fa-home"></i><p>صفحه‌ی خانه</p><p style="font-size:14px; color:#ccc;">به‌زودی تکمیل می‌شود</p></div></div>
+    <div id="page-appointments" class="page"><div class="page-placeholder"><i class="fas fa-calendar-check"></i><p>نوبت‌دهی</p><p style="font-size:14px; color:#ccc;">به‌زودی تکمیل می‌شود</p></div></div>
+    <div id="page-social" class="page"><div class="page-placeholder"><i class="fas fa-share-alt"></i><p>شبکه‌های اجتماعی</p><p style="font-size:14px; color:#ccc;">به‌زودی تکمیل می‌شود</p></div></div>
+    <div id="page-contact" class="page"><div class="page-placeholder"><i class="fas fa-map-pin"></i><p>تماس و لوکیشن</p><p style="font-size:14px; color:#ccc;">به‌زودی تکمیل می‌شود</p></div></div>
 
     <!-- ===== صفحه حساب ===== -->
     <div id="page-account" class="page active">
@@ -219,35 +379,89 @@
                 <div class="icon">⚖️</div>
                 <div class="title">خوش آمدید</div>
                 <div class="subtitle">با حساب گوگل خود وارد شوید</div>
-
-                <button class="btn-google" id="google-signin">
-                    <i class="fab fa-google"></i> ورود با گوگل
-                </button>
+                <button class="btn-google" id="google-signin"><i class="fab fa-google"></i> ورود با گوگل</button>
             </div>
         </div>
 
         <!-- ===== داشبورد ===== -->
         <div id="dashboard-section" class="hidden">
-            <div class="dashboard-header">
-                <div class="dashboard-avatar" id="dash-avatar">ف</div>
-                <div class="dashboard-user">
-                    <h2 id="dash-name">کاربر</h2>
-                    <p id="dash-email">user@example.com</p>
+
+            <!-- منوی اصلی داشبورد -->
+            <div id="dashboard-main">
+                <div class="dashboard-header">
+                    <div class="dashboard-avatar" id="dash-avatar">ف</div>
+                    <div class="dashboard-user">
+                        <h2 id="dash-name">کاربر</h2>
+                        <p id="dash-email">user@example.com</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-stats">
+                    <div class="stat-box"><div class="num" id="stat-appointments">۰</div><div class="label">نوبت‌ها</div></div>
+                    <div class="stat-box"><div class="num" id="stat-pending">۰</div><div class="label">در انتظار</div></div>
+                    <div class="stat-box"><div class="num" id="stat-done">۰</div><div class="label">انجام شده</div></div>
+                </div>
+
+                <div class="dashboard-menu">
+                    <div class="dash-item" onclick="showProfile()"><i class="fas fa-user-edit"></i><span>ویرایش پروفایل</span></div>
+                    <div class="dash-item" onclick="alert('نوبت‌های من')"><i class="fas fa-calendar-check"></i><span>نوبت‌های من</span></div>
+                    <div class="dash-item" onclick="alert('پیام‌ها')"><i class="fas fa-comment-dots"></i><span>پیام‌ها</span></div>
+                    <div class="dash-item logout" id="logout-btn"><i class="fas fa-sign-out-alt"></i><span>خروج</span></div>
                 </div>
             </div>
 
-            <div class="dashboard-stats">
-                <div class="stat-box"><div class="num" id="stat-appointments">۰</div><div class="label">نوبت‌ها</div></div>
-                <div class="stat-box"><div class="num" id="stat-pending">۰</div><div class="label">در انتظار</div></div>
-                <div class="stat-box"><div class="num" id="stat-done">۰</div><div class="label">انجام شده</div></div>
+            <!-- ===== صفحه ویرایش پروفایل ===== -->
+            <div id="profile-section" class="hidden">
+                <button class="back-btn" onclick="showDashboard()"><i class="fas fa-arrow-right"></i> بازگشت به داشبورد</button>
+
+                <div class="profile-card">
+                    <div class="title">✏️ ویرایش پروفایل</div>
+                    <div class="subtitle">اطلاعات خود را تکمیل کنید تا بتوانید نوبت بگیرید</div>
+
+                    <div class="profile-completion" id="completion-bar">
+                        <span class="label">تکمیل</span>
+                        <div class="bar"><div class="fill" id="completion-fill" style="width:0%"></div></div>
+                        <span class="label" id="completion-text">۰٪</span>
+                    </div>
+
+                    <form id="profile-form">
+                        <div class="form-group">
+                            <label>نام و فامیل <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-user"></i><input type="text" id="full-name" placeholder="مثلاً علی محمدی"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>کد ملی <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-id-card"></i><input type="text" id="national-code" placeholder="۱۲۳۴۵۶۷۸۹۰" maxlength="10"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>شماره تماس <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-phone"></i><input type="tel" id="phone" placeholder="۰۹۱۲۳۴۵۶۷۸۹"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>تاریخ تولد</label>
+                            <div class="input-wrapper"><i class="fas fa-calendar"></i><input type="text" id="birth-date" placeholder="۱۴۰۰/۰۱/۰۱"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>جنسیت</label>
+                            <div class="input-wrapper"><i class="fas fa-venus-mars"></i>
+                                <select id="gender"><option value="">انتخاب کنید</option><option value="male">آقا</option><option value="female">خانم</option></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>آدرس</label>
+                            <div class="input-wrapper"><i class="fas fa-map-pin"></i><textarea id="address" placeholder="آدرس خود را وارد کنید..."></textarea></div>
+                        </div>
+
+                        <button type="button" class="btn-primary" id="save-profile"><i class="fas fa-save"></i> ذخیره اطلاعات</button>
+                    </form>
+                </div>
             </div>
 
-            <div class="dashboard-menu">
-                <div class="dash-item" onclick="alert('نوبت‌های من')"><i class="fas fa-calendar-check"></i><span>نوبت‌های من</span></div>
-                <div class="dash-item" onclick="alert('تنظیمات پروفایل')"><i class="fas fa-user-edit"></i><span>ویرایش پروفایل</span></div>
-                <div class="dash-item" onclick="alert('پیام‌ها')"><i class="fas fa-comment-dots"></i><span>پیام‌ها</span></div>
-                <div class="dash-item" id="logout-btn" style="border-color: #ff6b6b;"><i class="fas fa-sign-out-alt" style="color:#ff6b6b;"></i><span style="color:#ff6b6b;">خروج</span></div>
-            </div>
         </div>
 
     </div>
@@ -260,13 +474,14 @@
     <button class="nav-item" data-page="page-appointments" data-title="نوبت‌دهی"><span class="nav-icon-wrapper"><i class="fas fa-calendar-day"></i></span><span class="nav-label">نوبت</span></button>
     <button class="nav-item" data-page="page-social" data-title="شبکه‌های اجتماعی"><span class="nav-icon-wrapper"><i class="fas fa-share-nodes"></i></span><span class="nav-label">شبکه‌ها</span></button>
     <button class="nav-item" data-page="page-contact" data-title="تماس و لوکیشن"><span class="nav-icon-wrapper"><i class="fas fa-phone"></i></span><span class="nav-label">تماس</span></button>
-    <button class="nav-item active" data-page="page-account" data-title="ورود"><span class="nav-icon-wrapper"><i class="fas fa-user"></i></span><span class="nav-label">حساب</span></button>
+    <button class="nav-item active" data-page="page-account" data-title="حساب"><span class="nav-icon-wrapper"><i class="fas fa-user"></i></span><span class="nav-label">حساب</span></button>
 </nav>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+
         // ===== تغییر صفحه با منو =====
         const navItems = document.querySelectorAll('.nav-item');
         const pages = document.querySelectorAll('.page');
@@ -281,28 +496,29 @@
                 document.getElementById(pageId).classList.add('active');
                 const title = this.dataset.title;
                 if (title) pageTitle.textContent = title;
+                if (pageId === 'page-account') {
+                    checkAuth();
+                }
             });
         });
 
-        // ===== اتصال به Supabase =====
+        // ===== Supabase =====
         const supabase = window.supabase.createClient(
             'https://rfjhyymswozpstzqohzm.supabase.co',
             'sb_publishable_PYNaTLccSNKtkzN_UANBpw_fGA2H9F2'
         );
+
+        let currentUser = null;
+        let profileData = {};
 
         // ===== ورود با گوگل =====
         document.getElementById('google-signin').addEventListener('click', async function() {
             try {
                 const { data, error } = await supabase.auth.signInWithOAuth({
                     provider: 'google',
-                    options: {
-                        redirectTo: 'https://fkeramati10.github.io/Vakil_app/'
-                    }
+                    options: { redirectTo: 'https://fkeramati10.github.io/Vakil_app/' }
                 });
-
-                if (error) {
-                    alert('❌ خطا: ' + error.message);
-                }
+                if (error) alert('❌ خطا: ' + error.message);
             } catch (err) {
                 alert('❌ خطا: ' + err.message);
             }
@@ -314,9 +530,129 @@
             checkAuth();
         });
 
+        // ===== نمایش/مخفی کردن بخش‌ها =====
+        window.showDashboard = function() {
+            document.getElementById('dashboard-main').classList.remove('hidden');
+            document.getElementById('profile-section').classList.add('hidden');
+            pageTitle.textContent = 'داشبورد';
+        };
+
+        window.showProfile = function() {
+            document.getElementById('dashboard-main').classList.add('hidden');
+            document.getElementById('profile-section').classList.remove('hidden');
+            pageTitle.textContent = 'ویرایش پروفایل';
+            loadProfile();
+        };
+
+        // ===== بارگذاری پروفایل =====
+        async function loadProfile() {
+            if (!currentUser) return;
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', currentUser.id)
+                .maybeSingle();
+
+            if (error) { console.error(error); return; }
+
+            if (data) {
+                profileData = data;
+                document.getElementById('full-name').value = data.full_name || '';
+                document.getElementById('national-code').value = data.national_code || '';
+                document.getElementById('phone').value = data.phone || '';
+                document.getElementById('birth-date').value = data.birth_date || '';
+                document.getElementById('gender').value = data.gender || '';
+                document.getElementById('address').value = data.address || '';
+                updateCompletion();
+            } else {
+                document.getElementById('full-name').value = '';
+                document.getElementById('national-code').value = '';
+                document.getElementById('phone').value = '';
+                document.getElementById('birth-date').value = '';
+                document.getElementById('gender').value = '';
+                document.getElementById('address').value = '';
+                updateCompletion();
+            }
+        }
+
+        // ===== ذخیره پروفایل =====
+        document.getElementById('save-profile').addEventListener('click', async function() {
+            if (!currentUser) { alert('لطفاً وارد شوید.'); return; }
+
+            const full_name = document.getElementById('full-name').value.trim();
+            const national_code = document.getElementById('national-code').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const birth_date = document.getElementById('birth-date').value.trim();
+            const gender = document.getElementById('gender').value;
+            const address = document.getElementById('address').value.trim();
+
+            if (!full_name) { showToast('❌ نام و فامیل ضروری است.', 'error'); return; }
+            if (!national_code) { showToast('❌ کد ملی ضروری است.', 'error'); return; }
+            if (national_code.length !== 10) { showToast('❌ کد ملی باید ۱۰ رقم باشد.', 'error'); return; }
+            if (!phone) { showToast('❌ شماره تماس ضروری است.', 'error'); return; }
+            if (phone.length < 11) { showToast('❌ شماره تماس معتبر نیست.', 'error'); return; }
+
+            const payload = {
+                id: currentUser.id,
+                full_name,
+                national_code,
+                phone,
+                birth_date,
+                gender,
+                address,
+                updated_at: new Date().toISOString()
+            };
+
+            const { error } = await supabase
+                .from('profiles')
+                .upsert(payload, { onConflict: 'id' });
+
+            if (error) {
+                showToast('❌ خطا در ذخیره: ' + error.message, 'error');
+            } else {
+                showToast('✅ اطلاعات با موفقیت ذخیره شد.', 'success');
+                profileData = payload;
+                updateCompletion();
+                document.getElementById('dash-name').textContent = full_name;
+                document.getElementById('dash-avatar').textContent = full_name.charAt(0).toUpperCase();
+            }
+        });
+
+        // ===== پیشرفت تکمیل =====
+        function updateCompletion() {
+            const fields = [
+                document.getElementById('full-name').value.trim(),
+                document.getElementById('national-code').value.trim(),
+                document.getElementById('phone').value.trim(),
+                document.getElementById('birth-date').value.trim(),
+                document.getElementById('gender').value,
+                document.getElementById('address').value.trim()
+            ];
+            const filled = fields.filter(f => f && f !== '').length;
+            const total = fields.length;
+            const percent = Math.round((filled / total) * 100);
+            document.getElementById('completion-fill').style.width = percent + '%';
+            document.getElementById('completion-text').textContent = percent + '%';
+        }
+
+        document.querySelectorAll('#profile-form input, #profile-form select, #profile-form textarea')
+            .forEach(el => el.addEventListener('input', updateCompletion));
+
+        // ===== Toast =====
+        function showToast(message, type = 'success') {
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+            const div = document.createElement('div');
+            div.className = 'toast ' + type;
+            div.textContent = message;
+            document.body.appendChild(div);
+            setTimeout(() => { div.style.opacity = '0'; setTimeout(() => div.remove(), 400); }, 3000);
+        }
+
         // ===== بررسی وضعیت ورود =====
         async function checkAuth() {
             const { data: { user } } = await supabase.auth.getUser();
+            currentUser = user;
 
             if (user) {
                 document.getElementById('auth-section').classList.add('hidden');
@@ -324,7 +660,10 @@
                 document.getElementById('dash-email').textContent = user.email || 'بدون ایمیل';
                 document.getElementById('dash-name').textContent = user.user_metadata?.full_name || user.email?.split('@')[0] || 'کاربر';
                 document.getElementById('dash-avatar').textContent = (user.user_metadata?.full_name || user.email || 'ک').charAt(0).toUpperCase();
-                document.getElementById('page-title').textContent = 'داشبورد';
+                pageTitle.textContent = 'داشبورد';
+
+                // بارگذاری پروفایل در پس‌زمینه
+                await loadProfile();
             } else {
                 document.getElementById('auth-section').classList.remove('hidden');
                 document.getElementById('dashboard-section').classList.add('hidden');
