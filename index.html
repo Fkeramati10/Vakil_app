@@ -49,17 +49,18 @@
         .account-card {
             background: #ffffff;
             border-radius: 24px;
-            padding: 24px 20px;
+            padding: 40px 24px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
             border: 1px solid rgba(0, 0, 0, 0.03);
-            margin-bottom: 16px;
+            text-align: center;
         }
-        .account-card .title { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; text-align: center; }
-        .account-card .subtitle { font-size: 13px; color: #8A8A9A; text-align: center; margin-bottom: 20px; }
+        .account-card .icon { font-size: 48px; margin-bottom: 12px; }
+        .account-card .title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+        .account-card .subtitle { font-size: 14px; color: #8A8A9A; margin-bottom: 24px; }
 
         .btn-google {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background: #ffffff;
             color: #1a1a2e;
             border: 2px solid #ddd;
@@ -71,61 +72,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin-top: 8px;
+            gap: 12px;
         }
         .btn-google:active { transform: scale(0.97); background: #f5f5f5; }
-        .btn-google i { font-size: 20px; color: #EA4335; }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 20px 0;
-        }
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #ddd;
-        }
-        .divider span { color: #8A8A9A; font-size: 13px; }
-
-        .form-group { margin-bottom: 16px; }
-        .form-group .input-wrapper {
-            display: flex; align-items: center;
-            background: #f5f7fb; border-radius: 14px;
-            padding: 0 14px;
-            border: 2px solid transparent;
-            transition: all 0.2s;
-        }
-        .form-group .input-wrapper:focus-within {
-            border-color: #6C63FF;
-            background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.06);
-        }
-        .form-group .input-wrapper i { color: #8A8A9A; font-size: 16px; margin-left: 10px; }
-        .form-group .input-wrapper input {
-            width: 100%; padding: 14px 0;
-            border: none; background: transparent;
-            font-size: 15px; color: #1a1a2e;
-            outline: none; text-align: left;
-        }
-        .form-group .input-wrapper input::placeholder { color: #bbb; font-size: 14px; }
-
-        .btn-primary {
-            width: 100%; padding: 14px;
-            background: linear-gradient(135deg, #6C63FF, #4A3DBF);
-            color: #fff; border: none; border-radius: 14px;
-            font-size: 16px; font-weight: 600; cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 14px rgba(108, 99, 255, 0.3);
-            margin-top: 4px;
-        }
-        .btn-primary:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(108, 99, 255, 0.2); }
-
-        .code-hint { text-align: center; font-size: 12px; color: #8A8A9A; margin-top: 12px; }
-        .code-hint span { color: #6C63FF; font-weight: 600; }
+        .btn-google i { font-size: 22px; color: #EA4335; }
 
         .dashboard-header {
             display: flex;
@@ -234,7 +184,7 @@
             <div class="header-logo">⚖️</div>
             <div class="header-brand">فاطمه کرامتی <span>| وکالت</span></div>
         </div>
-        <div class="header-center" id="page-title">حساب کاربری</div>
+        <div class="header-center" id="page-title">ورود</div>
         <div class="header-right">
             <button class="header-btn" onclick="alert('تنظیمات')"><i class="fas fa-ellipsis-vertical"></i></button>
         </div>
@@ -263,37 +213,20 @@
     <!-- ===== صفحه حساب ===== -->
     <div id="page-account" class="page active">
 
-        <!-- بخش احراز هویت (قبل از لاگین) -->
+        <!-- بخش ورود -->
         <div id="auth-section">
             <div class="account-card">
-                <div class="title">🔐 ورود به حساب</div>
+                <div class="icon">⚖️</div>
+                <div class="title">خوش آمدید</div>
                 <div class="subtitle">با حساب گوگل خود وارد شوید</div>
 
                 <button class="btn-google" id="google-signin">
                     <i class="fab fa-google"></i> ورود با گوگل
                 </button>
-
-                <div class="divider">
-                    <span>یا</span>
-                </div>
-
-                <div class="subtitle" style="margin-bottom: 0;">ورود با ایمیل</div>
-                <div class="form-group" style="margin-top: 12px;">
-                    <div class="input-wrapper">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" id="email-input" placeholder="example@gmail.com">
-                    </div>
-                </div>
-                <button class="btn-primary" id="email-signin">
-                    <i class="fas fa-paper-plane"></i> ارسال کد تایید
-                </button>
-                <div class="code-hint">
-                    <span>🔹</span> کد تایید به ایمیل شما ارسال می‌شود
-                </div>
             </div>
         </div>
 
-        <!-- ===== داشبورد (بعد از لاگین) ===== -->
+        <!-- ===== داشبورد ===== -->
         <div id="dashboard-section" class="hidden">
             <div class="dashboard-header">
                 <div class="dashboard-avatar" id="dash-avatar">ف</div>
@@ -327,10 +260,9 @@
     <button class="nav-item" data-page="page-appointments" data-title="نوبت‌دهی"><span class="nav-icon-wrapper"><i class="fas fa-calendar-day"></i></span><span class="nav-label">نوبت</span></button>
     <button class="nav-item" data-page="page-social" data-title="شبکه‌های اجتماعی"><span class="nav-icon-wrapper"><i class="fas fa-share-nodes"></i></span><span class="nav-label">شبکه‌ها</span></button>
     <button class="nav-item" data-page="page-contact" data-title="تماس و لوکیشن"><span class="nav-icon-wrapper"><i class="fas fa-phone"></i></span><span class="nav-label">تماس</span></button>
-    <button class="nav-item active" data-page="page-account" data-title="حساب کاربری"><span class="nav-icon-wrapper"><i class="fas fa-user"></i></span><span class="nav-label">حساب</span></button>
+    <button class="nav-item active" data-page="page-account" data-title="ورود"><span class="nav-icon-wrapper"><i class="fas fa-user"></i></span><span class="nav-label">حساب</span></button>
 </nav>
 
-<!-- ===== کتابخانه Supabase ===== -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -353,42 +285,32 @@
         });
 
         // ===== اتصال به Supabase =====
-        const SUPABASE_URL = 'https://rfjhyymswozpstzqohzm.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_PYNaTLccSNKtkzN_UANBpw_fGA2H9F2';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const supabase = window.supabase.createClient(
+            'https://rfjhyymswozpstzqohzm.supabase.co',
+            'sb_publishable_PYNaTLccSNKtkzN_UANBpw_fGA2H9F2'
+        );
 
         // ===== ورود با گوگل =====
         document.getElementById('google-signin').addEventListener('click', async function() {
-            const { data, error } = await supabase.auth.signInWithOAuth({
-                provider: 'google'
-            });
+            try {
+                const { data, error } = await supabase.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: {
+                        redirectTo: 'https://fkeramati10.github.io/Vakil_app/'
+                    }
+                });
 
-            if (error) {
-                alert('❌ خطا: ' + error.message);
-            }
-        });
-
-        // ===== ورود با ایمیل =====
-        document.getElementById('email-signin').addEventListener('click', async function() {
-            const email = document.getElementById('email-input').value.trim();
-            if (!email) {
-                alert('لطفاً ایمیل را وارد کنید.');
-                return;
-            }
-
-            const { data, error } = await supabase.auth.signInWithOtp({ email: email });
-
-            if (error) {
-                alert('❌ خطا: ' + error.message);
-            } else {
-                alert('✅ کد تایید به ایمیل شما ارسال شد. لطفاً صندوق ورودی خود را بررسی کنید.');
+                if (error) {
+                    alert('❌ خطا: ' + error.message);
+                }
+            } catch (err) {
+                alert('❌ خطا: ' + err.message);
             }
         });
 
         // ===== خروج =====
         document.getElementById('logout-btn').addEventListener('click', async function() {
             await supabase.auth.signOut();
-            alert('✅ خارج شدید.');
             checkAuth();
         });
 
@@ -402,33 +324,21 @@
                 document.getElementById('dash-email').textContent = user.email || 'بدون ایمیل';
                 document.getElementById('dash-name').textContent = user.user_metadata?.full_name || user.email?.split('@')[0] || 'کاربر';
                 document.getElementById('dash-avatar').textContent = (user.user_metadata?.full_name || user.email || 'ک').charAt(0).toUpperCase();
+                document.getElementById('page-title').textContent = 'داشبورد';
             } else {
                 document.getElementById('auth-section').classList.remove('hidden');
                 document.getElementById('dashboard-section').classList.add('hidden');
+                document.getElementById('page-title').textContent = 'ورود';
             }
         }
 
-        // ===== گوش دادن به تغییرات وضعیت لاگین =====
+        // ===== گوش دادن به تغییرات =====
         supabase.auth.onAuthStateChange((event, session) => {
-            if (event === 'SIGNED_IN' || event === 'SIGNED_UP') {
-                checkAuth();
-            }
-            if (event === 'SIGNED_OUT') {
-                checkAuth();
-            }
+            checkAuth();
         });
 
-        // ===== بررسی اولیه =====
+        // ===== اجرای اولیه =====
         checkAuth();
-
-        // ===== چک کردن هش برای تأیید ایمیل =====
-        window.addEventListener('load', function() {
-            if (window.location.hash === '#confirmation_success') {
-                alert('✅ ایمیل شما تأیید شد! خوش آمدید.');
-                history.replaceState(null, null, window.location.pathname);
-                checkAuth();
-            }
-        });
     });
 </script>
 
