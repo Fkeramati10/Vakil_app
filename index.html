@@ -45,7 +45,6 @@
         .page { display: none; padding: 20px 20px 24px; animation: fadeIn 0.3s ease; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-
         .hidden { display: none !important; }
 
         /* ===== ورود ===== */
@@ -169,10 +168,7 @@
             color: #1a1a2e;
             margin-bottom: 4px;
         }
-        .form-group label .required {
-            color: #ff6b6b;
-            margin-right: 2px;
-        }
+        .form-group label .required { color: #ff6b6b; margin-right: 2px; }
         .form-group .input-wrapper {
             display: flex;
             align-items: center;
@@ -206,10 +202,7 @@
             resize: none;
         }
         .form-group .input-wrapper input::placeholder,
-        .form-group .input-wrapper textarea::placeholder {
-            color: #bbb;
-            font-size: 14px;
-        }
+        .form-group .input-wrapper textarea::placeholder { color: #bbb; font-size: 14px; }
         .form-group .input-wrapper input[type="date"] {
             padding: 14px 0;
             appearance: none;
@@ -220,71 +213,33 @@
             opacity: 0.5;
             filter: invert(0.3);
         }
-        .form-group .input-wrapper textarea {
-            min-height: 60px;
-            padding: 12px 0;
-        }
+        .form-group .input-wrapper textarea { min-height: 60px; padding: 12px 0; }
 
-        /* ===== جنسیت ===== */
-        .gender-wrapper {
-            position: relative;
-        }
-        .gender-wrapper .input-wrapper {
-            cursor: pointer;
-            user-select: none;
-        }
+        .gender-wrapper { position: relative; }
+        .gender-wrapper .input-wrapper { cursor: pointer; user-select: none; }
         .gender-options {
-            position: absolute;
-            top: calc(100% + 4px);
-            left: 0;
-            right: 0;
-            background: #ffffff;
-            border-radius: 14px;
+            position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+            background: #ffffff; border-radius: 14px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.12);
             border: 1px solid rgba(0,0,0,0.04);
             overflow: hidden;
-            max-height: 0;
-            opacity: 0;
+            max-height: 0; opacity: 0;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             transform: scale(0.96) translateY(-8px);
             transform-origin: top center;
             z-index: 50;
         }
-        .gender-options.open {
-            max-height: 200px;
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
+        .gender-options.open { max-height: 200px; opacity: 1; transform: scale(1) translateY(0); }
         .gender-options .option {
-            padding: 12px 16px;
-            font-size: 15px;
-            color: #1a1a2e;
-            cursor: pointer;
-            transition: background 0.15s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            padding: 12px 16px; font-size: 15px; color: #1a1a2e;
+            cursor: pointer; transition: background 0.15s;
+            display: flex; align-items: center; gap: 10px;
         }
-        .gender-options .option:active,
-        .gender-options .option:hover {
-            background: #f5f7fb;
-        }
-        .gender-options .option i {
-            width: 20px;
-            color: #6C63FF;
-        }
-        .gender-options .option.selected {
-            background: rgba(108, 99, 255, 0.06);
-            font-weight: 600;
-        }
-        .gender-options .option .check {
-            margin-right: auto;
-            color: #6C63FF;
-            opacity: 0;
-        }
-        .gender-options .option.selected .check {
-            opacity: 1;
-        }
+        .gender-options .option:active { background: #f5f7fb; }
+        .gender-options .option i { width: 20px; color: #6C63FF; }
+        .gender-options .option.selected { background: rgba(108, 99, 255, 0.06); font-weight: 600; }
+        .gender-options .option .check { margin-right: auto; color: #6C63FF; opacity: 0; }
+        .gender-options .option.selected .check { opacity: 1; }
 
         .btn-primary {
             width: 100%;
@@ -317,71 +272,71 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-top: 4px;
         }
         .btn-secondary:active { transform: scale(0.97); background: rgba(108, 99, 255, 0.04); }
-        .btn-secondary i { font-size: 16px; }
 
         .back-btn {
-            background: none;
-            border: none;
-            color: #6C63FF;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 0;
-            margin-bottom: 8px;
+            background: none; border: none;
+            color: #6C63FF; font-size: 14px; font-weight: 600;
+            cursor: pointer; display: flex; align-items: center; gap: 6px;
+            padding: 8px 0; margin-bottom: 8px;
         }
         .back-btn:active { opacity: 0.6; }
 
         .profile-completion {
-            background: #f5f7fb;
-            border-radius: 14px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            background: #f5f7fb; border-radius: 14px;
+            padding: 12px 16px; margin-bottom: 16px;
+            display: flex; align-items: center; justify-content: space-between;
         }
         .profile-completion .bar {
-            flex: 1;
-            height: 6px;
-            background: #e0e0e0;
-            border-radius: 10px;
-            margin: 0 12px;
-            overflow: hidden;
+            flex: 1; height: 6px; background: #e0e0e0;
+            border-radius: 10px; margin: 0 12px; overflow: hidden;
         }
         .profile-completion .bar .fill {
-            height: 100%;
-            background: linear-gradient(90deg, #6C63FF, #4A3DBF);
-            border-radius: 10px;
-            transition: width 0.5s ease;
+            height: 100%; background: linear-gradient(90deg, #6C63FF, #4A3DBF);
+            border-radius: 10px; transition: width 0.5s ease;
         }
-        .profile-completion .label {
-            font-size: 13px;
+        .profile-completion .label { font-size: 13px; font-weight: 600; color: #1a1a2e; white-space: nowrap; }
+
+        /* ===== نوبت‌ها ===== */
+        .appointment-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid rgba(0,0,0,0.04);
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        .appointment-card:active { transform: scale(0.98); }
+        .appointment-info { flex: 1; }
+        .appointment-info .date { font-size: 15px; font-weight: 600; color: #1a1a2e; }
+        .appointment-info .meta { font-size: 13px; color: #8A8A9A; margin-top: 4px; }
+        .appointment-info .meta i { margin-left: 4px; }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
             font-weight: 600;
-            color: #1a1a2e;
             white-space: nowrap;
         }
+        .status-badge.pending { background: #fef3c7; color: #d97706; }
+        .status-badge.confirmed { background: #d1fae5; color: #059669; }
+        .status-badge.cancelled { background: #fee2e2; color: #dc2626; }
+        .status-badge.done { background: #e0e7ff; color: #4f46e5; }
+
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .row-2 .form-group { margin-bottom: 0; }
 
         .toast {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 12px 24px;
-            border-radius: 14px;
-            color: #fff;
-            font-weight: 600;
-            font-size: 14px;
-            z-index: 999;
-            animation: slideDown 0.4s ease;
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            padding: 12px 24px; border-radius: 14px;
+            color: #fff; font-weight: 600; font-size: 14px;
+            z-index: 999; animation: slideDown 0.4s ease;
             box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-            max-width: 90%;
-            text-align: center;
+            max-width: 90%; text-align: center;
         }
         .toast.success { background: #10b981; }
         .toast.error { background: #ef4444; }
@@ -390,7 +345,6 @@
             to { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
 
-        /* ===== منوی پایین ===== */
         #bottom-nav {
             position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
             width: calc(100% - 32px); max-width: 400px;
@@ -434,14 +388,8 @@
 
         .page-placeholder { text-align: center; padding: 60px 20px; color: #aaa; font-size: 16px; }
         .page-placeholder i { font-size: 48px; color: #ddd; margin-bottom: 16px; display: block; }
-
-        /* Row with two columns */
-        .row-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        .row-2 .form-group { margin-bottom: 0; }
+        .empty-state { text-align: center; padding: 40px 20px; color: #8A8A9A; }
+        .empty-state i { font-size: 48px; color: #ddd; margin-bottom: 16px; display: block; }
     </style>
 </head>
 <body>
@@ -499,67 +447,31 @@
 
                 <div class="dashboard-menu">
                     <div class="dash-item" onclick="showProfile()"><i class="fas fa-user-edit"></i><span>ویرایش پروفایل</span></div>
-                    <div class="dash-item" onclick="alert('نوبت‌های من')"><i class="fas fa-calendar-check"></i><span>نوبت‌های من</span></div>
-                    <div class="dash-item" onclick="alert('پیام‌ها')"><i class="fas fa-comment-dots"></i><span>پیام‌ها</span></div>
+                    <div class="dash-item" onclick="showNewAppointment()"><i class="fas fa-plus-circle"></i><span>ثبت نوبت</span></div>
+                    <div class="dash-item" onclick="showMyAppointments()"><i class="fas fa-calendar-check"></i><span>نوبت‌های من</span></div>
                     <div class="dash-item logout" id="logout-btn"><i class="fas fa-sign-out-alt"></i><span>خروج</span></div>
                 </div>
             </div>
 
-            <!-- ===== صفحه ویرایش پروفایل ===== -->
+            <!-- ===== ویرایش پروفایل ===== -->
             <div id="profile-section" class="hidden">
                 <button class="back-btn" onclick="showDashboard()"><i class="fas fa-arrow-right"></i> بازگشت به داشبورد</button>
-
                 <div class="profile-card">
                     <div class="title">✏️ ویرایش پروفایل</div>
                     <div class="subtitle">اطلاعات خود را تکمیل کنید تا بتوانید نوبت بگیرید</div>
-
-                    <div class="profile-completion" id="completion-bar">
-                        <span class="label">تکمیل</span>
-                        <div class="bar"><div class="fill" id="completion-fill" style="width:0%"></div></div>
-                        <span class="label" id="completion-text">۰٪</span>
-                    </div>
-
+                    <div class="profile-completion"><span class="label">تکمیل</span><div class="bar"><div class="fill" id="completion-fill" style="width:0%"></div></div><span class="label" id="completion-text">۰٪</span></div>
                     <form id="profile-form">
-
-                        <!-- نام و نام خانوادگی -->
                         <div class="row-2">
-                            <div class="form-group">
-                                <label>نام <span class="required">*</span></label>
-                                <div class="input-wrapper"><i class="fas fa-user"></i><input type="text" id="first-name" placeholder="علی"></div>
-                            </div>
-                            <div class="form-group">
-                                <label>نام خانوادگی <span class="required">*</span></label>
-                                <div class="input-wrapper"><i class="fas fa-user"></i><input type="text" id="last-name" placeholder="محمدی"></div>
-                            </div>
+                            <div class="form-group"><label>نام <span class="required">*</span></label><div class="input-wrapper"><i class="fas fa-user"></i><input type="text" id="first-name" placeholder="علی"></div></div>
+                            <div class="form-group"><label>نام خانوادگی <span class="required">*</span></label><div class="input-wrapper"><i class="fas fa-user"></i><input type="text" id="last-name" placeholder="محمدی"></div></div>
                         </div>
-
-                        <!-- کد ملی -->
-                        <div class="form-group">
-                            <label>کد ملی <span class="required">*</span></label>
-                            <div class="input-wrapper"><i class="fas fa-id-card"></i><input type="text" id="national-code" placeholder="" maxlength="10"></div>
-                        </div>
-
-                        <!-- شماره تماس -->
-                        <div class="form-group">
-                            <label>شماره تماس <span class="required">*</span></label>
-                            <div class="input-wrapper"><i class="fas fa-phone"></i><input type="tel" id="phone" placeholder=""></div>
-                        </div>
-
-                        <!-- تاریخ تولد (تقویم) -->
-                        <div class="form-group">
-                            <label>تاریخ تولد</label>
-                            <div class="input-wrapper"><i class="fas fa-calendar"></i><input type="date" id="birth-date"></div>
-                        </div>
-
-                        <!-- جنسیت (منوی نرم) -->
+                        <div class="form-group"><label>کد ملی <span class="required">*</span></label><div class="input-wrapper"><i class="fas fa-id-card"></i><input type="text" id="national-code" placeholder="" maxlength="10"></div></div>
+                        <div class="form-group"><label>شماره تماس <span class="required">*</span></label><div class="input-wrapper"><i class="fas fa-phone"></i><input type="tel" id="phone" placeholder=""></div></div>
+                        <div class="form-group"><label>تاریخ تولد</label><div class="input-wrapper"><i class="fas fa-calendar"></i><input type="date" id="birth-date"></div></div>
                         <div class="form-group">
                             <label>جنسیت</label>
                             <div class="gender-wrapper" id="gender-wrapper">
-                                <div class="input-wrapper" id="gender-toggle">
-                                    <i class="fas fa-venus-mars"></i>
-                                    <span id="gender-selected" style="padding:14px 0; font-size:15px; color:#8A8A9A;">انتخاب کنید</span>
-                                    <i class="fas fa-chevron-down" style="margin-right:auto; color:#8A8A9A; font-size:14px;"></i>
-                                </div>
+                                <div class="input-wrapper" id="gender-toggle"><i class="fas fa-venus-mars"></i><span id="gender-selected" style="padding:14px 0; font-size:15px; color:#8A8A9A;">انتخاب کنید</span><i class="fas fa-chevron-down" style="margin-right:auto; color:#8A8A9A; font-size:14px;"></i></div>
                                 <div class="gender-options" id="gender-options">
                                     <div class="option" data-value="male"><i class="fas fa-mars"></i> مرد <span class="check"><i class="fas fa-check"></i></span></div>
                                     <div class="option" data-value="female"><i class="fas fa-venus"></i> زن <span class="check"><i class="fas fa-check"></i></span></div>
@@ -567,16 +479,99 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- آدرس + لوکیشن -->
                         <div class="form-group">
                             <label>آدرس</label>
                             <div class="input-wrapper"><i class="fas fa-map-pin"></i><textarea id="address" placeholder="آدرس خود را وارد کنید..." rows="2"></textarea></div>
-                            <button type="button" class="btn-secondary" id="location-btn"><i class="fas fa-location-dot"></i> دریافت موقعیت فعلی</button>
+                            <button type="button" class="btn-secondary" id="location-btn" style="margin-top:8px;"><i class="fas fa-location-dot"></i> دریافت موقعیت فعلی</button>
                         </div>
-
                         <button type="button" class="btn-primary" id="save-profile"><i class="fas fa-save"></i> ذخیره اطلاعات</button>
                     </form>
+                </div>
+            </div>
+
+            <!-- ===== ثبت نوبت جدید ===== -->
+            <div id="new-appointment-section" class="hidden">
+                <button class="back-btn" onclick="showDashboard()"><i class="fas fa-arrow-right"></i> بازگشت به داشبورد</button>
+                <div class="profile-card">
+                    <div class="title">📅 ثبت نوبت جدید</div>
+                    <div class="subtitle">برای دریافت مشاوره، نوبت خود را ثبت کنید</div>
+
+                    <form id="appointment-form">
+                        <div class="form-group">
+                            <label>تاریخ نوبت <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-calendar-day"></i><input type="date" id="appt-date"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>ساعت <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-clock"></i>
+                                <select id="appt-time">
+                                    <option value="">انتخاب ساعت</option>
+                                    <option value="09:00">۰۹:۰۰</option>
+                                    <option value="09:30">۰۹:۳۰</option>
+                                    <option value="10:00">۱۰:۰۰</option>
+                                    <option value="10:30">۱۰:۳۰</option>
+                                    <option value="11:00">۱۱:۰۰</option>
+                                    <option value="11:30">۱۱:۳۰</option>
+                                    <option value="12:00">۱۲:۰۰</option>
+                                    <option value="14:00">۱۴:۰۰</option>
+                                    <option value="14:30">۱۴:۳۰</option>
+                                    <option value="15:00">۱۵:۰۰</option>
+                                    <option value="15:30">۱۵:۳۰</option>
+                                    <option value="16:00">۱۶:۰۰</option>
+                                    <option value="16:30">۱۶:۳۰</option>
+                                    <option value="17:00">۱۷:۰۰</option>
+                                    <option value="17:30">۱۷:۳۰</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>نوع مشاوره <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-handshake"></i>
+                                <select id="appt-type">
+                                    <option value="">انتخاب کنید</option>
+                                    <option value="حضوری">حضوری</option>
+                                    <option value="تلفنی">تلفنی</option>
+                                    <option value="آنلاین">آنلاین (ویدئو)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>موضوع <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-tag"></i>
+                                <select id="appt-topic">
+                                    <option value="">انتخاب کنید</option>
+                                    <option value="ملکی">ملکی</option>
+                                    <option value="خانوادگی">خانوادگی</option>
+                                    <option value="تجاری">تجاری</option>
+                                    <option value="کار">کار و قرارداد</option>
+                                    <option value="کیفری">کیفری</option>
+                                    <option value="دیگر">دیگر</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>توضیحات اضافی</label>
+                            <div class="input-wrapper"><i class="fas fa-pen"></i><textarea id="appt-desc" placeholder="توضیحات بیشتر..." rows="2"></textarea></div>
+                        </div>
+
+                        <button type="button" class="btn-primary" id="submit-appointment"><i class="fas fa-check"></i> ثبت نوبت</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ===== نوبت‌های من ===== -->
+            <div id="my-appointments-section" class="hidden">
+                <button class="back-btn" onclick="showDashboard()"><i class="fas fa-arrow-right"></i> بازگشت به داشبورد</button>
+                <div class="profile-card">
+                    <div class="title">📋 نوبت‌های من</div>
+                    <div class="subtitle">لیست نوبت‌های ثبت‌شده شما</div>
+                    <div id="appointments-list">
+                        <div class="empty-state"><i class="fas fa-calendar-plus"></i><p>هنوز نوبتی ثبت نکرده‌اید.</p></div>
+                    </div>
                 </div>
             </div>
 
@@ -626,6 +621,7 @@
 
         let currentUser = null;
         let profileData = {};
+        let selectedGender = '';
 
         // ===== ورود با گوگل =====
         document.getElementById('google-signin').addEventListener('click', async function() {
@@ -646,25 +642,47 @@
             checkAuth();
         });
 
-        // ===== نمایش/مخفی کردن =====
+        // ===== نمایش بخش‌ها =====
         window.showDashboard = function() {
             document.getElementById('dashboard-main').classList.remove('hidden');
             document.getElementById('profile-section').classList.add('hidden');
+            document.getElementById('new-appointment-section').classList.add('hidden');
+            document.getElementById('my-appointments-section').classList.add('hidden');
             pageTitle.textContent = 'داشبورد';
+            checkAuth();
         };
 
         window.showProfile = function() {
             document.getElementById('dashboard-main').classList.add('hidden');
             document.getElementById('profile-section').classList.remove('hidden');
+            document.getElementById('new-appointment-section').classList.add('hidden');
+            document.getElementById('my-appointments-section').classList.add('hidden');
             pageTitle.textContent = 'ویرایش پروفایل';
             loadProfile();
+        };
+
+        window.showNewAppointment = function() {
+            document.getElementById('dashboard-main').classList.add('hidden');
+            document.getElementById('profile-section').classList.add('hidden');
+            document.getElementById('new-appointment-section').classList.remove('hidden');
+            document.getElementById('my-appointments-section').classList.add('hidden');
+            pageTitle.textContent = 'ثبت نوبت';
+            loadProfileForCheck();
+        };
+
+        window.showMyAppointments = function() {
+            document.getElementById('dashboard-main').classList.add('hidden');
+            document.getElementById('profile-section').classList.add('hidden');
+            document.getElementById('new-appointment-section').classList.add('hidden');
+            document.getElementById('my-appointments-section').classList.remove('hidden');
+            pageTitle.textContent = 'نوبت‌های من';
+            loadAppointments();
         };
 
         // ===== جنسیت =====
         const genderToggle = document.getElementById('gender-toggle');
         const genderOptions = document.getElementById('gender-options');
         const genderSelected = document.getElementById('gender-selected');
-        let selectedGender = '';
 
         genderToggle.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -736,7 +754,6 @@
                 document.getElementById('birth-date').value = data.birth_date || '';
                 document.getElementById('address').value = data.address || '';
 
-                // جنسیت
                 const genderMap = { 'male': 'مرد', 'female': 'زن', 'prefer_not': 'ترجیح می‌دم نگویم' };
                 if (data.gender && genderMap[data.gender]) {
                     selectedGender = data.gender;
@@ -762,7 +779,17 @@
             }
         }
 
-        // ===== ذخیره =====
+        async function loadProfileForCheck() {
+            if (!currentUser) return;
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', currentUser.id)
+                .maybeSingle();
+            if (data) profileData = data;
+        }
+
+        // ===== ذخیره پروفایل =====
         document.getElementById('save-profile').addEventListener('click', async function() {
             if (!currentUser) { alert('لطفاً وارد شوید.'); return; }
 
@@ -829,6 +856,97 @@
         document.querySelectorAll('#profile-form input, #profile-form textarea')
             .forEach(el => el.addEventListener('input', updateCompletion));
 
+        // ===== ثبت نوبت =====
+        document.getElementById('submit-appointment').addEventListener('click', async function() {
+            if (!currentUser) { alert('لطفاً وارد شوید.'); return; }
+
+            // چک کردن تکمیل پروفایل
+            if (!profileData.full_name || !profileData.national_code || !profileData.phone) {
+                showToast('❌ لطفاً ابتدا پروفایل خود را تکمیل کنید (نام، کد ملی، شماره تماس).', 'error');
+                return;
+            }
+
+            const date = document.getElementById('appt-date').value;
+            const time = document.getElementById('appt-time').value;
+            const type = document.getElementById('appt-type').value;
+            const topic = document.getElementById('appt-topic').value;
+            const description = document.getElementById('appt-desc').value.trim();
+
+            if (!date) { showToast('❌ تاریخ نوبت را انتخاب کنید.', 'error'); return; }
+            if (!time) { showToast('❌ ساعت نوبت را انتخاب کنید.', 'error'); return; }
+            if (!type) { showToast('❌ نوع مشاوره را انتخاب کنید.', 'error'); return; }
+            if (!topic) { showToast('❌ موضوع را انتخاب کنید.', 'error'); return; }
+
+            const payload = {
+                user_id: currentUser.id,
+                date,
+                time,
+                type,
+                topic,
+                description,
+                status: 'در انتظار'
+            };
+
+            const { error } = await supabase
+                .from('appointments')
+                .insert(payload);
+
+            if (error) {
+                showToast('❌ خطا در ثبت نوبت: ' + error.message, 'error');
+            } else {
+                showToast('✅ نوبت شما با موفقیت ثبت شد.', 'success');
+                // پاک کردن فرم
+                document.getElementById('appt-date').value = '';
+                document.getElementById('appt-time').value = '';
+                document.getElementById('appt-type').value = '';
+                document.getElementById('appt-topic').value = '';
+                document.getElementById('appt-desc').value = '';
+                // به‌روزرسانی آمار
+                checkAuth();
+            }
+        });
+
+        // ===== بارگذاری نوبت‌ها =====
+        async function loadAppointments() {
+            if (!currentUser) return;
+            const { data, error } = await supabase
+                .from('appointments')
+                .select('*')
+                .eq('user_id', currentUser.id)
+                .order('date', { ascending: true });
+
+            if (error) { console.error(error); return; }
+
+            const container = document.getElementById('appointments-list');
+            if (!data || data.length === 0) {
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-calendar-plus"></i><p>هنوز نوبتی ثبت نکرده‌اید.</p></div>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            data.forEach(appt => {
+                const statusMap = {
+                    'در انتظار': 'pending',
+                    'تأیید': 'confirmed',
+                    'لغو': 'cancelled',
+                    'انجام شده': 'done'
+                };
+                const statusClass = statusMap[appt.status] || 'pending';
+
+                const card = document.createElement('div');
+                card.className = 'appointment-card';
+                card.innerHTML = `
+                    <div class="appointment-info">
+                        <div class="date">${appt.date} - ${appt.time}</div>
+                        <div class="meta"><i class="fas fa-handshake"></i> ${appt.type} &nbsp;|&nbsp; <i class="fas fa-tag"></i> ${appt.topic}</div>
+                        ${appt.description ? `<div class="meta" style="color:#bbb; font-size:12px;">${appt.description}</div>` : ''}
+                    </div>
+                    <span class="status-badge ${statusClass}">${appt.status}</span>
+                `;
+                container.appendChild(card);
+            });
+        }
+
         // ===== Toast =====
         function showToast(message, type = 'success') {
             const existing = document.querySelector('.toast');
@@ -853,6 +971,18 @@
                 document.getElementById('dash-avatar').textContent = (user.user_metadata?.full_name || user.email || 'ک').charAt(0).toUpperCase();
                 pageTitle.textContent = 'داشبورد';
                 await loadProfile();
+
+                // آمار نوبت‌ها
+                const { data: apps } = await supabase
+                    .from('appointments')
+                    .select('status')
+                    .eq('user_id', user.id);
+                const total = apps?.length || 0;
+                const pending = apps?.filter(a => a.status === 'در انتظار').length || 0;
+                const done = apps?.filter(a => a.status === 'انجام شده' || a.status === 'تأیید').length || 0;
+                document.getElementById('stat-appointments').textContent = total;
+                document.getElementById('stat-pending').textContent = pending;
+                document.getElementById('stat-done').textContent = done;
             } else {
                 document.getElementById('auth-section').classList.remove('hidden');
                 document.getElementById('dashboard-section').classList.add('hidden');
