@@ -215,6 +215,7 @@
         }
         .form-group .input-wrapper textarea { min-height: 60px; padding: 12px 0; }
 
+        /* ===== جنسیت (منوی نرم) ===== */
         .gender-wrapper { position: relative; }
         .gender-wrapper .input-wrapper { cursor: pointer; user-select: none; }
         .gender-options {
@@ -533,7 +534,6 @@
                                     <option value="">انتخاب کنید</option>
                                     <option value="حضوری">حضوری</option>
                                     <option value="تلفنی">تلفنی</option>
-                                    <option value="آنلاین">آنلاین (ویدئو)</option>
                                 </select>
                             </div>
                         </div>
@@ -546,7 +546,7 @@
                                     <option value="ملکی">ملکی</option>
                                     <option value="خانوادگی">خانوادگی</option>
                                     <option value="تجاری">تجاری</option>
-                                    <option value="کار">کار و قرارداد</option>
+                                    <option value="کار و قرارداد">کار و قرارداد</option>
                                     <option value="کیفری">کیفری</option>
                                     <option value="دیگر">دیگر</option>
                                 </select>
@@ -811,12 +811,12 @@
 
             const payload = {
                 id: currentUser.id,
-                full_name,
-                national_code,
-                phone,
-                birth_date,
-                gender,
-                address,
+                full_name: full_name,
+                national_code: national_code,
+                phone: phone,
+                birth_date: birth_date,
+                gender: gender,
+                address: address,
                 updated_at: new Date().toISOString()
             };
 
@@ -879,11 +879,11 @@
 
             const payload = {
                 user_id: currentUser.id,
-                date,
-                time,
-                type,
-                topic,
-                description,
+                date: date,
+                time: time,
+                type: type,
+                topic: topic,
+                description: description,
                 status: 'در انتظار'
             };
 
@@ -895,13 +895,11 @@
                 showToast('❌ خطا در ثبت نوبت: ' + error.message, 'error');
             } else {
                 showToast('✅ نوبت شما با موفقیت ثبت شد.', 'success');
-                // پاک کردن فرم
                 document.getElementById('appt-date').value = '';
                 document.getElementById('appt-time').value = '';
                 document.getElementById('appt-type').value = '';
                 document.getElementById('appt-topic').value = '';
                 document.getElementById('appt-desc').value = '';
-                // به‌روزرسانی آمار
                 checkAuth();
             }
         });
@@ -972,7 +970,6 @@
                 pageTitle.textContent = 'داشبورد';
                 await loadProfile();
 
-                // آمار نوبت‌ها
                 const { data: apps } = await supabase
                     .from('appointments')
                     .select('status')
