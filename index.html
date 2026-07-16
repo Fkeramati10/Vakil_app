@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* ===== تمام استایل‌های قبلی (همون کد قبلی) ===== */
+        /* ===== تمام استایل‌های قبلی ===== */
         * {
             margin: 0;
             padding: 0;
@@ -1037,27 +1037,39 @@
             let currentFilter = 'all';
             let selectedGender = '';
 
-            // ===== ورود با گوگل (همه جا) =====
+            // ===== ورود با گوگل (اصلاح‌شده) =====
             async function signInWithGoogle() {
                 try {
                     const { data, error } = await supabase.auth.signInWithOAuth({
                         provider: 'google',
-                        options: { redirectTo: 'https://fkeramati10.github.io/Vakil_app/' }
+                        options: {
+                            redirectTo: 'https://fkeramati10.github.io/Vakil_app/'
+                        }
                     });
-                    if (error) showToast('❌ خطا: ' + error.message, 'error');
+                    if (error) {
+                        showToast('❌ خطا: ' + error.message, 'error');
+                        console.error('Google Sign-In Error:', error);
+                    } else {
+                        console.log('✅ هدایت به گوگل...');
+                    }
                 } catch (err) {
                     showToast('❌ خطا: ' + err.message, 'error');
+                    console.error('Google Sign-In Exception:', err);
                 }
             }
 
             document.getElementById('google-signin-app')?.addEventListener('click', signInWithGoogle);
             document.getElementById('google-signin-account')?.addEventListener('click', signInWithGoogle);
 
-            // ===== خروج =====
+            // ===== خروج (اصلاح‌شده) =====
             document.getElementById('logout-btn')?.addEventListener('click', async function() {
-                await supabase.auth.signOut();
-                checkAuthAccount();
-                checkAuthAppointments();
+                try {
+                    await supabase.auth.signOut();
+                    // رفرش کامل برای پاک شدن کش مرورگر
+                    window.location.reload();
+                } catch (err) {
+                    showToast('❌ خطا در خروج: ' + err.message, 'error');
+                }
             });
 
             // ===== نمایش/مخفی کردن بخش‌ها =====
@@ -1140,7 +1152,7 @@
                         genderSelected.textContent = text;
                         genderSelected.style.color = '#1a1a2e';
                         document.querySelectorAll('.gender-options .option').forEach(o => o.classList.remove(
-                        'selected'));
+                            'selected'));
                         this.classList.add('selected');
                         genderOptions.classList.remove('open');
                         updateCompletion();
@@ -1303,7 +1315,6 @@
                     document.getElementById('dash-avatar').textContent = (user.user_metadata?.full_name || user.email ||
                         'ک').charAt(0).toUpperCase();
 
-                    // ===== یک کوئری برای همه‌ی آمار (بهینه) =====
                     const { data: apps, error } = await supabase
                         .from('appointments')
                         .select('status')
@@ -1346,7 +1357,6 @@
                     if (userRole === 'admin') {
                         document.getElementById('admin-panel').classList.remove('hidden');
                         document.getElementById('user-panel').classList.add('hidden');
-                        // بارگذاری همزمان (موازی)
                         await Promise.all([loadWorkingHours(), loadAppointments()]);
                     } else {
                         document.getElementById('admin-panel').classList.add('hidden');
@@ -1565,7 +1575,6 @@
                     return;
                 }
 
-                // فقط ساعاتی که رزرو نشده‌اند
                 const { data: booked } = await supabase
                     .from('appointments')
                     .select('date, time')
