@@ -449,6 +449,7 @@
             transform: scale(1.05);
         }
         .form-group .input-wrapper input,
+        .form-group .input-wrapper select,
         .form-group .input-wrapper textarea {
             width: 100%;
             padding: 14px 0;
@@ -459,6 +460,11 @@
             outline: none;
             font-family: 'Vazir', sans-serif;
             resize: none;
+        }
+        .form-group .input-wrapper select {
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
         }
         .form-group .input-wrapper input::placeholder,
         .form-group .input-wrapper textarea::placeholder {
@@ -610,53 +616,6 @@
         .gender-options .option .check { margin-right: auto; color: #6C63FF; opacity: 0; }
         .gender-options .option.selected .check { opacity: 1; }
 
-        .custom-select-wrapper {
-            position: relative;
-        }
-        .custom-select-wrapper .input-wrapper {
-            cursor: pointer;
-            user-select: none;
-        }
-        .custom-select-options {
-            position: absolute;
-            top: calc(100% + 4px);
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(20px);
-            border-radius: 16px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            overflow: hidden;
-            max-height: 0;
-            opacity: 0;
-            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform: scale(0.96) translateY(-8px);
-            transform-origin: top center;
-            z-index: 60;
-        }
-        .custom-select-options.open {
-            max-height: 220px;
-            opacity: 1;
-            transform: scale(1) translateY(0);
-            overflow-y: auto;
-        }
-        .custom-select-options .option {
-            padding: 12px 16px;
-            font-size: 15px;
-            color: #1a1a2e;
-            cursor: pointer;
-            transition: all 0.15s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .custom-select-options .option:active { background: rgba(108, 99, 255, 0.04); }
-        .custom-select-options .option i { width: 20px; color: #6C63FF; }
-        .custom-select-options .option.selected { background: rgba(108, 99, 255, 0.06); font-weight: 600; }
-        .custom-select-options .option .check { margin-right: auto; color: #6C63FF; opacity: 0; }
-        .custom-select-options .option.selected .check { opacity: 1; }
-
         .date-wrapper {
             display: flex;
             align-items: center;
@@ -795,6 +754,53 @@
             from { opacity: 0; transform: translateX(-50%) translateY(-20px) scale(0.95); }
             to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
         }
+
+        .custom-select-wrapper {
+            position: relative;
+        }
+        .custom-select-wrapper .input-wrapper {
+            cursor: pointer;
+            user-select: none;
+        }
+        .custom-select-options {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: scale(0.96) translateY(-8px);
+            transform-origin: top center;
+            z-index: 60;
+        }
+        .custom-select-options.open {
+            max-height: 220px;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            overflow-y: auto;
+        }
+        .custom-select-options .option {
+            padding: 12px 16px;
+            font-size: 15px;
+            color: #1a1a2e;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .custom-select-options .option:active { background: rgba(108, 99, 255, 0.04); }
+        .custom-select-options .option i { width: 20px; color: #6C63FF; }
+        .custom-select-options .option.selected { background: rgba(108, 99, 255, 0.06); font-weight: 600; }
+        .custom-select-options .option .check { margin-right: auto; color: #6C63FF; opacity: 0; }
+        .custom-select-options .option.selected .check { opacity: 1; }
     </style>
 </head>
 <body>
@@ -869,13 +875,69 @@
                 </div>
             </div>
 
-            <!-- پنل مشتری -->
+            <!-- پنل مشتری (با فرم ثبت نوبت) -->
             <div id="user-panel" class="hidden">
+                <!-- فرم ثبت نوبت -->
                 <div class="glass-card">
                     <div class="title">📅 ثبت نوبت جدید</div>
-                    <div class="subtitle">ساعاتی که وکیل در دسترس است</div>
-                    <div id="user-hours-list"><div class="empty-state"><i class="fas fa-clock"></i><p>هیچ ساعتی برای رزرو وجود ندارد</p></div></div>
+                    <div class="subtitle">اطلاعات نوبت خود را وارد کنید</div>
+                    <form id="user-appointment-form">
+                        <div class="form-group">
+                            <label>تاریخ نوبت <span class="required">*</span></label>
+                            <div class="date-wrapper">
+                                <i class="fas fa-calendar-day"></i>
+                                <input type="date" id="user-appt-date">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>ساعت <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-clock"></i>
+                                <select id="user-appt-time">
+                                    <option value="">انتخاب ساعت</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>نوع مشاوره <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-handshake"></i>
+                                <select id="user-appt-type">
+                                    <option value="">انتخاب کنید</option>
+                                    <option value="حضوری">حضوری</option>
+                                    <option value="تلفنی">تلفنی</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>موضوع <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-tag"></i>
+                                <select id="user-appt-topic">
+                                    <option value="">انتخاب کنید</option>
+                                    <option value="ملکی">ملکی</option>
+                                    <option value="خانوادگی">خانوادگی</option>
+                                    <option value="تجاری">تجاری</option>
+                                    <option value="کار و قرارداد">کار و قرارداد</option>
+                                    <option value="کیفری">کیفری</option>
+                                    <option value="دیگر">دیگر</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>توضیحات اضافی</label>
+                            <div class="input-wrapper"><i class="fas fa-pen"></i><textarea id="user-appt-desc" placeholder="توضیحات بیشتر..." rows="2"></textarea></div>
+                        </div>
+
+                        <button type="button" class="btn-primary" id="user-submit-appointment"><i class="fas fa-check"></i> ثبت نوبت</button>
+                    </form>
                 </div>
+
+                <!-- نوبت‌های من (مشتری) -->
                 <div class="glass-card">
                     <div class="title">📋 نوبت‌های من</div>
                     <div class="subtitle">لیست نوبت‌های ثبت‌شده شما</div>
@@ -1531,7 +1593,7 @@
                 document.getElementById('stat-today').textContent = today;
             }
 
-            // ===== ساعات فعال برای مشتری =====
+            // ===== بارگذاری ساعات کاری برای مشتری (برای فرم) =====
             async function loadUserHours() {
                 const { data, error } = await supabase
                     .from('working_hours')
@@ -1542,37 +1604,47 @@
                 if (error) { console.error(error); return; }
 
                 const days = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه'];
-                const container = document.getElementById('user-hours-list');
+                const timeSelect = document.getElementById('user-appt-time');
+                timeSelect.innerHTML = '<option value="">انتخاب ساعت</option>';
 
                 if (!data || data.length === 0) {
-                    container.innerHTML =
-                        `<div class="empty-state"><i class="fas fa-clock"></i><p>هیچ ساعتی برای رزرو وجود ندارد</p></div>`;
+                    timeSelect.innerHTML = '<option value="">هیچ ساعتی تنظیم نشده</option>';
                     return;
                 }
 
+                // فقط ساعاتی که رزرو نشده‌اند
                 const { data: booked } = await supabase
                     .from('appointments')
                     .select('date, time')
                     .in('status', ['تایید', 'انجام شده']);
 
                 const bookedSlots = new Set((booked || []).map(b => `${b.date}_${b.time}`));
+                const today = new Date();
 
-                container.innerHTML = data.map(h => {
+                data.forEach(h => {
                     const dayName = days[h.day_of_week] || h.day_of_week;
-                    const isBooked = bookedSlots.has(`${new Date().toISOString().split('T')[0]}_${h.start_time}`);
-                    return `
-                        <div class="hour-row" style="${isBooked ? 'opacity:0.4;' : ''}">
-                            <span class="day">${dayName}</span>
-                            <span class="time">${h.start_time} - ${h.end_time}</span>
-                            ${!isBooked ? `<button class="btn-sm approve" onclick="bookAppointment('${h.day_of_week}','${h.start_time}')" style="background:rgba(16,185,129,0.10);color:#059669;border:none;padding:4px 14px;border-radius:30px;font-size:12px;cursor:pointer;">رزرو</button>` :
-                            `<span style="color:#059669;font-size:12px;">✓ رزرو شده</span>`}
-                        </div>
-                    `;
-                }).join('');
+                    // محاسبه تاریخ دقیق برای روز مورد نظر
+                    const date = new Date(today);
+                    const diff = (h.day_of_week - today.getDay() + 7) % 7;
+                    date.setDate(date.getDate() + diff);
+                    const dateStr = date.toISOString().split('T')[0];
+
+                    const isBooked = bookedSlots.has(`${dateStr}_${h.start_time}`);
+                    if (!isBooked) {
+                        const option = document.createElement('option');
+                        option.value = h.start_time;
+                        option.textContent = `${dayName} - ${h.start_time} (${h.end_time})`;
+                        timeSelect.appendChild(option);
+                    }
+                });
+
+                if (timeSelect.options.length === 1) {
+                    timeSelect.innerHTML = '<option value="">همه ساعات رزرو شده‌اند</option>';
+                }
             }
 
-            // ===== ثبت نوبت توسط مشتری =====
-            window.bookAppointment = async function(day, time) {
+            // ===== ثبت نوبت توسط مشتری (از فرم) =====
+            document.getElementById('user-submit-appointment')?.addEventListener('click', async function() {
                 if (!currentUser) {
                     showToast('❌ لطفاً وارد شوید.', 'error');
                     return;
@@ -1582,16 +1654,22 @@
                     return;
                 }
 
-                const date = new Date();
-                const today = date.getDay();
-                const diff = (day - today + 7) % 7;
-                date.setDate(date.getDate() + diff);
-                const dateStr = date.toISOString().split('T')[0];
+                const date = document.getElementById('user-appt-date').value;
+                const time = document.getElementById('user-appt-time').value;
+                const type = document.getElementById('user-appt-type').value;
+                const topic = document.getElementById('user-appt-topic').value;
+                const description = document.getElementById('user-appt-desc').value.trim();
 
+                if (!date) { showToast('❌ تاریخ نوبت را انتخاب کنید.', 'error'); return; }
+                if (!time) { showToast('❌ ساعت نوبت را انتخاب کنید.', 'error'); return; }
+                if (!type) { showToast('❌ نوع مشاوره را انتخاب کنید.', 'error'); return; }
+                if (!topic) { showToast('❌ موضوع را انتخاب کنید.', 'error'); return; }
+
+                // چک کردن رزرو نبودن
                 const { data: existing } = await supabase
                     .from('appointments')
                     .select('id')
-                    .eq('date', dateStr)
+                    .eq('date', date)
                     .eq('time', time)
                     .in('status', ['تایید', 'انجام شده']);
 
@@ -1604,10 +1682,11 @@
                     .from('appointments')
                     .insert({
                         user_id: currentUser.id,
-                        date: dateStr,
+                        date: date,
                         time: time,
-                        type: 'حضوری',
-                        topic: 'مشاوره',
+                        type: type,
+                        topic: topic,
+                        description: description,
                         status: 'در انتظار'
                     });
 
@@ -1615,10 +1694,15 @@
                     showToast('❌ خطا در ثبت نوبت: ' + error.message, 'error');
                 } else {
                     showToast('✅ نوبت شما با موفقیت ثبت شد. منتظر تایید وکیل باشید.', 'success');
+                    document.getElementById('user-appt-date').value = '';
+                    document.getElementById('user-appt-time').value = '';
+                    document.getElementById('user-appt-type').value = '';
+                    document.getElementById('user-appt-topic').value = '';
+                    document.getElementById('user-appt-desc').value = '';
                     loadUserHours();
                     loadUserAppointments();
                 }
-            };
+            });
 
             // ===== نوبت‌های مشتری (در پنل مشتری) =====
             async function loadUserAppointments() {
