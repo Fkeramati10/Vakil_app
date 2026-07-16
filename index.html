@@ -189,7 +189,6 @@
             margin-left: 10px;
         }
         .form-group .input-wrapper input,
-        .form-group .input-wrapper select,
         .form-group .input-wrapper textarea {
             width: 100%;
             padding: 14px 0;
@@ -217,29 +216,65 @@
         }
         .form-group .input-wrapper textarea { min-height: 60px; padding: 12px 0; }
 
-        /* ===== Dropdown حرفه‌ای (ساعت، نوع، موضوع) ===== */
-        .form-group .input-wrapper select {
-            appearance: none;
-            -webkit-appearance: none;
-            background: transparent;
-            cursor: pointer;
-            padding-left: 30px;
+        /* ===== منوی کشویی نرم برای ساعت، نوع، موضوع ===== */
+        .custom-select-wrapper {
+            position: relative;
         }
-        .form-group .input-wrapper select option {
+        .custom-select-wrapper .input-wrapper {
+            cursor: pointer;
+            user-select: none;
+        }
+        .custom-select-options {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            border: 1px solid rgba(0,0,0,0.04);
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: scale(0.96) translateY(-8px);
+            transform-origin: top center;
+            z-index: 60;
+        }
+        .custom-select-options.open {
+            max-height: 220px;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            overflow-y: auto;
+        }
+        .custom-select-options .option {
             padding: 12px 16px;
             font-size: 15px;
             color: #1a1a2e;
-            background: #ffffff;
+            cursor: pointer;
+            transition: background 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .form-group .input-wrapper select:focus {
-            outline: none;
+        .custom-select-options .option:active {
+            background: #f5f7fb;
         }
-        /* آیکون فلش برای select */
-        .form-group .input-wrapper .select-arrow {
+        .custom-select-options .option i {
+            width: 20px;
+            color: #6C63FF;
+        }
+        .custom-select-options .option.selected {
+            background: rgba(108, 99, 255, 0.06);
+            font-weight: 600;
+        }
+        .custom-select-options .option .check {
             margin-right: auto;
-            color: #8A8A9A;
-            font-size: 14px;
-            pointer-events: none;
+            color: #6C63FF;
+            opacity: 0;
+        }
+        .custom-select-options .option.selected .check {
+            opacity: 1;
         }
 
         /* ===== جنسیت (منوی نرم) ===== */
@@ -438,12 +473,10 @@
             margin-right: 4px;
             filter: invert(0.3);
         }
-        /* برای فایرفاکس */
         input[type="date"]::-moz-calendar-picker-indicator {
             opacity: 0.5;
             filter: invert(0.3);
         }
-        /* برای اج دی */
         input[type="date"]::-ms-clear {
             display: none;
         }
@@ -568,7 +601,7 @@
                 </div>
             </div>
 
-            <!-- ===== ثبت نوبت جدید (با تغییرات) ===== -->
+            <!-- ===== ثبت نوبت جدید (با منوهای کشویی نرم) ===== -->
             <div id="new-appointment-section" class="hidden">
                 <button class="back-btn" onclick="showDashboard()"><i class="fas fa-arrow-right"></i> بازگشت به داشبورد</button>
                 <div class="profile-card">
@@ -585,56 +618,62 @@
                             </div>
                         </div>
 
-                        <!-- ساعت (۱۸:۰۰ تا ۲۲:۰۰) -->
+                        <!-- ساعت (منوی نرم) -->
                         <div class="form-group">
                             <label>ساعت <span class="required">*</span></label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-clock"></i>
-                                <select id="appt-time">
-                                    <option value="">انتخاب ساعت</option>
-                                    <option value="18:00">۱۸:۰۰</option>
-                                    <option value="18:30">۱۸:۳۰</option>
-                                    <option value="19:00">۱۹:۰۰</option>
-                                    <option value="19:30">۱۹:۳۰</option>
-                                    <option value="20:00">۲۰:۰۰</option>
-                                    <option value="20:30">۲۰:۳۰</option>
-                                    <option value="21:00">۲۱:۰۰</option>
-                                    <option value="21:30">۲۱:۳۰</option>
-                                    <option value="22:00">۲۲:۰۰</option>
-                                </select>
-                                <i class="fas fa-chevron-down select-arrow"></i>
+                            <div class="custom-select-wrapper" id="time-wrapper">
+                                <div class="input-wrapper" id="time-toggle">
+                                    <i class="fas fa-clock"></i>
+                                    <span id="time-selected" style="padding:14px 0; font-size:15px; color:#8A8A9A;">انتخاب ساعت</span>
+                                    <i class="fas fa-chevron-down" style="margin-right:auto; color:#8A8A9A; font-size:14px;"></i>
+                                </div>
+                                <div class="custom-select-options" id="time-options">
+                                    <div class="option" data-value="18:00">۱۸:۰۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                    <div class="option" data-value="18:30">۱۸:۳۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                    <div class="option" data-value="19:00">۱۹:۰۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                    <div class="option" data-value="19:30">۱۹:۳۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                    <div class="option" data-value="20:00">۲۰:۰۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                    <div class="option" data-value="20:30">۲۰:۳۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                    <div class="option" data-value="21:00">۲۱:۰۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                    <div class="option" data-value="21:30">۲۱:۳۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                    <div class="option" data-value="22:00">۲۲:۰۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- نوع مشاوره -->
+                        <!-- نوع مشاوره (منوی نرم) -->
                         <div class="form-group">
                             <label>نوع مشاوره <span class="required">*</span></label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-handshake"></i>
-                                <select id="appt-type">
-                                    <option value="">انتخاب کنید</option>
-                                    <option value="حضوری">حضوری</option>
-                                    <option value="تلفنی">تلفنی</option>
-                                </select>
-                                <i class="fas fa-chevron-down select-arrow"></i>
+                            <div class="custom-select-wrapper" id="type-wrapper">
+                                <div class="input-wrapper" id="type-toggle">
+                                    <i class="fas fa-handshake"></i>
+                                    <span id="type-selected" style="padding:14px 0; font-size:15px; color:#8A8A9A;">انتخاب کنید</span>
+                                    <i class="fas fa-chevron-down" style="margin-right:auto; color:#8A8A9A; font-size:14px;"></i>
+                                </div>
+                                <div class="custom-select-options" id="type-options">
+                                    <div class="option" data-value="حضوری">حضوری <span class="check"><i class="fas fa-check"></i></span></div>
+                                    <div class="option" data-value="تلفنی">تلفنی <span class="check"><i class="fas fa-check"></i></span></div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- موضوع -->
+                        <!-- موضوع (منوی نرم) -->
                         <div class="form-group">
                             <label>موضوع <span class="required">*</span></label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-tag"></i>
-                                <select id="appt-topic">
-                                    <option value="">انتخاب کنید</option>
-                                    <option value="ملکی">ملکی</option>
-                                    <option value="خانوادگی">خانوادگی</option>
-                                    <option value="تجاری">تجاری</option>
-                                    <option value="کار و قرارداد">کار و قرارداد</option>
-                                    <option value="کیفری">کیفری</option>
-                                    <option value="دیگر">دیگر</option>
-                                </select>
-                                <i class="fas fa-chevron-down select-arrow"></i>
+                            <div class="custom-select-wrapper" id="topic-wrapper">
+                                <div class="input-wrapper" id="topic-toggle">
+                                    <i class="fas fa-tag"></i>
+                                    <span id="topic-selected" style="padding:14px 0; font-size:15px; color:#8A8A9A;">انتخاب کنید</span>
+                                    <i class="fas fa-chevron-down" style="margin-right:auto; color:#8A8A9A; font-size:14px;"></i>
+                                </div>
+                                <div class="custom-select-options" id="topic-options">
+                                    <div class="option" data-value="ملکی">ملکی <span class="check"><i class="fas fa-check"></i></span></div>
+                                    <div class="option" data-value="خانوادگی">خانوادگی <span class="check"><i class="fas fa-check"></i></span></div>
+                                    <div class="option" data-value="تجاری">تجاری <span class="check"><i class="fas fa-check"></i></span></div>
+                                    <div class="option" data-value="کار و قرارداد">کار و قرارداد <span class="check"><i class="fas fa-check"></i></span></div>
+                                    <div class="option" data-value="کیفری">کیفری <span class="check"><i class="fas fa-check"></i></span></div>
+                                    <div class="option" data-value="دیگر">دیگر <span class="check"><i class="fas fa-check"></i></span></div>
+                                </div>
                             </div>
                         </div>
 
@@ -764,6 +803,110 @@
             loadAppointments();
         };
 
+        // ===== منوی کشویی نرم: ساعت =====
+        const timeToggle = document.getElementById('time-toggle');
+        const timeOptions = document.getElementById('time-options');
+        const timeSelected = document.getElementById('time-selected');
+        let selectedTime = '';
+
+        timeToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            // بستن بقیه
+            closeAllSelects('time');
+            timeOptions.classList.toggle('open');
+        });
+
+        document.querySelectorAll('#time-options .option').forEach(opt => {
+            opt.addEventListener('click', function() {
+                const val = this.dataset.value;
+                const text = this.textContent.trim().replace('✓', '').trim();
+                selectedTime = val;
+                timeSelected.textContent = text;
+                timeSelected.style.color = '#1a1a2e';
+                document.querySelectorAll('#time-options .option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                timeOptions.classList.remove('open');
+            });
+        });
+
+        // ===== منوی کشویی نرم: نوع مشاوره =====
+        const typeToggle = document.getElementById('type-toggle');
+        const typeOptions = document.getElementById('type-options');
+        const typeSelected = document.getElementById('type-selected');
+        let selectedType = '';
+
+        typeToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeAllSelects('type');
+            typeOptions.classList.toggle('open');
+        });
+
+        document.querySelectorAll('#type-options .option').forEach(opt => {
+            opt.addEventListener('click', function() {
+                const val = this.dataset.value;
+                const text = this.textContent.trim().replace('✓', '').trim();
+                selectedType = val;
+                typeSelected.textContent = text;
+                typeSelected.style.color = '#1a1a2e';
+                document.querySelectorAll('#type-options .option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                typeOptions.classList.remove('open');
+            });
+        });
+
+        // ===== منوی کشویی نرم: موضوع =====
+        const topicToggle = document.getElementById('topic-toggle');
+        const topicOptions = document.getElementById('topic-options');
+        const topicSelected = document.getElementById('topic-selected');
+        let selectedTopic = '';
+
+        topicToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeAllSelects('topic');
+            topicOptions.classList.toggle('open');
+        });
+
+        document.querySelectorAll('#topic-options .option').forEach(opt => {
+            opt.addEventListener('click', function() {
+                const val = this.dataset.value;
+                const text = this.textContent.trim().replace('✓', '').trim();
+                selectedTopic = val;
+                topicSelected.textContent = text;
+                topicSelected.style.color = '#1a1a2e';
+                document.querySelectorAll('#topic-options .option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                topicOptions.classList.remove('open');
+            });
+        });
+
+        // ===== بستن همه منوهای کشویی =====
+        function closeAllSelects(except) {
+            if (except !== 'time') {
+                timeOptions.classList.remove('open');
+            }
+            if (except !== 'type') {
+                typeOptions.classList.remove('open');
+            }
+            if (except !== 'topic') {
+                topicOptions.classList.remove('open');
+            }
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!document.getElementById('time-wrapper').contains(e.target)) {
+                timeOptions.classList.remove('open');
+            }
+            if (!document.getElementById('type-wrapper').contains(e.target)) {
+                typeOptions.classList.remove('open');
+            }
+            if (!document.getElementById('topic-wrapper').contains(e.target)) {
+                topicOptions.classList.remove('open');
+            }
+            if (!document.getElementById('gender-wrapper').contains(e.target)) {
+                genderOptions.classList.remove('open');
+            }
+        });
+
         // ===== جنسیت =====
         const genderToggle = document.getElementById('gender-toggle');
         const genderOptions = document.getElementById('gender-options');
@@ -786,12 +929,6 @@
                 genderOptions.classList.remove('open');
                 updateCompletion();
             });
-        });
-
-        document.addEventListener('click', function(e) {
-            if (!document.getElementById('gender-wrapper').contains(e.target)) {
-                genderOptions.classList.remove('open');
-            }
         });
 
         // ===== دریافت موقعیت =====
@@ -941,7 +1078,7 @@
         document.querySelectorAll('#profile-form input, #profile-form textarea')
             .forEach(el => el.addEventListener('input', updateCompletion));
 
-        // ===== ثبت نوبت =====
+        // ===== ثبت نوبت (با منوهای نرم) =====
         document.getElementById('submit-appointment').addEventListener('click', async function() {
             if (!currentUser) { alert('لطفاً وارد شوید.'); return; }
 
@@ -951,9 +1088,9 @@
             }
 
             const date = document.getElementById('appt-date').value;
-            const time = document.getElementById('appt-time').value;
-            const type = document.getElementById('appt-type').value;
-            const topic = document.getElementById('appt-topic').value;
+            const time = selectedTime;
+            const type = selectedType;
+            const topic = selectedTopic;
             const description = document.getElementById('appt-desc').value.trim();
 
             if (!date) { showToast('❌ تاریخ نوبت را انتخاب کنید.', 'error'); return; }
@@ -980,9 +1117,18 @@
             } else {
                 showToast('✅ نوبت شما با موفقیت ثبت شد.', 'success');
                 document.getElementById('appt-date').value = '';
-                document.getElementById('appt-time').value = '';
-                document.getElementById('appt-type').value = '';
-                document.getElementById('appt-topic').value = '';
+                selectedTime = '';
+                timeSelected.textContent = 'انتخاب ساعت';
+                timeSelected.style.color = '#8A8A9A';
+                document.querySelectorAll('#time-options .option').forEach(o => o.classList.remove('selected'));
+                selectedType = '';
+                typeSelected.textContent = 'انتخاب کنید';
+                typeSelected.style.color = '#8A8A9A';
+                document.querySelectorAll('#type-options .option').forEach(o => o.classList.remove('selected'));
+                selectedTopic = '';
+                topicSelected.textContent = 'انتخاب کنید';
+                topicSelected.style.color = '#8A8A9A';
+                document.querySelectorAll('#topic-options .option').forEach(o => o.classList.remove('selected'));
                 document.getElementById('appt-desc').value = '';
                 checkAuth();
             }
