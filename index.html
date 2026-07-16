@@ -1037,7 +1037,7 @@
             let currentFilter = 'all';
             let selectedGender = '';
 
-            // ===== ورود با گوگل (اصلاح‌شده) =====
+            // ===== ورود با گوگل =====
             async function signInWithGoogle() {
                 try {
                     const { data, error } = await supabase.auth.signInWithOAuth({
@@ -1061,11 +1061,10 @@
             document.getElementById('google-signin-app')?.addEventListener('click', signInWithGoogle);
             document.getElementById('google-signin-account')?.addEventListener('click', signInWithGoogle);
 
-            // ===== خروج (اصلاح‌شده) =====
+            // ===== خروج =====
             document.getElementById('logout-btn')?.addEventListener('click', async function() {
                 try {
                     await supabase.auth.signOut();
-                    // رفرش کامل برای پاک شدن کش مرورگر
                     window.location.reload();
                 } catch (err) {
                     showToast('❌ خطا در خروج: ' + err.message, 'error');
@@ -1301,7 +1300,7 @@
             document.querySelectorAll('#profile-form input, #profile-form textarea')
                 .forEach(el => el.addEventListener('input', updateCompletion));
 
-            // ===== بررسی حساب کاربری (بهینه‌شده) =====
+            // ===== بررسی حساب کاربری =====
             async function checkAuthAccount() {
                 const { data: { user } } = await supabase.auth.getUser();
                 currentUser = user;
@@ -1338,7 +1337,7 @@
                 }
             }
 
-            // ===== بررسی نوبت‌ها (پنل وکیل/مشتری) بهینه‌شده =====
+            // ===== بررسی نوبت‌ها (پنل وکیل/مشتری) =====
             async function checkAuthAppointments() {
                 const { data: { user } } = await supabase.auth.getUser();
                 currentUser = user;
@@ -1556,7 +1555,7 @@
                 document.getElementById('stat-today').textContent = today;
             }
 
-            // ===== بارگذاری ساعات کاری برای مشتری (برای فرم) =====
+            // ===== بارگذاری ساعات کاری برای مشتری (اصلاح‌شده) =====
             async function loadUserHours() {
                 const { data, error } = await supabase
                     .from('working_hours')
@@ -1564,7 +1563,10 @@
                     .eq('is_active', true)
                     .order('day_of_week', { ascending: true });
 
-                if (error) { console.error(error); return; }
+                if (error) {
+                    console.error('خطا در بارگذاری ساعات کاری:', error);
+                    return;
+                }
 
                 const days = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه'];
                 const timeSelect = document.getElementById('user-appt-time');
@@ -1575,6 +1577,7 @@
                     return;
                 }
 
+                // گرفتن ساعات رزروشده
                 const { data: booked } = await supabase
                     .from('appointments')
                     .select('date, time')
@@ -1585,18 +1588,18 @@
 
                 data.forEach(h => {
                     const dayName = days[h.day_of_week] || h.day_of_week;
+                    // محاسبه تاریخ برای امروز + روز مورد نظر
                     const date = new Date(today);
                     const diff = (h.day_of_week - today.getDay() + 7) % 7;
                     date.setDate(date.getDate() + diff);
                     const dateStr = date.toISOString().split('T')[0];
 
                     const isBooked = bookedSlots.has(`${dateStr}_${h.start_time}`);
-                    if (!isBooked) {
-                        const option = document.createElement('option');
-                        option.value = h.start_time;
-                        option.textContent = `${dayName} - ${h.start_time} (${h.end_time})`;
-                        timeSelect.appendChild(option);
-                    }
+                    const option = document.createElement('option');
+                    option.value = h.start_time;
+                    option.textContent = `${dayName} - ${h.start_time} (${h.end_time})${isBooked ? ' ❌ رزرو شده' : ''}`;
+                    option.disabled = isBooked;
+                    timeSelect.appendChild(option);
                 });
 
                 if (timeSelect.options.length === 1) {
