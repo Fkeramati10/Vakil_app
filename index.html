@@ -98,7 +98,6 @@
             flex-shrink: 0;
             overflow: hidden;
         }
-        .dashboard-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .dashboard-user h2 { font-size: 18px; color: #1a1a2e; }
         .dashboard-user p { font-size: 13px; color: #8A8A9A; }
 
@@ -211,13 +210,80 @@
             color: #bbb;
             font-size: 14px;
         }
-        .form-group .input-wrapper select {
+        .form-group .input-wrapper input[type="date"] {
             padding: 14px 0;
             appearance: none;
+            -webkit-appearance: none;
+            color: #1a1a2e;
+        }
+        .form-group .input-wrapper input[type="date"]::-webkit-calendar-picker-indicator {
+            opacity: 0.5;
+            filter: invert(0.3);
         }
         .form-group .input-wrapper textarea {
-            min-height: 80px;
+            min-height: 60px;
             padding: 12px 0;
+        }
+
+        /* ===== جنسیت ===== */
+        .gender-wrapper {
+            position: relative;
+        }
+        .gender-wrapper .input-wrapper {
+            cursor: pointer;
+            user-select: none;
+        }
+        .gender-options {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            border: 1px solid rgba(0,0,0,0.04);
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: scale(0.96) translateY(-8px);
+            transform-origin: top center;
+            z-index: 50;
+        }
+        .gender-options.open {
+            max-height: 200px;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        .gender-options .option {
+            padding: 12px 16px;
+            font-size: 15px;
+            color: #1a1a2e;
+            cursor: pointer;
+            transition: background 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .gender-options .option:active,
+        .gender-options .option:hover {
+            background: #f5f7fb;
+        }
+        .gender-options .option i {
+            width: 20px;
+            color: #6C63FF;
+        }
+        .gender-options .option.selected {
+            background: rgba(108, 99, 255, 0.06);
+            font-weight: 600;
+        }
+        .gender-options .option .check {
+            margin-right: auto;
+            color: #6C63FF;
+            opacity: 0;
+        }
+        .gender-options .option.selected .check {
+            opacity: 1;
         }
 
         .btn-primary {
@@ -234,6 +300,27 @@
             box-shadow: 0 4px 14px rgba(108, 99, 255, 0.3);
         }
         .btn-primary:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(108, 99, 255, 0.2); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: #6C63FF;
+            border: 2px solid #6C63FF;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 4px;
+        }
+        .btn-secondary:active { transform: scale(0.97); background: rgba(108, 99, 255, 0.04); }
+        .btn-secondary i { font-size: 16px; }
 
         .back-btn {
             background: none;
@@ -347,6 +434,14 @@
 
         .page-placeholder { text-align: center; padding: 60px 20px; color: #aaa; font-size: 16px; }
         .page-placeholder i { font-size: 48px; color: #ddd; margin-bottom: 16px; display: block; }
+
+        /* Row with two columns */
+        .row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .row-2 .form-group { margin-bottom: 0; }
     </style>
 </head>
 <body>
@@ -425,36 +520,59 @@
                     </div>
 
                     <form id="profile-form">
-                        <div class="form-group">
-                            <label>نام و فامیل <span class="required">*</span></label>
-                            <div class="input-wrapper"><i class="fas fa-user"></i><input type="text" id="full-name" placeholder="مثلاً علی محمدی"></div>
-                        </div>
 
-                        <div class="form-group">
-                            <label>کد ملی <span class="required">*</span></label>
-                            <div class="input-wrapper"><i class="fas fa-id-card"></i><input type="text" id="national-code" placeholder="۱۲۳۴۵۶۷۸۹۰" maxlength="10"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>شماره تماس <span class="required">*</span></label>
-                            <div class="input-wrapper"><i class="fas fa-phone"></i><input type="tel" id="phone" placeholder="۰۹۱۲۳۴۵۶۷۸۹"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>تاریخ تولد</label>
-                            <div class="input-wrapper"><i class="fas fa-calendar"></i><input type="text" id="birth-date" placeholder="۱۴۰۰/۰۱/۰۱"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>جنسیت</label>
-                            <div class="input-wrapper"><i class="fas fa-venus-mars"></i>
-                                <select id="gender"><option value="">انتخاب کنید</option><option value="male">آقا</option><option value="female">خانم</option></select>
+                        <!-- نام و نام خانوادگی -->
+                        <div class="row-2">
+                            <div class="form-group">
+                                <label>نام <span class="required">*</span></label>
+                                <div class="input-wrapper"><i class="fas fa-user"></i><input type="text" id="first-name" placeholder="علی"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>نام خانوادگی <span class="required">*</span></label>
+                                <div class="input-wrapper"><i class="fas fa-user"></i><input type="text" id="last-name" placeholder="محمدی"></div>
                             </div>
                         </div>
 
+                        <!-- کد ملی -->
+                        <div class="form-group">
+                            <label>کد ملی <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-id-card"></i><input type="text" id="national-code" placeholder="" maxlength="10"></div>
+                        </div>
+
+                        <!-- شماره تماس -->
+                        <div class="form-group">
+                            <label>شماره تماس <span class="required">*</span></label>
+                            <div class="input-wrapper"><i class="fas fa-phone"></i><input type="tel" id="phone" placeholder=""></div>
+                        </div>
+
+                        <!-- تاریخ تولد (تقویم) -->
+                        <div class="form-group">
+                            <label>تاریخ تولد</label>
+                            <div class="input-wrapper"><i class="fas fa-calendar"></i><input type="date" id="birth-date"></div>
+                        </div>
+
+                        <!-- جنسیت (منوی نرم) -->
+                        <div class="form-group">
+                            <label>جنسیت</label>
+                            <div class="gender-wrapper" id="gender-wrapper">
+                                <div class="input-wrapper" id="gender-toggle">
+                                    <i class="fas fa-venus-mars"></i>
+                                    <span id="gender-selected" style="padding:14px 0; font-size:15px; color:#8A8A9A;">انتخاب کنید</span>
+                                    <i class="fas fa-chevron-down" style="margin-right:auto; color:#8A8A9A; font-size:14px;"></i>
+                                </div>
+                                <div class="gender-options" id="gender-options">
+                                    <div class="option" data-value="male"><i class="fas fa-mars"></i> مرد <span class="check"><i class="fas fa-check"></i></span></div>
+                                    <div class="option" data-value="female"><i class="fas fa-venus"></i> زن <span class="check"><i class="fas fa-check"></i></span></div>
+                                    <div class="option" data-value="prefer_not"><i class="fas fa-circle"></i> ترجیح می‌دم نگویم <span class="check"><i class="fas fa-check"></i></span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- آدرس + لوکیشن -->
                         <div class="form-group">
                             <label>آدرس</label>
-                            <div class="input-wrapper"><i class="fas fa-map-pin"></i><textarea id="address" placeholder="آدرس خود را وارد کنید..."></textarea></div>
+                            <div class="input-wrapper"><i class="fas fa-map-pin"></i><textarea id="address" placeholder="آدرس خود را وارد کنید..." rows="2"></textarea></div>
+                            <button type="button" class="btn-secondary" id="location-btn"><i class="fas fa-location-dot"></i> دریافت موقعیت فعلی</button>
                         </div>
 
                         <button type="button" class="btn-primary" id="save-profile"><i class="fas fa-save"></i> ذخیره اطلاعات</button>
@@ -496,9 +614,7 @@
                 document.getElementById(pageId).classList.add('active');
                 const title = this.dataset.title;
                 if (title) pageTitle.textContent = title;
-                if (pageId === 'page-account') {
-                    checkAuth();
-                }
+                if (pageId === 'page-account') checkAuth();
             });
         });
 
@@ -530,7 +646,7 @@
             checkAuth();
         });
 
-        // ===== نمایش/مخفی کردن بخش‌ها =====
+        // ===== نمایش/مخفی کردن =====
         window.showDashboard = function() {
             document.getElementById('dashboard-main').classList.remove('hidden');
             document.getElementById('profile-section').classList.add('hidden');
@@ -543,6 +659,60 @@
             pageTitle.textContent = 'ویرایش پروفایل';
             loadProfile();
         };
+
+        // ===== جنسیت =====
+        const genderToggle = document.getElementById('gender-toggle');
+        const genderOptions = document.getElementById('gender-options');
+        const genderSelected = document.getElementById('gender-selected');
+        let selectedGender = '';
+
+        genderToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            genderOptions.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.gender-options .option').forEach(opt => {
+            opt.addEventListener('click', function() {
+                const val = this.dataset.value;
+                const text = this.textContent.trim().replace('✓', '').trim();
+                selectedGender = val;
+                genderSelected.textContent = text;
+                genderSelected.style.color = '#1a1a2e';
+                document.querySelectorAll('.gender-options .option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                genderOptions.classList.remove('open');
+                updateCompletion();
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!document.getElementById('gender-wrapper').contains(e.target)) {
+                genderOptions.classList.remove('open');
+            }
+        });
+
+        // ===== دریافت موقعیت =====
+        document.getElementById('location-btn').addEventListener('click', function() {
+            if (!navigator.geolocation) {
+                showToast('❌ مرورگر شما از موقعیت مکانی پشتیبانی نمی‌کند.', 'error');
+                return;
+            }
+            showToast('📍 در حال دریافت موقعیت...', 'success');
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const { latitude, longitude } = pos.coords;
+                    const addressField = document.getElementById('address');
+                    const current = addressField.value.trim();
+                    const locationStr = `📍 ${latitude}, ${longitude}`;
+                    addressField.value = current ? current + '\n' + locationStr : locationStr;
+                    showToast('✅ موقعیت مکانی دریافت شد.', 'success');
+                    updateCompletion();
+                },
+                (err) => {
+                    showToast('❌ خطا در دریافت موقعیت: ' + err.message, 'error');
+                }
+            );
+        });
 
         // ===== بارگذاری پروفایل =====
         async function loadProfile() {
@@ -557,36 +727,56 @@
 
             if (data) {
                 profileData = data;
-                document.getElementById('full-name').value = data.full_name || '';
+                const full = data.full_name || '';
+                const parts = full.split(' ');
+                document.getElementById('first-name').value = parts[0] || '';
+                document.getElementById('last-name').value = parts.slice(1).join(' ') || '';
                 document.getElementById('national-code').value = data.national_code || '';
                 document.getElementById('phone').value = data.phone || '';
                 document.getElementById('birth-date').value = data.birth_date || '';
-                document.getElementById('gender').value = data.gender || '';
                 document.getElementById('address').value = data.address || '';
+
+                // جنسیت
+                const genderMap = { 'male': 'مرد', 'female': 'زن', 'prefer_not': 'ترجیح می‌دم نگویم' };
+                if (data.gender && genderMap[data.gender]) {
+                    selectedGender = data.gender;
+                    genderSelected.textContent = genderMap[data.gender];
+                    genderSelected.style.color = '#1a1a2e';
+                    document.querySelectorAll('.gender-options .option').forEach(o => {
+                        o.classList.toggle('selected', o.dataset.value === data.gender);
+                    });
+                }
                 updateCompletion();
             } else {
-                document.getElementById('full-name').value = '';
+                document.getElementById('first-name').value = '';
+                document.getElementById('last-name').value = '';
                 document.getElementById('national-code').value = '';
                 document.getElementById('phone').value = '';
                 document.getElementById('birth-date').value = '';
-                document.getElementById('gender').value = '';
                 document.getElementById('address').value = '';
+                selectedGender = '';
+                genderSelected.textContent = 'انتخاب کنید';
+                genderSelected.style.color = '#8A8A9A';
+                document.querySelectorAll('.gender-options .option').forEach(o => o.classList.remove('selected'));
                 updateCompletion();
             }
         }
 
-        // ===== ذخیره پروفایل =====
+        // ===== ذخیره =====
         document.getElementById('save-profile').addEventListener('click', async function() {
             if (!currentUser) { alert('لطفاً وارد شوید.'); return; }
 
-            const full_name = document.getElementById('full-name').value.trim();
+            const first = document.getElementById('first-name').value.trim();
+            const last = document.getElementById('last-name').value.trim();
+            const full_name = (first + ' ' + last).trim();
             const national_code = document.getElementById('national-code').value.trim();
             const phone = document.getElementById('phone').value.trim();
-            const birth_date = document.getElementById('birth-date').value.trim();
-            const gender = document.getElementById('gender').value;
+            const birth_date = document.getElementById('birth-date').value;
+            const gender = selectedGender;
             const address = document.getElementById('address').value.trim();
 
-            if (!full_name) { showToast('❌ نام و فامیل ضروری است.', 'error'); return; }
+            if (!first) { showToast('❌ نام ضروری است.', 'error'); return; }
+            if (!last) { showToast('❌ نام خانوادگی ضروری است.', 'error'); return; }
             if (!national_code) { showToast('❌ کد ملی ضروری است.', 'error'); return; }
             if (national_code.length !== 10) { showToast('❌ کد ملی باید ۱۰ رقم باشد.', 'error'); return; }
             if (!phone) { showToast('❌ شماره تماس ضروری است.', 'error'); return; }
@@ -614,18 +804,19 @@
                 profileData = payload;
                 updateCompletion();
                 document.getElementById('dash-name').textContent = full_name;
-                document.getElementById('dash-avatar').textContent = full_name.charAt(0).toUpperCase();
+                document.getElementById('dash-avatar').textContent = (first || 'ک').charAt(0).toUpperCase();
             }
         });
 
         // ===== پیشرفت تکمیل =====
         function updateCompletion() {
             const fields = [
-                document.getElementById('full-name').value.trim(),
+                document.getElementById('first-name').value.trim(),
+                document.getElementById('last-name').value.trim(),
                 document.getElementById('national-code').value.trim(),
                 document.getElementById('phone').value.trim(),
-                document.getElementById('birth-date').value.trim(),
-                document.getElementById('gender').value,
+                document.getElementById('birth-date').value,
+                selectedGender,
                 document.getElementById('address').value.trim()
             ];
             const filled = fields.filter(f => f && f !== '').length;
@@ -635,7 +826,7 @@
             document.getElementById('completion-text').textContent = percent + '%';
         }
 
-        document.querySelectorAll('#profile-form input, #profile-form select, #profile-form textarea')
+        document.querySelectorAll('#profile-form input, #profile-form textarea')
             .forEach(el => el.addEventListener('input', updateCompletion));
 
         // ===== Toast =====
@@ -661,8 +852,6 @@
                 document.getElementById('dash-name').textContent = user.user_metadata?.full_name || user.email?.split('@')[0] || 'کاربر';
                 document.getElementById('dash-avatar').textContent = (user.user_metadata?.full_name || user.email || 'ک').charAt(0).toUpperCase();
                 pageTitle.textContent = 'داشبورد';
-
-                // بارگذاری پروفایل در پس‌زمینه
                 await loadProfile();
             } else {
                 document.getElementById('auth-section').classList.remove('hidden');
@@ -671,12 +860,7 @@
             }
         }
 
-        // ===== گوش دادن به تغییرات =====
-        supabase.auth.onAuthStateChange((event, session) => {
-            checkAuth();
-        });
-
-        // ===== اجرای اولیه =====
+        supabase.auth.onAuthStateChange((event, session) => { checkAuth(); });
         checkAuth();
     });
 </script>
