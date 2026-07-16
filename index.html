@@ -208,12 +208,39 @@
             appearance: none;
             -webkit-appearance: none;
             color: #1a1a2e;
+            min-width: 0;
         }
         .form-group .input-wrapper input[type="date"]::-webkit-calendar-picker-indicator {
-            opacity: 0.5;
+            opacity: 0.4;
             filter: invert(0.3);
+            padding: 4px;
         }
         .form-group .input-wrapper textarea { min-height: 60px; padding: 12px 0; }
+
+        /* ===== Dropdown حرفه‌ای (ساعت، نوع، موضوع) ===== */
+        .form-group .input-wrapper select {
+            appearance: none;
+            -webkit-appearance: none;
+            background: transparent;
+            cursor: pointer;
+            padding-left: 30px;
+        }
+        .form-group .input-wrapper select option {
+            padding: 12px 16px;
+            font-size: 15px;
+            color: #1a1a2e;
+            background: #ffffff;
+        }
+        .form-group .input-wrapper select:focus {
+            outline: none;
+        }
+        /* آیکون فلش برای select */
+        .form-group .input-wrapper .select-arrow {
+            margin-right: auto;
+            color: #8A8A9A;
+            font-size: 14px;
+            pointer-events: none;
+        }
 
         /* ===== جنسیت (منوی نرم) ===== */
         .gender-wrapper { position: relative; }
@@ -391,6 +418,57 @@
         .page-placeholder i { font-size: 48px; color: #ddd; margin-bottom: 16px; display: block; }
         .empty-state { text-align: center; padding: 40px 20px; color: #8A8A9A; }
         .empty-state i { font-size: 48px; color: #ddd; margin-bottom: 16px; display: block; }
+
+        /* ===== تقویم مینیمال ===== */
+        input[type="date"] {
+            min-height: 50px;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            color: #1a1a2e;
+            width: 100%;
+        }
+        input[type="date"]::-webkit-datetime-edit {
+            padding: 0;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            opacity: 0.5;
+            padding: 4px;
+            margin-right: 4px;
+            filter: invert(0.3);
+        }
+        /* برای فایرفاکس */
+        input[type="date"]::-moz-calendar-picker-indicator {
+            opacity: 0.5;
+            filter: invert(0.3);
+        }
+        /* برای اج دی */
+        input[type="date"]::-ms-clear {
+            display: none;
+        }
+        .date-wrapper {
+            display: flex;
+            align-items: center;
+            background: #f5f7fb;
+            border-radius: 14px;
+            padding: 0 14px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .date-wrapper:focus-within {
+            border-color: #6C63FF;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.06);
+        }
+        .date-wrapper i {
+            color: #8A8A9A;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+        .date-wrapper input[type="date"] {
+            padding: 14px 0;
+        }
     </style>
 </head>
 <body>
@@ -490,7 +568,7 @@
                 </div>
             </div>
 
-            <!-- ===== ثبت نوبت جدید ===== -->
+            <!-- ===== ثبت نوبت جدید (با تغییرات) ===== -->
             <div id="new-appointment-section" class="hidden">
                 <button class="back-btn" onclick="showDashboard()"><i class="fas fa-arrow-right"></i> بازگشت به داشبورد</button>
                 <div class="profile-card">
@@ -498,49 +576,55 @@
                     <div class="subtitle">برای دریافت مشاوره، نوبت خود را ثبت کنید</div>
 
                     <form id="appointment-form">
+                        <!-- تقویم مینیمال -->
                         <div class="form-group">
                             <label>تاریخ نوبت <span class="required">*</span></label>
-                            <div class="input-wrapper"><i class="fas fa-calendar-day"></i><input type="date" id="appt-date"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>ساعت <span class="required">*</span></label>
-                            <div class="input-wrapper"><i class="fas fa-clock"></i>
-                                <select id="appt-time">
-                                    <option value="">انتخاب ساعت</option>
-                                    <option value="09:00">۰۹:۰۰</option>
-                                    <option value="09:30">۰۹:۳۰</option>
-                                    <option value="10:00">۱۰:۰۰</option>
-                                    <option value="10:30">۱۰:۳۰</option>
-                                    <option value="11:00">۱۱:۰۰</option>
-                                    <option value="11:30">۱۱:۳۰</option>
-                                    <option value="12:00">۱۲:۰۰</option>
-                                    <option value="14:00">۱۴:۰۰</option>
-                                    <option value="14:30">۱۴:۳۰</option>
-                                    <option value="15:00">۱۵:۰۰</option>
-                                    <option value="15:30">۱۵:۳۰</option>
-                                    <option value="16:00">۱۶:۰۰</option>
-                                    <option value="16:30">۱۶:۳۰</option>
-                                    <option value="17:00">۱۷:۰۰</option>
-                                    <option value="17:30">۱۷:۳۰</option>
-                                </select>
+                            <div class="date-wrapper">
+                                <i class="fas fa-calendar-day"></i>
+                                <input type="date" id="appt-date">
                             </div>
                         </div>
 
+                        <!-- ساعت (۱۸:۰۰ تا ۲۲:۰۰) -->
+                        <div class="form-group">
+                            <label>ساعت <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-clock"></i>
+                                <select id="appt-time">
+                                    <option value="">انتخاب ساعت</option>
+                                    <option value="18:00">۱۸:۰۰</option>
+                                    <option value="18:30">۱۸:۳۰</option>
+                                    <option value="19:00">۱۹:۰۰</option>
+                                    <option value="19:30">۱۹:۳۰</option>
+                                    <option value="20:00">۲۰:۰۰</option>
+                                    <option value="20:30">۲۰:۳۰</option>
+                                    <option value="21:00">۲۱:۰۰</option>
+                                    <option value="21:30">۲۱:۳۰</option>
+                                    <option value="22:00">۲۲:۰۰</option>
+                                </select>
+                                <i class="fas fa-chevron-down select-arrow"></i>
+                            </div>
+                        </div>
+
+                        <!-- نوع مشاوره -->
                         <div class="form-group">
                             <label>نوع مشاوره <span class="required">*</span></label>
-                            <div class="input-wrapper"><i class="fas fa-handshake"></i>
+                            <div class="input-wrapper">
+                                <i class="fas fa-handshake"></i>
                                 <select id="appt-type">
                                     <option value="">انتخاب کنید</option>
                                     <option value="حضوری">حضوری</option>
                                     <option value="تلفنی">تلفنی</option>
                                 </select>
+                                <i class="fas fa-chevron-down select-arrow"></i>
                             </div>
                         </div>
 
+                        <!-- موضوع -->
                         <div class="form-group">
                             <label>موضوع <span class="required">*</span></label>
-                            <div class="input-wrapper"><i class="fas fa-tag"></i>
+                            <div class="input-wrapper">
+                                <i class="fas fa-tag"></i>
                                 <select id="appt-topic">
                                     <option value="">انتخاب کنید</option>
                                     <option value="ملکی">ملکی</option>
@@ -550,6 +634,7 @@
                                     <option value="کیفری">کیفری</option>
                                     <option value="دیگر">دیگر</option>
                                 </select>
+                                <i class="fas fa-chevron-down select-arrow"></i>
                             </div>
                         </div>
 
@@ -860,7 +945,6 @@
         document.getElementById('submit-appointment').addEventListener('click', async function() {
             if (!currentUser) { alert('لطفاً وارد شوید.'); return; }
 
-            // چک کردن تکمیل پروفایل
             if (!profileData.full_name || !profileData.national_code || !profileData.phone) {
                 showToast('❌ لطفاً ابتدا پروفایل خود را تکمیل کنید (نام، کد ملی، شماره تماس).', 'error');
                 return;
