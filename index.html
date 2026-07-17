@@ -147,10 +147,10 @@
         .appointment-user small { font-weight: 400; color: #8A8A9A; font-size: 12px; display: block; margin-top: 2px; }
         .appointment-info { font-size: 13px; color: #4a4a5a; }
         .appointment-info i { margin-left: 4px; color: #6C63FF; }
-        .appointment-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .appointment-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
 
         .btn-sm {
-            padding: 6px 16px; border: none; border-radius: 30px;
+            padding: 6px 12px; border: none; border-radius: 30px;
             font-size: 12px; font-weight: 600; cursor: pointer;
             transition: all 0.2s; font-family: 'Vazir', sans-serif;
         }
@@ -159,6 +159,7 @@
         .btn-sm.reject { background: rgba(239,68,68,0.08); color: #dc2626; }
         .btn-sm.done { background: rgba(79,70,229,0.06); color: #4f46e5; }
         .btn-sm.delete { background: rgba(239,68,68,0.04); color: #ef4444; }
+        .btn-sm.details { background: rgba(108,99,255,0.06); color: #4A3DBF; }
 
         .status-badge {
             padding: 2px 12px; border-radius: 20px;
@@ -168,6 +169,51 @@
         .status-badge.confirmed { background: rgba(16,185,129,0.06); color: #059669; }
         .status-badge.cancelled { background: rgba(239,68,68,0.04); color: #dc2626; }
         .status-badge.done { background: rgba(79,70,229,0.04); color: #4f46e5; }
+
+        /* ===== مودال جزئیات کاربر ===== */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(6px);
+            display: none; justify-content: center; align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(20px);
+            border-radius: 28px;
+            max-width: 400px;
+            width: 100%;
+            padding: 28px 24px 24px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,0.3);
+            animation: modalIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.92) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal-box .modal-title { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; text-align: center; }
+        .modal-box .modal-title i { color: #6C63FF; margin-left: 8px; }
+        .modal-item {
+            display: flex; justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+        }
+        .modal-item:last-child { border-bottom: none; }
+        .modal-item .label { font-size: 14px; color: #8A8A9A; }
+        .modal-item .value { font-size: 15px; font-weight: 600; color: #1a1a2e; text-align: left; }
+        .modal-close {
+            width: 100%; margin-top: 16px;
+            padding: 12px;
+            background: rgba(108,99,255,0.06);
+            border: none; border-radius: 14px;
+            font-size: 15px; font-weight: 600; color: #4A3DBF;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .modal-close:active { transform: scale(0.96); background: rgba(108,99,255,0.10); }
 
         /* ===== ساعات کاری ===== */
         .hours-grid { display: flex; flex-direction: column; gap: 10px; }
@@ -598,6 +644,23 @@
     </div>
 </div>
 
+<!-- ===== مودال جزئیات کاربر ===== -->
+<div class="modal-overlay" id="user-details-modal">
+    <div class="modal-box">
+        <div class="modal-title"><i class="fas fa-user-circle"></i> اطلاعات کاربر</div>
+        <div id="modal-content">
+            <div class="modal-item"><span class="label">نام و نام خانوادگی</span><span class="value" id="modal-name">-</span></div>
+            <div class="modal-item"><span class="label">شماره تماس</span><span class="value" id="modal-phone">-</span></div>
+            <div class="modal-item"><span class="label">کد ملی</span><span class="value" id="modal-national">-</span></div>
+            <div class="modal-item"><span class="label">تاریخ نوبت</span><span class="value" id="modal-date">-</span></div>
+            <div class="modal-item"><span class="label">ساعت</span><span class="value" id="modal-time">-</span></div>
+            <div class="modal-item"><span class="label">نوع مشاوره</span><span class="value" id="modal-type">-</span></div>
+            <div class="modal-item"><span class="label">موضوع</span><span class="value" id="modal-topic">-</span></div>
+        </div>
+        <button class="modal-close" onclick="closeModal()">بستن</button>
+    </div>
+</div>
+
 <nav id="bottom-nav">
     <button class="nav-item" data-page="page-home" data-title="خانه"><span class="nav-icon-wrapper"><i class="fas fa-house"></i></span><span class="nav-label">خانه</span></button>
     <button class="nav-item" data-page="page-appointments" data-title="نوبت"><span class="nav-icon-wrapper"><i class="fas fa-calendar-day"></i></span><span class="nav-label">نوبت</span></button>
@@ -619,15 +682,9 @@
     document.addEventListener('DOMContentLoaded', function() {
         // ===== هدر پویا =====
         const header = document.getElementById('app-header');
-        let lastScroll = 0;
         window.addEventListener('scroll', function() {
-            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-            if (currentScroll > 30) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-            lastScroll = currentScroll;
+            if (window.pageYOffset > 30) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
         }, { passive: true });
 
         // ===== منوی پایین =====
@@ -684,15 +741,11 @@
         }
 
         function closeAllSelects() {
-            document.querySelectorAll('.custom-select-options, .gender-options').forEach(el => {
-                el.classList.remove('open');
-            });
+            document.querySelectorAll('.custom-select-options, .gender-options').forEach(el => el.classList.remove('open'));
         }
 
         document.addEventListener('click', function(e) {
-            if (!e.target.closest('.custom-select-wrapper') && !e.target.closest('.gender-wrapper')) {
-                closeAllSelects();
-            }
+            if (!e.target.closest('.custom-select-wrapper') && !e.target.closest('.gender-wrapper')) closeAllSelects();
         });
 
         setupSelect('time-toggle', 'time-options', 'time-selected', (val) => { selectedTime = val; });
@@ -724,6 +777,29 @@
                 });
             });
         }
+
+        // ===== مودال جزئیات =====
+        window.showUserDetails = function(appointmentId) {
+            const appt = allAppointments.find(a => a.id === appointmentId);
+            if (!appt) { showToast('❌ اطلاعاتی یافت نشد.', 'error'); return; }
+            const p = appt.profiles || {};
+            document.getElementById('modal-name').textContent = p.full_name || 'نامشخص';
+            document.getElementById('modal-phone').textContent = p.phone || 'ندارد';
+            document.getElementById('modal-national').textContent = p.national_code || 'ندارد';
+            document.getElementById('modal-date').textContent = appt.date || '-';
+            document.getElementById('modal-time').textContent = appt.time || '-';
+            document.getElementById('modal-type').textContent = appt.type || '-';
+            document.getElementById('modal-topic').textContent = appt.topic || '-';
+            document.getElementById('user-details-modal').classList.add('open');
+        };
+
+        window.closeModal = function() {
+            document.getElementById('user-details-modal').classList.remove('open');
+        };
+
+        document.getElementById('user-details-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
 
         // ===== ورود =====
         async function signInWithGoogle() {
@@ -1000,6 +1076,7 @@
                             ${a.description ? `<br><i class="fas fa-pen"></i> ${a.description}` : ''}
                         </div>
                         <div class="appointment-actions">
+                            <button class="btn-sm details" onclick="showUserDetails('${a.id}')"><i class="fas fa-user-circle"></i> جزئیات</button>
                             ${a.status === 'در انتظار' ? `
                                 <button class="btn-sm approve" onclick="updateAppointment('${a.id}','تایید')"><i class="fas fa-check"></i> تایید</button>
                                 <button class="btn-sm reject" onclick="updateAppointment('${a.id}','رد')"><i class="fas fa-times"></i> رد</button>
