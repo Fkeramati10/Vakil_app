@@ -7,50 +7,140 @@
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* === تمام استایل‌های قبلی === */
+        /* ===== تنظیمات پایه ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Vazir', -apple-system, BlinkMacSystemFont, sans-serif; }
-        body { background: #f0f2f8; display: flex; justify-content: center; min-height: 100vh; padding-bottom: 90px; padding-top: 0; direction: rtl; color: #1a1a2e; }
+        body { background: #f5f7fb; display: flex; justify-content: center; min-height: 100vh; padding-bottom: 90px; padding-top: 0; direction: rtl; color: #1a1a2e; }
         #app { max-width: 430px; width: 100%; background: #ffffff; min-height: 100vh; box-shadow: 0 0 60px rgba(108,99,255,0.04); position: relative; }
-        #app-header { position: sticky; top: 0; z-index: 150; background: rgba(255,255,255,0.72); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.03); padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+
+        /* ===== هدر ===== */
+        #app-header {
+            position: sticky; top: 0; z-index: 150;
+            background: rgba(255,255,255,0.75); backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(108,99,255,0.04);
+            padding: 10px 16px;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 56px;
+            transition: height 0.3s ease;
+        }
+        #app-header.scrolled { height: 48px; }
         .header-left { display: flex; align-items: center; gap: 10px; }
-        .header-logo { width: 34px; height: 34px; background: linear-gradient(135deg, #6C63FF, #4A3DBF); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 15px; font-weight: 700; box-shadow: 0 4px 12px rgba(108,99,255,0.15); }
+        .header-logo {
+            width: 34px; height: 34px;
+            background: linear-gradient(135deg, #6C63FF, #4A3DBF);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 15px; font-weight: 700;
+            box-shadow: 0 4px 12px rgba(108,99,255,0.15);
+            transition: all 0.3s ease;
+        }
+        #app-header.scrolled .header-logo { width: 28px; height: 28px; font-size: 12px; }
         .header-brand { font-size: 14px; font-weight: 700; color: #1a1a2e; }
         .header-brand span { font-weight: 400; color: #8A8A9A; font-size: 11px; }
         .header-center { position: absolute; left: 50%; transform: translateX(-50%); font-size: 15px; font-weight: 600; color: #1a1a2e; }
         .header-right { display: flex; align-items: center; gap: 6px; }
-        .header-btn { background: rgba(108,99,255,0.04); border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; color: #4A3DBF; cursor: pointer; transition: all 0.2s; }
+        .header-btn {
+            background: rgba(108,99,255,0.04); border: none;
+            width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 17px; color: #4A3DBF; cursor: pointer;
+            transition: all 0.2s;
+        }
         .header-btn:active { transform: scale(0.92); background: rgba(108,99,255,0.08); }
 
-        .page { display: none; padding: 16px 16px 24px; animation: fadeSlide 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+        /* ===== صفحات ===== */
+        .page {
+            display: none;
+            padding: 16px 16px 24px;
+            animation: fadeSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
         .page.active { display: block; }
-        @keyframes fadeSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         .hidden { display: none !important; }
 
-        .glass-card { background: rgba(255,255,255,0.6); backdrop-filter: blur(12px); border-radius: 20px; padding: 18px; border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 24px rgba(108,99,255,0.04); margin-bottom: 16px; }
+        /* ===== کارت‌های شیشه‌ای ===== */
+        .glass-card {
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 8px 32px rgba(108,99,255,0.04), 0 2px 8px rgba(0,0,0,0.02);
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
         .glass-card .title { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
         .glass-card .subtitle { font-size: 13px; color: #8A8A9A; margin-bottom: 16px; }
 
-        .login-card { text-align: center; padding: 36px 24px; background: rgba(255,255,255,0.5); backdrop-filter: blur(12px); border-radius: 24px; border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 8px 32px rgba(108,99,255,0.04); }
+        /* ===== ورود ===== */
+        .login-card {
+            text-align: center;
+            padding: 40px 24px;
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(16px);
+            border-radius: 28px;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 12px 48px rgba(108,99,255,0.04);
+        }
         .login-card .icon { font-size: 52px; margin-bottom: 12px; }
         .login-card .title { font-size: 22px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
         .login-card .subtitle { font-size: 14px; color: #8A8A9A; margin-bottom: 24px; }
-        .btn-google { width: 100%; padding: 14px; background: #ffffff; color: #1a1a2e; border: 1px solid rgba(0,0,0,0.04); border-radius: 16px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.25s; display: flex; align-items: center; justify-content: center; gap: 12px; }
+
+        .btn-google {
+            width: 100%; padding: 14px;
+            background: #ffffff;
+            color: #1a1a2e;
+            border: 1px solid rgba(0,0,0,0.04);
+            border-radius: 16px;
+            font-size: 16px; font-weight: 600;
+            cursor: pointer; transition: all 0.25s;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+        }
         .btn-google:active { transform: scale(0.96); background: #f8f9fe; }
         .btn-google i { font-size: 22px; color: #EA4335; }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 20px; }
-        .stat-box { background: rgba(255,255,255,0.4); backdrop-filter: blur(8px); border-radius: 16px; padding: 14px 8px; text-align: center; border: 1px solid rgba(255,255,255,0.2); }
+        /* ===== آمار ===== */
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 20px;
+        }
+        .stat-box {
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+            padding: 14px 8px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.2s;
+        }
         .stat-box .num { font-size: 24px; font-weight: 700; color: #1a1a2e; }
         .stat-box .label { font-size: 11px; color: #8A8A9A; margin-top: 4px; }
 
+        /* ===== فیلتر ===== */
         .filter-bar { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; flex-wrap: nowrap; }
         .filter-bar::-webkit-scrollbar { height: 2px; }
         .filter-bar::-webkit-scrollbar-thumb { background: #6C63FF; border-radius: 10px; }
-        .filter-btn { background: rgba(108,99,255,0.04); border: 1px solid rgba(108,99,255,0.04); padding: 6px 14px; border-radius: 30px; font-size: 12px; font-weight: 500; color: #8A8A9A; cursor: pointer; transition: all 0.2s; white-space: nowrap; font-family: 'Vazir', sans-serif; }
+        .filter-btn {
+            background: rgba(108,99,255,0.04);
+            border: 1px solid rgba(108,99,255,0.04);
+            padding: 6px 14px; border-radius: 30px;
+            font-size: 12px; font-weight: 500; color: #8A8A9A;
+            cursor: pointer; transition: all 0.2s;
+            white-space: nowrap; font-family: 'Vazir', sans-serif;
+        }
         .filter-btn.active { background: rgba(108,99,255,0.08); border-color: #6C63FF; color: #4A3DBF; }
-        .filter-btn:active { transform: scale(0.94); }
 
-        .appointment-item { background: rgba(255,255,255,0.3); backdrop-filter: blur(8px); border-radius: 16px; padding: 14px; border: 1px solid rgba(255,255,255,0.2); margin-bottom: 10px; }
+        /* ===== نوبت‌ها ===== */
+        .appointment-item {
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(8px);
+            border-radius: 18px;
+            padding: 14px;
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 10px;
+            transition: all 0.2s;
+        }
         .appointment-item:active { transform: scale(0.98); }
         .appointment-top { display: flex; justify-content: space-between; align-items: start; margin-bottom: 6px; }
         .appointment-user { font-weight: 600; color: #1a1a2e; font-size: 15px; }
@@ -58,42 +148,101 @@
         .appointment-info { font-size: 13px; color: #4a4a5a; }
         .appointment-info i { margin-left: 4px; color: #6C63FF; }
         .appointment-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-        .btn-sm { padding: 6px 16px; border: none; border-radius: 30px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Vazir', sans-serif; }
+
+        .btn-sm {
+            padding: 6px 16px; border: none; border-radius: 30px;
+            font-size: 12px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s; font-family: 'Vazir', sans-serif;
+        }
         .btn-sm:active { transform: scale(0.94); }
         .btn-sm.approve { background: rgba(16,185,129,0.10); color: #059669; }
         .btn-sm.reject { background: rgba(239,68,68,0.08); color: #dc2626; }
         .btn-sm.done { background: rgba(79,70,229,0.06); color: #4f46e5; }
         .btn-sm.delete { background: rgba(239,68,68,0.04); color: #ef4444; }
 
-        .status-badge { padding: 2px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .status-badge {
+            padding: 2px 12px; border-radius: 20px;
+            font-size: 11px; font-weight: 600;
+        }
         .status-badge.pending { background: rgba(251,191,36,0.10); color: #d97706; }
         .status-badge.confirmed { background: rgba(16,185,129,0.06); color: #059669; }
         .status-badge.cancelled { background: rgba(239,68,68,0.04); color: #dc2626; }
         .status-badge.done { background: rgba(79,70,229,0.04); color: #4f46e5; }
 
+        /* ===== ساعات کاری ===== */
         .hours-grid { display: flex; flex-direction: column; gap: 10px; }
-        .hour-row { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.2); padding: 10px 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.2); justify-content: space-between; }
+        .hour-row {
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(255,255,255,0.2);
+            padding: 10px 14px; border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.2);
+            justify-content: space-between;
+        }
         .hour-row .day { font-weight: 600; color: #1a1a2e; min-width: 80px; }
         .hour-row .time { color: #4a4a5a; font-size: 14px; }
-        .hour-row .remove-btn { background: rgba(239,68,68,0.04); border: none; color: #ef4444; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; transition: all 0.2s; }
+        .hour-row .remove-btn {
+            background: rgba(239,68,68,0.04);
+            border: none; color: #ef4444;
+            width: 32px; height: 32px; border-radius: 50%;
+            cursor: pointer; transition: all 0.2s;
+        }
         .hour-row .remove-btn:active { transform: scale(0.88); background: rgba(239,68,68,0.08); }
 
-        .add-hour-form { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
-        .add-hour-form select, .add-hour-form input { background: rgba(255,255,255,0.3); border: 1px solid rgba(0,0,0,0.04); border-radius: 12px; padding: 10px 12px; color: #1a1a2e; font-size: 14px; outline: none; font-family: 'Vazir', sans-serif; flex: 1; min-width: 100px; }
+        .add-hour-form {
+            display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px;
+        }
+        .add-hour-form select, .add-hour-form input {
+            background: rgba(255,255,255,0.3);
+            border: 1px solid rgba(0,0,0,0.04);
+            border-radius: 12px;
+            padding: 10px 12px; color: #1a1a2e;
+            font-size: 14px; outline: none;
+            font-family: 'Vazir', sans-serif; flex: 1; min-width: 100px;
+        }
         .add-hour-form select option { background: #fff; color: #1a1a2e; }
-        .add-hour-form .btn-add { background: linear-gradient(135deg, #6C63FF, #4A3DBF); border: none; color: #fff; padding: 10px 20px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Vazir', sans-serif; }
+        .add-hour-form .btn-add {
+            background: linear-gradient(135deg, #6C63FF, #4A3DBF);
+            border: none; color: #fff;
+            padding: 10px 20px; border-radius: 12px;
+            font-weight: 600; cursor: pointer;
+            transition: all 0.2s; font-family: 'Vazir', sans-serif;
+        }
         .add-hour-form .btn-add:active { transform: scale(0.94); }
 
         .empty-state { text-align: center; padding: 40px 20px; color: #8A8A9A; }
         .empty-state i { font-size: 48px; color: #d0d0d8; margin-bottom: 16px; display: block; }
 
-        .dashboard-header { display: flex; align-items: center; gap: 14px; padding: 4px 0 16px; border-bottom: 1px solid rgba(0,0,0,0.03); margin-bottom: 20px; }
-        .dashboard-avatar { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #6C63FF, #4A3DBF); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; color: #fff; flex-shrink: 0; overflow: hidden; }
+        /* ===== داشبورد ===== */
+        .dashboard-header {
+            display: flex; align-items: center; gap: 14px;
+            padding: 4px 0 16px;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+            margin-bottom: 20px;
+        }
+        .dashboard-avatar {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: linear-gradient(135deg, #6C63FF, #4A3DBF);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; font-weight: 700; color: #fff;
+            flex-shrink: 0; overflow: hidden;
+            box-shadow: 0 4px 16px rgba(108,99,255,0.10);
+        }
         .dashboard-user h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; }
         .dashboard-user p { font-size: 13px; color: #8A8A9A; }
 
-        .dashboard-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 4px; }
-        .dash-item { background: rgba(255,255,255,0.4); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2); border-radius: 18px; padding: 18px 12px; text-align: center; transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1); cursor: pointer; }
+        .dashboard-menu {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 4px;
+        }
+        .dash-item {
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 18px;
+            padding: 18px 12px;
+            text-align: center;
+            transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+            cursor: pointer;
+        }
         .dash-item:active { transform: scale(0.94); background: rgba(108,99,255,0.04); }
         .dash-item i { font-size: 28px; color: #6C63FF; margin-bottom: 8px; display: block; }
         .dash-item span { font-size: 13px; font-weight: 500; color: #1a1a2e; }
@@ -101,46 +250,105 @@
         .dash-item.logout i { color: #ff6b6b; }
         .dash-item.logout span { color: #ff6b6b; }
 
+        /* ===== فرم‌ها ===== */
         .form-group { margin-bottom: 16px; }
         .form-group label { display: block; font-size: 13px; font-weight: 600; color: #1a1a2e; margin-bottom: 4px; }
         .form-group label .required { color: #ff6b6b; margin-right: 2px; }
-        .form-group .input-wrapper { display: flex; align-items: center; background: rgba(255,255,255,0.4); backdrop-filter: blur(8px); border-radius: 16px; padding: 0 14px; border: 2px solid rgba(255,255,255,0.2); transition: all 0.25s ease; }
-        .form-group .input-wrapper:focus-within { border-color: #6C63FF; background: rgba(255,255,255,0.8); box-shadow: 0 0 0 4px rgba(108,99,255,0.04); }
-        .form-group .input-wrapper i { color: #6C63FF; font-size: 18px; margin-left: 10px; transition: all 0.25s ease; }
+        .form-group .input-wrapper {
+            display: flex; align-items: center;
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+            padding: 0 14px;
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.25s ease;
+        }
+        .form-group .input-wrapper:focus-within {
+            border-color: #6C63FF;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 0 4px rgba(108,99,255,0.04);
+        }
+        .form-group .input-wrapper i {
+            color: #6C63FF;
+            font-size: 18px;
+            margin-left: 10px;
+            transition: all 0.25s ease;
+        }
         .form-group .input-wrapper:focus-within i { transform: scale(1.05); }
-        .form-group .input-wrapper input, .form-group .input-wrapper textarea { width: 100%; padding: 14px 0; border: none; background: transparent; font-size: 15px; color: #1a1a2e; outline: none; font-family: 'Vazir', sans-serif; resize: none; }
+        .form-group .input-wrapper input, .form-group .input-wrapper textarea {
+            width: 100%; padding: 14px 0;
+            border: none; background: transparent;
+            font-size: 15px; color: #1a1a2e;
+            outline: none; font-family: 'Vazir', sans-serif; resize: none;
+        }
         .form-group .input-wrapper input::placeholder, .form-group .input-wrapper textarea::placeholder { color: #bbb; font-size: 14px; }
         .form-group .input-wrapper textarea { min-height: 60px; padding: 12px 0; }
-        .form-group .input-wrapper input[type="date"] { padding: 14px 0; appearance: none; -webkit-appearance: none; color: #1a1a2e; min-width: 0; }
+        .form-group .input-wrapper input[type="date"] {
+            padding: 14px 0; appearance: none; -webkit-appearance: none;
+            color: #1a1a2e; min-width: 0;
+        }
         .form-group .input-wrapper input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0.4; filter: invert(0.3); padding: 4px; }
 
-        .btn-primary { width: 100%; padding: 14px; background: linear-gradient(135deg, #6C63FF, #4A3DBF); color: #fff; border: none; border-radius: 16px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.25s; box-shadow: 0 4px 20px rgba(108,99,255,0.08); }
-        .btn-primary:active { transform: scale(0.96); }
+        .btn-primary {
+            width: 100%; padding: 14px;
+            background: linear-gradient(135deg, #6C63FF, #4A3DBF);
+            color: #fff; border: none; border-radius: 16px;
+            font-size: 16px; font-weight: 600; cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+            box-shadow: 0 4px 20px rgba(108,99,255,0.08);
+        }
+        .btn-primary:active { transform: scale(0.96); box-shadow: 0 2px 12px rgba(108,99,255,0.04); }
+
+        .btn-secondary {
+            width: 100%; padding: 12px;
+            background: rgba(255,255,255,0.4); backdrop-filter: blur(8px);
+            color: #6C63FF;
+            border: 2px solid rgba(108,99,255,0.06);
+            border-radius: 16px;
+            font-size: 15px; font-weight: 600;
+            cursor: pointer; transition: all 0.25s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-secondary:active { transform: scale(0.96); background: rgba(108,99,255,0.04); }
 
         .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .row-2 .form-group { margin-bottom: 0; }
 
-        .btn-secondary { width: 100%; padding: 12px; background: rgba(255,255,255,0.4); backdrop-filter: blur(8px); color: #6C63FF; border: 2px solid rgba(108,99,255,0.06); border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.25s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-secondary:active { transform: scale(0.96); background: rgba(108,99,255,0.04); }
-
-        .back-btn { background: none; border: none; color: #6C63FF; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 8px 0; margin-bottom: 8px; }
+        .back-btn {
+            background: none; border: none; color: #6C63FF;
+            font-size: 14px; font-weight: 600;
+            cursor: pointer; display: flex; align-items: center; gap: 6px;
+            padding: 8px 0; margin-bottom: 8px;
+        }
         .back-btn:active { opacity: 0.6; }
 
-        .profile-completion { background: rgba(255,255,255,0.3); backdrop-filter: blur(8px); border-radius: 14px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255,255,255,0.2); }
+        .profile-completion {
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(8px);
+            border-radius: 14px;
+            padding: 12px 16px; margin-bottom: 16px;
+            display: flex; align-items: center; justify-content: space-between;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
         .profile-completion .bar { flex: 1; height: 6px; background: rgba(0,0,0,0.04); border-radius: 10px; margin: 0 12px; overflow: hidden; }
-        .profile-completion .bar .fill { height: 100%; background: linear-gradient(90deg, #6C63FF, #4A3DBF); border-radius: 10px; transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+        .profile-completion .bar .fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6C63FF, #4A3DBF);
+            border-radius: 10px;
+            transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1);
+        }
         .profile-completion .label { font-size: 13px; font-weight: 600; color: #1a1a2e; white-space: nowrap; }
 
-        /* ===== منوهای کشویی نرم (مشابه جنسیت) ===== */
+        /* ===== منوهای کشویی ===== */
         .gender-wrapper, .custom-select-wrapper { position: relative; }
         .gender-wrapper .input-wrapper, .custom-select-wrapper .input-wrapper { cursor: pointer; user-select: none; }
         .gender-options, .custom-select-options {
             position: absolute; top: calc(100% + 4px); left: 0; right: 0;
             background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
-            border-radius: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            border-radius: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.06);
             border: 1px solid rgba(0,0,0,0.04); overflow: hidden;
             max-height: 0; opacity: 0;
-            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+            transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
             transform: scale(0.96) translateY(-8px); transform-origin: top center;
             z-index: 50;
         }
@@ -156,29 +364,102 @@
         .gender-options .option .check, .custom-select-options .option .check { margin-right: auto; color: #6C63FF; opacity: 0; }
         .gender-options .option.selected .check, .custom-select-options .option.selected .check { opacity: 1; }
 
-        .date-wrapper { display: flex; align-items: center; background: rgba(255,255,255,0.4); backdrop-filter: blur(8px); border-radius: 16px; padding: 0 14px; border: 2px solid rgba(255,255,255,0.2); transition: all 0.25s ease; }
-        .date-wrapper:focus-within { border-color: #6C63FF; background: rgba(255,255,255,0.8); box-shadow: 0 0 0 4px rgba(108,99,255,0.04); }
+        .date-wrapper {
+            display: flex; align-items: center;
+            background: rgba(255,255,255,0.4); backdrop-filter: blur(8px);
+            border-radius: 16px; padding: 0 14px;
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.25s ease;
+        }
+        .date-wrapper:focus-within {
+            border-color: #6C63FF;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 0 4px rgba(108,99,255,0.04);
+        }
         .date-wrapper i { color: #6C63FF; font-size: 18px; margin-left: 10px; transition: all 0.25s ease; }
         .date-wrapper:focus-within i { transform: scale(1.05); }
-        .date-wrapper input[type="date"] { width: 100%; padding: 14px 0; border: none; background: transparent; font-size: 15px; color: #1a1a2e; outline: none; font-family: 'Vazir', sans-serif; }
+        .date-wrapper input[type="date"] {
+            width: 100%; padding: 14px 0;
+            border: none; background: transparent;
+            font-size: 15px; color: #1a1a2e;
+            outline: none; font-family: 'Vazir', sans-serif;
+        }
         .date-wrapper input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0.4; filter: invert(0.3); padding: 4px; }
 
-        #bottom-nav { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); width: calc(100% - 32px); max-width: 400px; background: rgba(255,255,255,0.78); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); display: flex; justify-content: space-around; align-items: center; padding: 6px 8px 12px; border: 1px solid rgba(255,255,255,0.4); border-radius: 30px; box-shadow: 0 8px 40px rgba(108,99,255,0.04); z-index: 200; height: 68px; }
-        .nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 4px 10px; cursor: pointer; transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1); opacity: 0.5; min-width: 48px; border-radius: 16px; flex: 1; position: relative; }
+        /* ===== منوی پایین ===== */
+        #bottom-nav {
+            position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 32px); max-width: 400px;
+            background: rgba(255,255,255,0.78); backdrop-filter: blur(24px);
+            display: flex; justify-content: space-around; align-items: center;
+            padding: 6px 8px 12px;
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 30px;
+            box-shadow: 0 8px 40px rgba(108,99,255,0.04), 0 2px 12px rgba(0,0,0,0.02);
+            z-index: 200; height: 68px;
+        }
+        .nav-item {
+            background: none; border: none;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 1px; padding: 4px 10px; cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+            opacity: 0.5; min-width: 48px; border-radius: 16px; flex: 1;
+            position: relative;
+        }
         .nav-item.active { opacity: 1; }
-        .nav-item.active .nav-icon-wrapper { background: linear-gradient(135deg, rgba(108,99,255,0.08), rgba(74,61,191,0.04)); backdrop-filter: blur(8px); border: 1px solid rgba(108,99,255,0.08); color: #6C63FF; transform: scale(1); box-shadow: 0 4px 16px rgba(108,99,255,0.04); }
-        .nav-icon-wrapper { width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1); transform: scale(0.92); background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.2); color: #8A8A9A; font-size: 20px; }
+        .nav-item.active .nav-icon-wrapper {
+            background: linear-gradient(135deg, rgba(108,99,255,0.08), rgba(74,61,191,0.04));
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(108,99,255,0.08);
+            color: #6C63FF;
+            transform: scale(1);
+            box-shadow: 0 4px 16px rgba(108,99,255,0.04), inset 0 1px 0 rgba(255,255,255,0.4);
+        }
+        .nav-icon-wrapper {
+            width: 46px; height: 46px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+            transform: scale(0.92);
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #8A8A9A; font-size: 20px;
+        }
         .nav-item:active .nav-icon-wrapper { transform: scale(0.88); }
         .nav-label { font-size: 9px; font-weight: 500; color: #8A8A9A; transition: all 0.2s; letter-spacing: 0.2px; margin-top: 1px; }
         .nav-item.active .nav-label { color: #4A3DBF; font-weight: 600; }
+        .nav-item.active::after {
+            content: ''; position: absolute; bottom: -2px;
+            width: 6px; height: 6px; background: #6C63FF; border-radius: 50%;
+            opacity: 0.4; box-shadow: 0 0 12px rgba(108,99,255,0.08);
+        }
 
-        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 12px 24px; border-radius: 16px; color: #fff; font-weight: 600; font-size: 14px; z-index: 999; animation: toastIn 0.4s cubic-bezier(0.34,1.56,0.64,1); box-shadow: 0 8px 32px rgba(0,0,0,0.06); max-width: 90%; text-align: center; backdrop-filter: blur(12px); }
+        /* ===== Toast ===== */
+        .toast {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            padding: 12px 24px; border-radius: 16px;
+            color: #fff; font-weight: 600; font-size: 14px;
+            z-index: 999; animation: toastIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+            max-width: 90%; text-align: center;
+            backdrop-filter: blur(12px);
+        }
         .toast.success { background: rgba(16,185,129,0.85); }
         .toast.error { background: rgba(239,68,68,0.85); }
         .toast.info { background: rgba(59,130,246,0.85); }
-        @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(-20px) scale(0.95); } to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); } }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(-20px) scale(0.95); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+        }
 
-        #error-display { position: fixed; bottom: 80px; left: 10px; right: 10px; max-height: 200px; overflow: auto; background: rgba(0,0,0,0.85); color: #ff6b6b; padding: 10px; border-radius: 12px; z-index: 9999; font-size: 12px; line-height: 1.6; font-family: monospace; display: none; }
+        #error-display {
+            position: fixed; bottom: 80px; left: 10px; right: 10px;
+            max-height: 200px; overflow: auto;
+            background: rgba(0,0,0,0.85); color: #ff6b6b;
+            padding: 10px; border-radius: 12px;
+            z-index: 9999; font-size: 12px; line-height: 1.6; font-family: monospace;
+            display: none;
+        }
         #error-display.show { display: block; }
         #error-display .close-btn { float: left; background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; }
     </style>
@@ -236,16 +517,10 @@
                 <div class="subtitle">اطلاعات نوبت خود را وارد کنید</div>
                 <form id="user-appointment-form">
                     <div class="form-group"><label>تاریخ نوبت <span class="required">*</span></label><div class="date-wrapper"><i class="fas fa-calendar-day"></i><input type="date" id="user-appt-date"></div></div>
-
-                    <!-- ساعت (منوی نرم) -->
                     <div class="form-group">
                         <label>ساعت <span class="required">*</span></label>
                         <div class="custom-select-wrapper" id="time-wrapper">
-                            <div class="input-wrapper" id="time-toggle">
-                                <i class="fas fa-clock"></i>
-                                <span id="time-selected" style="padding:14px 0; font-size:15px; color:#8A8A9A;">انتخاب ساعت</span>
-                                <i class="fas fa-chevron-down" style="margin-right:auto; color:#8A8A9A; font-size:14px;"></i>
-                            </div>
+                            <div class="input-wrapper" id="time-toggle"><i class="fas fa-clock"></i><span id="time-selected" style="padding:14px 0;font-size:15px;color:#8A8A9A;">انتخاب ساعت</span><i class="fas fa-chevron-down" style="margin-right:auto;color:#8A8A9A;font-size:14px;"></i></div>
                             <div class="custom-select-options" id="time-options">
                                 <div class="option" data-value="18:00">۱۸:۰۰ <span class="check"><i class="fas fa-check"></i></span></div>
                                 <div class="option" data-value="18:30">۱۸:۳۰ <span class="check"><i class="fas fa-check"></i></span></div>
@@ -259,32 +534,20 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- نوع مشاوره (منوی نرم) -->
                     <div class="form-group">
                         <label>نوع مشاوره <span class="required">*</span></label>
                         <div class="custom-select-wrapper" id="type-wrapper">
-                            <div class="input-wrapper" id="type-toggle">
-                                <i class="fas fa-handshake"></i>
-                                <span id="type-selected" style="padding:14px 0; font-size:15px; color:#8A8A9A;">انتخاب کنید</span>
-                                <i class="fas fa-chevron-down" style="margin-right:auto; color:#8A8A9A; font-size:14px;"></i>
-                            </div>
+                            <div class="input-wrapper" id="type-toggle"><i class="fas fa-handshake"></i><span id="type-selected" style="padding:14px 0;font-size:15px;color:#8A8A9A;">انتخاب کنید</span><i class="fas fa-chevron-down" style="margin-right:auto;color:#8A8A9A;font-size:14px;"></i></div>
                             <div class="custom-select-options" id="type-options">
                                 <div class="option" data-value="حضوری">حضوری <span class="check"><i class="fas fa-check"></i></span></div>
                                 <div class="option" data-value="تلفنی">تلفنی <span class="check"><i class="fas fa-check"></i></span></div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- موضوع (منوی نرم) -->
                     <div class="form-group">
                         <label>موضوع <span class="required">*</span></label>
                         <div class="custom-select-wrapper" id="topic-wrapper">
-                            <div class="input-wrapper" id="topic-toggle">
-                                <i class="fas fa-tag"></i>
-                                <span id="topic-selected" style="padding:14px 0; font-size:15px; color:#8A8A9A;">انتخاب کنید</span>
-                                <i class="fas fa-chevron-down" style="margin-right:auto; color:#8A8A9A; font-size:14px;"></i>
-                            </div>
+                            <div class="input-wrapper" id="topic-toggle"><i class="fas fa-tag"></i><span id="topic-selected" style="padding:14px 0;font-size:15px;color:#8A8A9A;">انتخاب کنید</span><i class="fas fa-chevron-down" style="margin-right:auto;color:#8A8A9A;font-size:14px;"></i></div>
                             <div class="custom-select-options" id="topic-options">
                                 <div class="option" data-value="ملکی">ملکی <span class="check"><i class="fas fa-check"></i></span></div>
                                 <div class="option" data-value="خانوادگی">خانوادگی <span class="check"><i class="fas fa-check"></i></span></div>
@@ -295,7 +558,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="form-group"><label>توضیحات اضافی</label><div class="input-wrapper"><i class="fas fa-pen"></i><textarea id="user-appt-desc" placeholder="توضیحات بیشتر..." rows="2"></textarea></div></div>
                     <button type="button" class="btn-primary" id="user-submit-appointment"><i class="fas fa-check"></i> ثبت نوبت</button>
                 </form>
@@ -355,6 +617,20 @@
     };
 
     document.addEventListener('DOMContentLoaded', function() {
+        // ===== هدر پویا =====
+        const header = document.getElementById('app-header');
+        let lastScroll = 0;
+        window.addEventListener('scroll', function() {
+            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            if (currentScroll > 30) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            lastScroll = currentScroll;
+        }, { passive: true });
+
+        // ===== منوی پایین =====
         const navItems = document.querySelectorAll('.nav-item');
         const pages = document.querySelectorAll('.page');
         const pageTitle = document.getElementById('page-title');
@@ -381,7 +657,7 @@
         let currentUser = null, userRole = 'user', allAppointments = [], currentFilter = 'all', selectedGender = '';
         let selectedTime = '', selectedType = '', selectedTopic = '';
 
-        // ===== منوهای کشویی نرم (ساعت، نوع، موضوع) =====
+        // ===== منوهای کشویی =====
         function setupSelect(toggleId, optionsId, selectedId, callback) {
             const toggle = document.getElementById(toggleId);
             const options = document.getElementById(optionsId);
@@ -449,7 +725,7 @@
             });
         }
 
-        // ===== ورود با گوگل =====
+        // ===== ورود =====
         async function signInWithGoogle() {
             try {
                 const { data, error } = await supabase.auth.signInWithOAuth({
