@@ -767,18 +767,31 @@
             });
         }
 
-        // ===== مودال جزئیات (با کوئری مستقیم) =====
+        // ===== مودال جزئیات (با لاگ) =====
         window.showUserDetails = async function(appointmentId) {
             try {
+                console.log("🔍 دریافت نوبت با ID:", appointmentId);
+
                 // گرفتن اطلاعات نوبت
                 const { data: appt, error: err1 } = await supabase
                     .from('appointments')
                     .select('*')
                     .eq('id', appointmentId)
                     .single();
-                
-                if (err1) { showToast('❌ خطا در دریافت نوبت: ' + err1.message, 'error'); return; }
-                if (!appt) { showToast('❌ نوبتی یافت نشد.', 'error'); return; }
+
+                if (err1) {
+                    console.error("❌ خطا در دریافت نوبت:", err1);
+                    showToast('❌ خطا در دریافت نوبت: ' + err1.message, 'error');
+                    return;
+                }
+                if (!appt) {
+                    console.warn("⚠️ نوبتی یافت نشد.");
+                    showToast('❌ نوبتی یافت نشد.', 'error');
+                    return;
+                }
+
+                console.log("✅ نوبت دریافت شد:", appt);
+                console.log("👤 user_id:", appt.user_id);
 
                 // گرفتن اطلاعات کاربر از پروفایل
                 const { data: profile, error: err2 } = await supabase
@@ -788,7 +801,9 @@
                     .single();
 
                 if (err2) {
-                    console.error('❌ خطا در دریافت پروفایل:', err2);
+                    console.error("❌ خطا در دریافت پروفایل:", err2);
+                } else {
+                    console.log("✅ پروفایل دریافت شد:", profile);
                 }
 
                 const p = profile || {};
@@ -801,7 +816,7 @@
                 document.getElementById('modal-topic').textContent = appt.topic || '-';
                 document.getElementById('user-details-modal').classList.add('open');
             } catch (err) {
-                console.error('❌ Exception:', err);
+                console.error("❌ Exception:", err);
                 showToast('❌ خطا: ' + err.message, 'error');
             }
         };
