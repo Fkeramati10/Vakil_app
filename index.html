@@ -669,12 +669,10 @@
     };
 
     document.addEventListener('DOMContentLoaded', function() {
-        // ===== هدر پویا =====
-        const header = document.getElementById('app-header');
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 30) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
-        }, { passive: true });
+        const supabase = window.supabase.createClient(
+            'https://rfjhyymswozpstzqohzm.supabase.co',
+            'sb_publishable_PYNaTLccSNKtkzN_UANBpw_fGA2H9F2'
+        );
 
         // ===== منوی پایین =====
         const navItems = document.querySelectorAll('.nav-item');
@@ -694,11 +692,6 @@
                 if (pageId === 'page-appointments') checkAuthAppointments();
             });
         });
-
-        const supabase = window.supabase.createClient(
-            'https://rfjhyymswozpstzqohzm.supabase.co',
-            'sb_publishable_PYNaTLccSNKtkzN_UANBpw_fGA2H9F2'
-        );
 
         let currentUser = null, userRole = 'user', currentFilter = 'all', selectedGender = '';
         let selectedTime = '', selectedType = '', selectedTopic = '';
@@ -767,60 +760,45 @@
             });
         }
 
-        // ===== مودال جزئیات (با maybeSingle) =====
+        // ===== مودال جزئیات با LEFT JOIN مستقیم =====
         window.showUserDetails = async function(appointmentId) {
             try {
                 console.log("🔍 دریافت نوبت با ID:", appointmentId);
 
-                const { data: appt, error: err1 } = await supabase
+                const { data, error } = await supabase
                     .from('appointments')
-                    .select('*')
+                    .select(`
+                        *,
+                        profiles!appointments_user_id_fkey (
+                            full_name,
+                            phone,
+                            national_code
+                        )
+                    `)
                     .eq('id', appointmentId)
-                    .maybeSingle();
+                    .single();
 
-                if (err1) {
-                    console.error("❌ خطا در دریافت نوبت:", err1);
-                    showToast('❌ خطا در دریافت نوبت: ' + err1.message, 'error');
+                if (error) {
+                    console.error("❌ خطا در دریافت داده:", error);
+                    showToast('❌ خطا: ' + error.message, 'error');
                     return;
                 }
-                if (!appt) {
+                if (!data) {
                     console.warn("⚠️ نوبتی یافت نشد.");
                     showToast('❌ نوبتی یافت نشد.', 'error');
                     return;
                 }
 
-                console.log("✅ نوبت دریافت شد:", appt);
-                console.log("👤 user_id:", appt.user_id);
+                console.log("✅ داده کامل:", data);
 
-                const { data: profile, error: err2 } = await supabase
-                    .from('profiles')
-                    .select('full_name, phone, national_code')
-                    .eq('id', appt.user_id)
-                    .maybeSingle();
-
-                if (err2) {
-                    console.error("❌ خطا در دریافت پروفایل:", err2);
-                    document.getElementById('modal-name').textContent = 'خطا در دریافت';
-                    document.getElementById('modal-phone').textContent = 'خطا در دریافت';
-                    document.getElementById('modal-national').textContent = 'خطا در دریافت';
-                    document.getElementById('modal-date').textContent = appt.date || '-';
-                    document.getElementById('modal-time').textContent = appt.time || '-';
-                    document.getElementById('modal-type').textContent = appt.type || '-';
-                    document.getElementById('modal-topic').textContent = appt.topic || '-';
-                    document.getElementById('user-details-modal').classList.add('open');
-                    return;
-                }
-
-                console.log("✅ پروفایل دریافت شد:", profile);
-
-                const p = profile || {};
+                const p = data.profiles || {};
                 document.getElementById('modal-name').textContent = p.full_name || 'تکمیل نشده';
                 document.getElementById('modal-phone').textContent = p.phone || 'تکمیل نشده';
                 document.getElementById('modal-national').textContent = p.national_code || 'تکمیل نشده';
-                document.getElementById('modal-date').textContent = appt.date || '-';
-                document.getElementById('modal-time').textContent = appt.time || '-';
-                document.getElementById('modal-type').textContent = appt.type || '-';
-                document.getElementById('modal-topic').textContent = appt.topic || '-';
+                document.getElementById('modal-date').textContent = data.date || '-';
+                document.getElementById('modal-time').textContent = data.time || '-';
+                document.getElementById('modal-type').textContent = data.type || '-';
+                document.getElementById('modal-topic').textContent = data.topic || '-';
                 document.getElementById('user-details-modal').classList.add('open');
             } catch (err) {
                 console.error("❌ Exception:", err);
@@ -836,7 +814,7 @@
             if (e.target === this) closeModal();
         });
 
-        // ===== ورود =====
+        // ===== ورود و خروج =====
         async function signInWithGoogle() {
             try {
                 const { data, error } = await supabase.auth.signInWithOAuth({
@@ -853,6 +831,7 @@
             try { await supabase.auth.signOut(); window.location.reload(); } catch (err) { showToast('❌ خطا در خروج: ' + err.message, 'error'); }
         });
 
+        // ===== نمایش بخش‌ها =====
         window.showDashboard = function() {
             document.getElementById('dashboard-section').classList.remove('hidden');
             document.getElementById('profile-section').classList.add('hidden');
