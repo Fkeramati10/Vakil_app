@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* === تمام استایل‌های قبلی (همون کد آخر) === */
+        /* === تمام استایل‌های قبلی === */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Vazir', -apple-system, BlinkMacSystemFont, sans-serif; }
         body { background: #f5f7fb; display: flex; justify-content: center; min-height: 100vh; padding-bottom: 90px; padding-top: 0; direction: rtl; color: #1a1a2e; }
         #app { max-width: 430px; width: 100%; background: #ffffff; min-height: 100vh; box-shadow: 0 0 60px rgba(108,99,255,0.04); position: relative; }
@@ -162,7 +162,6 @@
         .status-badge.cancelled { background: rgba(239,68,68,0.04); color: #dc2626; }
         .status-badge.done { background: rgba(79,70,229,0.04); color: #4f46e5; }
 
-        /* ===== مودال جزئیات کاربر ===== */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.3);
@@ -207,7 +206,6 @@
         }
         .modal-close:active { transform: scale(0.96); background: rgba(108,99,255,0.10); }
 
-        /* ===== ساعات کاری ===== */
         .hours-grid { display: flex; flex-direction: column; gap: 10px; }
         .hour-row {
             display: flex; align-items: center; gap: 10px;
@@ -250,7 +248,6 @@
         .empty-state { text-align: center; padding: 40px 20px; color: #8A8A9A; }
         .empty-state i { font-size: 48px; color: #d0d0d8; margin-bottom: 16px; display: block; }
 
-        /* ===== داشبورد ===== */
         .dashboard-header {
             display: flex; align-items: center; gap: 14px;
             padding: 4px 0 16px;
@@ -288,7 +285,6 @@
         .dash-item.logout i { color: #ff6b6b; }
         .dash-item.logout span { color: #ff6b6b; }
 
-        /* ===== فرم‌ها ===== */
         .form-group { margin-bottom: 16px; }
         .form-group label { display: block; font-size: 13px; font-weight: 600; color: #1a1a2e; margin-bottom: 4px; }
         .form-group label .required { color: #ff6b6b; margin-right: 2px; }
@@ -377,7 +373,6 @@
         }
         .profile-completion .label { font-size: 13px; font-weight: 600; color: #1a1a2e; white-space: nowrap; }
 
-        /* ===== منوهای کشویی ===== */
         .gender-wrapper, .custom-select-wrapper { position: relative; }
         .gender-wrapper .input-wrapper, .custom-select-wrapper .input-wrapper { cursor: pointer; user-select: none; }
         .gender-options, .custom-select-options {
@@ -424,7 +419,6 @@
         }
         .date-wrapper input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0.4; filter: invert(0.3); padding: 4px; }
 
-        /* ===== منوی پایین ===== */
         #bottom-nav {
             position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
             width: calc(100% - 32px); max-width: 400px;
@@ -472,7 +466,6 @@
             opacity: 0.4; box-shadow: 0 0 12px rgba(108,99,255,0.08);
         }
 
-        /* ===== Toast ===== */
         .toast {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
             padding: 12px 24px; border-radius: 16px;
@@ -633,7 +626,7 @@
     </div>
 </div>
 
-<!-- ===== مودال جزئیات کاربر ===== -->
+<!-- ===== مودال ===== -->
 <div class="modal-overlay" id="user-details-modal">
     <div class="modal-box">
         <div class="modal-title"><i class="fas fa-user-circle"></i> اطلاعات کاربر</div>
@@ -674,7 +667,6 @@
             'sb_publishable_PYNaTLccSNKtkzN_UANBpw_fGA2H9F2'
         );
 
-        // ===== منوی پایین =====
         const navItems = document.querySelectorAll('.nav-item');
         const pages = document.querySelectorAll('.page');
         const pageTitle = document.getElementById('page-title');
@@ -760,46 +752,87 @@
             });
         }
 
-        // ===== مودال جزئیات با LEFT JOIN مستقیم =====
+        // ===== مودال با ساخت خودکار پروفایل =====
         window.showUserDetails = async function(appointmentId) {
             try {
                 console.log("🔍 دریافت نوبت با ID:", appointmentId);
 
-                const { data, error } = await supabase
+                // ۱. گرفتن نوبت
+                const { data: appt, error: err1 } = await supabase
                     .from('appointments')
-                    .select(`
-                        *,
-                        profiles!appointments_user_id_fkey (
-                            full_name,
-                            phone,
-                            national_code
-                        )
-                    `)
+                    .select('*, profiles!appointments_user_id_fkey(full_name, phone, national_code)')
                     .eq('id', appointmentId)
                     .single();
 
-                if (error) {
-                    console.error("❌ خطا در دریافت داده:", error);
-                    showToast('❌ خطا: ' + error.message, 'error');
-                    return;
-                }
-                if (!data) {
-                    console.warn("⚠️ نوبتی یافت نشد.");
-                    showToast('❌ نوبتی یافت نشد.', 'error');
+                if (err1 || !appt) {
+                    showToast('❌ نوبت یافت نشد.', 'error');
                     return;
                 }
 
-                console.log("✅ داده کامل:", data);
+                console.log("✅ نوبت:", appt);
 
-                const p = data.profiles || {};
+                // ۲. اگر پروفایل وجود نداشت، از auth.users بگیر و بساز
+                let profile = appt.profiles;
+                if (!profile || !profile.full_name) {
+                    console.log("⚠️ پروفایل وجود ندارد، در حال ساخت از auth.users...");
+
+                    // گرفتن اطلاعات از auth.users
+                    const { data: userData, error: userErr } = await supabase
+                        .from('auth.users')
+                        .select('raw_user_meta_data')
+                        .eq('id', appt.user_id)
+                        .single();
+
+                    if (userErr) {
+                        console.error("❌ خطا در دریافت اطلاعات کاربر از auth:", userErr);
+                    } else {
+                        const meta = userData?.raw_user_meta_data || {};
+                        const full_name = meta.full_name || meta.name || 'کاربر گوگل';
+                        const phone = meta.phone || '';
+                        const national_code = meta.national_code || '';
+
+                        // درج یا بروزرسانی در profiles
+                        const { error: upsertErr } = await supabase
+                            .from('profiles')
+                            .upsert({
+                                id: appt.user_id,
+                                full_name: full_name,
+                                phone: phone,
+                                national_code: national_code,
+                                updated_at: new Date().toISOString()
+                            }, { onConflict: 'id' });
+
+                        if (upsertErr) {
+                            console.error("❌ خطا در ساخت پروفایل:", upsertErr);
+                        } else {
+                            console.log("✅ پروفایل ساخته شد.");
+                            // دوباره نوبت رو بگیر تا پروفایل جدید رو نشون بده
+                            const { data: newAppt } = await supabase
+                                .from('appointments')
+                                .select('*, profiles!appointments_user_id_fkey(full_name, phone, national_code)')
+                                .eq('id', appointmentId)
+                                .single();
+                            if (newAppt) {
+                                profile = newAppt.profiles;
+                                appt.date = newAppt.date;
+                                appt.time = newAppt.time;
+                                appt.type = newAppt.type;
+                                appt.topic = newAppt.topic;
+                            }
+                        }
+                    }
+                }
+
+                const p = profile || {};
                 document.getElementById('modal-name').textContent = p.full_name || 'تکمیل نشده';
                 document.getElementById('modal-phone').textContent = p.phone || 'تکمیل نشده';
                 document.getElementById('modal-national').textContent = p.national_code || 'تکمیل نشده';
-                document.getElementById('modal-date').textContent = data.date || '-';
-                document.getElementById('modal-time').textContent = data.time || '-';
-                document.getElementById('modal-type').textContent = data.type || '-';
-                document.getElementById('modal-topic').textContent = data.topic || '-';
+                document.getElementById('modal-date').textContent = appt.date || '-';
+                document.getElementById('modal-time').textContent = appt.time || '-';
+                document.getElementById('modal-type').textContent = appt.type || '-';
+                document.getElementById('modal-topic').textContent = appt.topic || '-';
                 document.getElementById('user-details-modal').classList.add('open');
+
             } catch (err) {
                 console.error("❌ Exception:", err);
                 showToast('❌ خطا: ' + err.message, 'error');
