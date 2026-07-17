@@ -108,8 +108,7 @@
         .form-group .input-wrapper:focus-within { border-color: #6C63FF; background: rgba(255,255,255,0.8); box-shadow: 0 0 0 4px rgba(108,99,255,0.04); }
         .form-group .input-wrapper i { color: #6C63FF; font-size: 18px; margin-left: 10px; transition: all 0.25s ease; }
         .form-group .input-wrapper:focus-within i { transform: scale(1.05); }
-        .form-group .input-wrapper input, .form-group .input-wrapper select, .form-group .input-wrapper textarea { width: 100%; padding: 14px 0; border: none; background: transparent; font-size: 15px; color: #1a1a2e; outline: none; font-family: 'Vazir', sans-serif; resize: none; }
-        .form-group .input-wrapper select { appearance: none; -webkit-appearance: none; cursor: pointer; }
+        .form-group .input-wrapper input, .form-group .input-wrapper textarea { width: 100%; padding: 14px 0; border: none; background: transparent; font-size: 15px; color: #1a1a2e; outline: none; font-family: 'Vazir', sans-serif; resize: none; }
         .form-group .input-wrapper input::placeholder, .form-group .input-wrapper textarea::placeholder { color: #bbb; font-size: 14px; }
         .form-group .input-wrapper textarea { min-height: 60px; padding: 12px 0; }
         .form-group .input-wrapper input[type="date"] { padding: 14px 0; appearance: none; -webkit-appearance: none; color: #1a1a2e; min-width: 0; }
@@ -132,16 +131,30 @@
         .profile-completion .bar .fill { height: 100%; background: linear-gradient(90deg, #6C63FF, #4A3DBF); border-radius: 10px; transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1); }
         .profile-completion .label { font-size: 13px; font-weight: 600; color: #1a1a2e; white-space: nowrap; }
 
-        .gender-wrapper { position: relative; }
-        .gender-wrapper .input-wrapper { cursor: pointer; user-select: none; }
-        .gender-options { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #ffffff; border-radius: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.04); overflow: hidden; max-height: 0; opacity: 0; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); transform: scale(0.96) translateY(-8px); transform-origin: top center; z-index: 50; }
-        .gender-options.open { max-height: 200px; opacity: 1; transform: scale(1) translateY(0); }
-        .gender-options .option { padding: 12px 16px; font-size: 15px; color: #1a1a2e; cursor: pointer; transition: background 0.15s; display: flex; align-items: center; gap: 10px; }
-        .gender-options .option:active { background: #f5f7fb; }
-        .gender-options .option i { width: 20px; color: #6C63FF; }
-        .gender-options .option.selected { background: rgba(108,99,255,0.06); font-weight: 600; }
-        .gender-options .option .check { margin-right: auto; color: #6C63FF; opacity: 0; }
-        .gender-options .option.selected .check { opacity: 1; }
+        /* ===== منوهای کشویی نرم (مشابه جنسیت) ===== */
+        .gender-wrapper, .custom-select-wrapper { position: relative; }
+        .gender-wrapper .input-wrapper, .custom-select-wrapper .input-wrapper { cursor: pointer; user-select: none; }
+        .gender-options, .custom-select-options {
+            position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+            border-radius: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.04); overflow: hidden;
+            max-height: 0; opacity: 0;
+            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+            transform: scale(0.96) translateY(-8px); transform-origin: top center;
+            z-index: 50;
+        }
+        .gender-options.open, .custom-select-options.open { max-height: 200px; opacity: 1; transform: scale(1) translateY(0); }
+        .gender-options .option, .custom-select-options .option {
+            padding: 12px 16px; font-size: 15px; color: #1a1a2e;
+            cursor: pointer; transition: background 0.15s;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .gender-options .option:active, .custom-select-options .option:active { background: rgba(108,99,255,0.04); }
+        .gender-options .option i, .custom-select-options .option i { width: 20px; color: #6C63FF; }
+        .gender-options .option.selected, .custom-select-options .option.selected { background: rgba(108,99,255,0.06); font-weight: 600; }
+        .gender-options .option .check, .custom-select-options .option .check { margin-right: auto; color: #6C63FF; opacity: 0; }
+        .gender-options .option.selected .check, .custom-select-options .option.selected .check { opacity: 1; }
 
         .date-wrapper { display: flex; align-items: center; background: rgba(255,255,255,0.4); backdrop-filter: blur(8px); border-radius: 16px; padding: 0 14px; border: 2px solid rgba(255,255,255,0.2); transition: all 0.25s ease; }
         .date-wrapper:focus-within { border-color: #6C63FF; background: rgba(255,255,255,0.8); box-shadow: 0 0 0 4px rgba(108,99,255,0.04); }
@@ -197,8 +210,7 @@
                 <div id="hours-list" class="hours-grid"><div class="empty-state" style="padding:20px 0;"><i class="fas fa-clock" style="font-size:32px;"></i><p style="font-size:14px;">هنوز ساعتی تنظیم نشده</p></div></div>
                 <div class="add-hour-form">
                     <select id="day-select"><option value="0">شنبه</option><option value="1">یکشنبه</option><option value="2">دوشنبه</option><option value="3">سه‌شنبه</option><option value="4">چهارشنبه</option><option value="5">پنج‌شنبه</option><option value="6">جمعه</option></select>
-                    <input type="time" id="start-time" value="18:00">
-                    <input type="time" id="end-time" value="22:00">
+                    <input type="time" id="start-time" value="18:00"><input type="time" id="end-time" value="22:00">
                     <button class="btn-add" id="add-hour-btn">➕</button>
                 </div>
             </div>
@@ -224,9 +236,66 @@
                 <div class="subtitle">اطلاعات نوبت خود را وارد کنید</div>
                 <form id="user-appointment-form">
                     <div class="form-group"><label>تاریخ نوبت <span class="required">*</span></label><div class="date-wrapper"><i class="fas fa-calendar-day"></i><input type="date" id="user-appt-date"></div></div>
-                    <div class="form-group"><label>ساعت <span class="required">*</span></label><div class="input-wrapper"><i class="fas fa-clock"></i><select id="user-appt-time"><option value="">انتخاب ساعت</option></select></div></div>
-                    <div class="form-group"><label>نوع مشاوره <span class="required">*</span></label><div class="input-wrapper"><i class="fas fa-handshake"></i><select id="user-appt-type"><option value="">انتخاب کنید</option><option value="حضوری">حضوری</option><option value="تلفنی">تلفنی</option></select></div></div>
-                    <div class="form-group"><label>موضوع <span class="required">*</span></label><div class="input-wrapper"><i class="fas fa-tag"></i><select id="user-appt-topic"><option value="">انتخاب کنید</option><option value="ملکی">ملکی</option><option value="خانوادگی">خانوادگی</option><option value="تجاری">تجاری</option><option value="کار و قرارداد">کار و قرارداد</option><option value="کیفری">کیفری</option><option value="دیگر">دیگر</option></select></div></div>
+
+                    <!-- ساعت (منوی نرم) -->
+                    <div class="form-group">
+                        <label>ساعت <span class="required">*</span></label>
+                        <div class="custom-select-wrapper" id="time-wrapper">
+                            <div class="input-wrapper" id="time-toggle">
+                                <i class="fas fa-clock"></i>
+                                <span id="time-selected" style="padding:14px 0; font-size:15px; color:#8A8A9A;">انتخاب ساعت</span>
+                                <i class="fas fa-chevron-down" style="margin-right:auto; color:#8A8A9A; font-size:14px;"></i>
+                            </div>
+                            <div class="custom-select-options" id="time-options">
+                                <div class="option" data-value="18:00">۱۸:۰۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                <div class="option" data-value="18:30">۱۸:۳۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                <div class="option" data-value="19:00">۱۹:۰۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                <div class="option" data-value="19:30">۱۹:۳۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                <div class="option" data-value="20:00">۲۰:۰۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                <div class="option" data-value="20:30">۲۰:۳۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                <div class="option" data-value="21:00">۲۱:۰۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                <div class="option" data-value="21:30">۲۱:۳۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                                <div class="option" data-value="22:00">۲۲:۰۰ <span class="check"><i class="fas fa-check"></i></span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- نوع مشاوره (منوی نرم) -->
+                    <div class="form-group">
+                        <label>نوع مشاوره <span class="required">*</span></label>
+                        <div class="custom-select-wrapper" id="type-wrapper">
+                            <div class="input-wrapper" id="type-toggle">
+                                <i class="fas fa-handshake"></i>
+                                <span id="type-selected" style="padding:14px 0; font-size:15px; color:#8A8A9A;">انتخاب کنید</span>
+                                <i class="fas fa-chevron-down" style="margin-right:auto; color:#8A8A9A; font-size:14px;"></i>
+                            </div>
+                            <div class="custom-select-options" id="type-options">
+                                <div class="option" data-value="حضوری">حضوری <span class="check"><i class="fas fa-check"></i></span></div>
+                                <div class="option" data-value="تلفنی">تلفنی <span class="check"><i class="fas fa-check"></i></span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- موضوع (منوی نرم) -->
+                    <div class="form-group">
+                        <label>موضوع <span class="required">*</span></label>
+                        <div class="custom-select-wrapper" id="topic-wrapper">
+                            <div class="input-wrapper" id="topic-toggle">
+                                <i class="fas fa-tag"></i>
+                                <span id="topic-selected" style="padding:14px 0; font-size:15px; color:#8A8A9A;">انتخاب کنید</span>
+                                <i class="fas fa-chevron-down" style="margin-right:auto; color:#8A8A9A; font-size:14px;"></i>
+                            </div>
+                            <div class="custom-select-options" id="topic-options">
+                                <div class="option" data-value="ملکی">ملکی <span class="check"><i class="fas fa-check"></i></span></div>
+                                <div class="option" data-value="خانوادگی">خانوادگی <span class="check"><i class="fas fa-check"></i></span></div>
+                                <div class="option" data-value="تجاری">تجاری <span class="check"><i class="fas fa-check"></i></span></div>
+                                <div class="option" data-value="کار و قرارداد">کار و قرارداد <span class="check"><i class="fas fa-check"></i></span></div>
+                                <div class="option" data-value="کیفری">کیفری <span class="check"><i class="fas fa-check"></i></span></div>
+                                <div class="option" data-value="دیگر">دیگر <span class="check"><i class="fas fa-check"></i></span></div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group"><label>توضیحات اضافی</label><div class="input-wrapper"><i class="fas fa-pen"></i><textarea id="user-appt-desc" placeholder="توضیحات بیشتر..." rows="2"></textarea></div></div>
                     <button type="button" class="btn-primary" id="user-submit-appointment"><i class="fas fa-check"></i> ثبت نوبت</button>
                 </form>
@@ -310,7 +379,77 @@
         );
 
         let currentUser = null, userRole = 'user', allAppointments = [], currentFilter = 'all', selectedGender = '';
+        let selectedTime = '', selectedType = '', selectedTopic = '';
 
+        // ===== منوهای کشویی نرم (ساعت، نوع، موضوع) =====
+        function setupSelect(toggleId, optionsId, selectedId, callback) {
+            const toggle = document.getElementById(toggleId);
+            const options = document.getElementById(optionsId);
+            const selected = document.getElementById(selectedId);
+
+            toggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                closeAllSelects();
+                options.classList.toggle('open');
+            });
+
+            options.querySelectorAll('.option').forEach(opt => {
+                opt.addEventListener('click', function() {
+                    const val = this.dataset.value;
+                    const text = this.textContent.trim().replace('✓', '').trim();
+                    selected.textContent = text;
+                    selected.style.color = '#1a1a2e';
+                    options.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    options.classList.remove('open');
+                    if (callback) callback(val);
+                });
+            });
+        }
+
+        function closeAllSelects() {
+            document.querySelectorAll('.custom-select-options, .gender-options').forEach(el => {
+                el.classList.remove('open');
+            });
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.custom-select-wrapper') && !e.target.closest('.gender-wrapper')) {
+                closeAllSelects();
+            }
+        });
+
+        setupSelect('time-toggle', 'time-options', 'time-selected', (val) => { selectedTime = val; });
+        setupSelect('type-toggle', 'type-options', 'type-selected', (val) => { selectedType = val; });
+        setupSelect('topic-toggle', 'topic-options', 'topic-selected', (val) => { selectedTopic = val; });
+
+        // ===== جنسیت =====
+        const genderToggle = document.getElementById('gender-toggle');
+        const genderOptions = document.getElementById('gender-options');
+        const genderSelected = document.getElementById('gender-selected');
+
+        if (genderToggle) {
+            genderToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                closeAllSelects();
+                genderOptions.classList.toggle('open');
+            });
+
+            document.querySelectorAll('.gender-options .option').forEach(opt => {
+                opt.addEventListener('click', function() {
+                    const val = this.dataset.value, text = this.textContent.trim().replace('✓', '').trim();
+                    selectedGender = val;
+                    genderSelected.textContent = text;
+                    genderSelected.style.color = '#1a1a2e';
+                    document.querySelectorAll('.gender-options .option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    genderOptions.classList.remove('open');
+                    updateCompletion();
+                });
+            });
+        }
+
+        // ===== ورود با گوگل =====
         async function signInWithGoogle() {
             try {
                 const { data, error } = await supabase.auth.signInWithOAuth({
@@ -361,30 +500,6 @@
                 const statusMap = { 'در انتظار': 'pending', 'تایید': 'confirmed', 'رد': 'cancelled', 'انجام شده': 'done' };
                 return `<div class="appointment-item"><div class="appointment-top"><span class="appointment-user">${a.date} - ${a.time}</span><span class="status-badge ${statusMap[a.status] || 'pending'}">${a.status}</span></div><div class="appointment-info"><i class="fas fa-handshake"></i> ${a.type} &nbsp;|&nbsp; <i class="fas fa-tag"></i> ${a.topic}</div></div>`;
             }).join('');
-        }
-
-        const genderToggle = document.getElementById('gender-toggle');
-        const genderOptions = document.getElementById('gender-options');
-        const genderSelected = document.getElementById('gender-selected');
-        if (genderToggle) {
-            genderToggle.addEventListener('click', function(e) { e.stopPropagation(); genderOptions.classList.toggle('open'); });
-            document.querySelectorAll('.gender-options .option').forEach(opt => {
-                opt.addEventListener('click', function() {
-                    const val = this.dataset.value, text = this.textContent.trim().replace('✓', '').trim();
-                    selectedGender = val;
-                    genderSelected.textContent = text;
-                    genderSelected.style.color = '#1a1a2e';
-                    document.querySelectorAll('.gender-options .option').forEach(o => o.classList.remove('selected'));
-                    this.classList.add('selected');
-                    genderOptions.classList.remove('open');
-                    updateCompletion();
-                });
-            });
-            document.addEventListener('click', function(e) {
-                if (!document.getElementById('gender-wrapper')?.contains(e.target)) {
-                    genderOptions?.classList.remove('open');
-                }
-            });
         }
 
         document.getElementById('location-btn')?.addEventListener('click', function() {
@@ -560,26 +675,12 @@
             container.innerHTML = data.map(h => `<div class="hour-row"><span class="day">${days[h.day_of_week] || h.day_of_week}</span><span class="time">${h.start_time} - ${h.end_time}</span><button class="remove-btn" onclick="removeHour('${h.id}')"><i class="fas fa-times"></i></button></div>`).join('');
         }
 
-        // === کوئری اصلاح‌شده برای نوبت‌ها ===
         async function loadAppointments() {
             try {
-                const { data: appointments, error: err1 } = await supabase
-                    .from('appointments')
-                    .select('*')
-                    .order('date', { ascending: false });
-                if (err1) {
-                    console.error('❌ خطا در گرفتن نوبت‌ها:', err1);
-                    showToast('❌ خطا: ' + err1.message, 'error');
-                    return;
-                }
-                const { data: profiles, error: err2 } = await supabase
-                    .from('profiles')
-                    .select('id, full_name, national_code, phone');
-                if (err2) {
-                    console.error('❌ خطا در گرفتن پروفایل‌ها:', err2);
-                    showToast('❌ خطا: ' + err2.message, 'error');
-                    return;
-                }
+                const { data: appointments, error: err1 } = await supabase.from('appointments').select('*').order('date', { ascending: false });
+                if (err1) { console.error('❌ خطا در گرفتن نوبت‌ها:', err1); showToast('❌ خطا: ' + err1.message, 'error'); return; }
+                const { data: profiles, error: err2 } = await supabase.from('profiles').select('id, full_name, national_code, phone');
+                if (err2) { console.error('❌ خطا در گرفتن پروفایل‌ها:', err2); showToast('❌ خطا: ' + err2.message, 'error'); return; }
                 const combined = appointments.map(appt => {
                     const profile = profiles.find(p => p.id === appt.user_id);
                     return { ...appt, profiles: profile || {} };
@@ -685,22 +786,38 @@
         document.getElementById('user-submit-appointment')?.addEventListener('click', async function() {
             if (!currentUser) { showToast('❌ لطفاً وارد شوید.', 'error'); return; }
             if (userRole === 'admin') { showToast('❌ شما وکیل هستید، نمی‌توانید نوبت بگیرید.', 'error'); return; }
-            const date = document.getElementById('user-appt-date').value, time = document.getElementById('user-appt-time').value;
-            const type = document.getElementById('user-appt-type').value, topic = document.getElementById('user-appt-topic').value;
+            const date = document.getElementById('user-appt-date').value;
+            const time = selectedTime;
+            const type = selectedType;
+            const topic = selectedTopic;
             const description = document.getElementById('user-appt-desc').value.trim();
+
             if (!date) { showToast('❌ تاریخ نوبت را انتخاب کنید.', 'error'); return; }
             if (!time) { showToast('❌ ساعت نوبت را انتخاب کنید.', 'error'); return; }
             if (!type) { showToast('❌ نوع مشاوره را انتخاب کنید.', 'error'); return; }
             if (!topic) { showToast('❌ موضوع را انتخاب کنید.', 'error'); return; }
+
             const { data: existing } = await supabase.from('appointments').select('id').eq('date', date).eq('time', time).in('status', ['تایید', 'انجام شده']);
             if (existing && existing.length > 0) { showToast('❌ این وقت قبلاً رزرو شده است.', 'error'); return; }
-            const { error } = await supabase.from('appointments').insert({ user_id: currentUser.id, date, time, type, topic, description, status: 'در انتظار' });
+
+            const { error } = await supabase.from('appointments').insert({
+                user_id: currentUser.id, date, time, type, topic, description, status: 'در انتظار'
+            });
             if (error) { showToast('❌ خطا در ثبت نوبت: ' + error.message, 'error'); } else {
                 showToast('✅ نوبت شما با موفقیت ثبت شد. منتظر تایید وکیل باشید.', 'success');
                 document.getElementById('user-appt-date').value = '';
-                document.getElementById('user-appt-time').value = '';
-                document.getElementById('user-appt-type').value = '';
-                document.getElementById('user-appt-topic').value = '';
+                selectedTime = '';
+                document.getElementById('time-selected').textContent = 'انتخاب ساعت';
+                document.getElementById('time-selected').style.color = '#8A8A9A';
+                document.querySelectorAll('#time-options .option').forEach(o => o.classList.remove('selected'));
+                selectedType = '';
+                document.getElementById('type-selected').textContent = 'انتخاب کنید';
+                document.getElementById('type-selected').style.color = '#8A8A9A';
+                document.querySelectorAll('#type-options .option').forEach(o => o.classList.remove('selected'));
+                selectedTopic = '';
+                document.getElementById('topic-selected').textContent = 'انتخاب کنید';
+                document.getElementById('topic-selected').style.color = '#8A8A9A';
+                document.querySelectorAll('#topic-options .option').forEach(o => o.classList.remove('selected'));
                 document.getElementById('user-appt-desc').value = '';
                 loadUserHours();
                 loadUserAppointments();
