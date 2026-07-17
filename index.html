@@ -7,12 +7,10 @@
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* ===== تنظیمات پایه ===== */
+        /* === تمام استایل‌های قبلی (همون کد آخر) === */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Vazir', -apple-system, BlinkMacSystemFont, sans-serif; }
         body { background: #f5f7fb; display: flex; justify-content: center; min-height: 100vh; padding-bottom: 90px; padding-top: 0; direction: rtl; color: #1a1a2e; }
         #app { max-width: 430px; width: 100%; background: #ffffff; min-height: 100vh; box-shadow: 0 0 60px rgba(108,99,255,0.04); position: relative; }
-
-        /* ===== هدر ===== */
         #app-header {
             position: sticky; top: 0; z-index: 150;
             background: rgba(255,255,255,0.75); backdrop-filter: blur(24px);
@@ -47,7 +45,6 @@
         }
         .header-btn:active { transform: scale(0.92); background: rgba(108,99,255,0.08); }
 
-        /* ===== صفحات ===== */
         .page {
             display: none;
             padding: 16px 16px 24px;
@@ -60,7 +57,6 @@
         }
         .hidden { display: none !important; }
 
-        /* ===== کارت‌های شیشه‌ای ===== */
         .glass-card {
             background: rgba(255,255,255,0.6);
             backdrop-filter: blur(12px);
@@ -74,7 +70,6 @@
         .glass-card .title { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
         .glass-card .subtitle { font-size: 13px; color: #8A8A9A; margin-bottom: 16px; }
 
-        /* ===== ورود ===== */
         .login-card {
             text-align: center;
             padding: 40px 24px;
@@ -101,7 +96,6 @@
         .btn-google:active { transform: scale(0.96); background: #f8f9fe; }
         .btn-google i { font-size: 22px; color: #EA4335; }
 
-        /* ===== آمار ===== */
         .stats-grid {
             display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 20px;
         }
@@ -117,7 +111,6 @@
         .stat-box .num { font-size: 24px; font-weight: 700; color: #1a1a2e; }
         .stat-box .label { font-size: 11px; color: #8A8A9A; margin-top: 4px; }
 
-        /* ===== فیلتر ===== */
         .filter-bar { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; flex-wrap: nowrap; }
         .filter-bar::-webkit-scrollbar { height: 2px; }
         .filter-bar::-webkit-scrollbar-thumb { background: #6C63FF; border-radius: 10px; }
@@ -131,7 +124,6 @@
         }
         .filter-btn.active { background: rgba(108,99,255,0.08); border-color: #6C63FF; color: #4A3DBF; }
 
-        /* ===== نوبت‌ها ===== */
         .appointment-item {
             background: rgba(255,255,255,0.3);
             backdrop-filter: blur(8px);
@@ -544,9 +536,6 @@
             <div class="glass-card">
                 <div class="title">📋 نوبت‌های ثبت‌شده</div>
                 <div class="subtitle">لیست تمام نوبت‌ها با اطلاعات کاربران</div>
-                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
-                    <button class="btn-sm" onclick="debugAppointments()" style="background:#6C63FF; color:#fff; border:none; padding:8px 16px; border-radius:30px;">🔄 تست نوبت‌ها</button>
-                </div>
                 <div class="filter-bar" id="filter-bar">
                     <button class="filter-btn active" data-filter="all">همه</button>
                     <button class="filter-btn" data-filter="در انتظار">در انتظار</button>
@@ -711,7 +700,7 @@
             'sb_publishable_PYNaTLccSNKtkzN_UANBpw_fGA2H9F2'
         );
 
-        let currentUser = null, userRole = 'user', allAppointments = [], currentFilter = 'all', selectedGender = '';
+        let currentUser = null, userRole = 'user', currentFilter = 'all', selectedGender = '';
         let selectedTime = '', selectedType = '', selectedTopic = '';
 
         // ===== منوهای کشویی =====
@@ -778,19 +767,43 @@
             });
         }
 
-        // ===== مودال جزئیات =====
-        window.showUserDetails = function(appointmentId) {
-            const appt = allAppointments.find(a => a.id === appointmentId);
-            if (!appt) { showToast('❌ اطلاعاتی یافت نشد.', 'error'); return; }
-            const p = appt.profiles || {};
-            document.getElementById('modal-name').textContent = p.full_name || 'نامشخص';
-            document.getElementById('modal-phone').textContent = p.phone || 'ندارد';
-            document.getElementById('modal-national').textContent = p.national_code || 'ندارد';
-            document.getElementById('modal-date').textContent = appt.date || '-';
-            document.getElementById('modal-time').textContent = appt.time || '-';
-            document.getElementById('modal-type').textContent = appt.type || '-';
-            document.getElementById('modal-topic').textContent = appt.topic || '-';
-            document.getElementById('user-details-modal').classList.add('open');
+        // ===== مودال جزئیات (با کوئری مستقیم) =====
+        window.showUserDetails = async function(appointmentId) {
+            try {
+                // گرفتن اطلاعات نوبت
+                const { data: appt, error: err1 } = await supabase
+                    .from('appointments')
+                    .select('*')
+                    .eq('id', appointmentId)
+                    .single();
+                
+                if (err1) { showToast('❌ خطا در دریافت نوبت: ' + err1.message, 'error'); return; }
+                if (!appt) { showToast('❌ نوبتی یافت نشد.', 'error'); return; }
+
+                // گرفتن اطلاعات کاربر از پروفایل
+                const { data: profile, error: err2 } = await supabase
+                    .from('profiles')
+                    .select('full_name, phone, national_code')
+                    .eq('id', appt.user_id)
+                    .single();
+
+                if (err2) {
+                    console.error('❌ خطا در دریافت پروفایل:', err2);
+                }
+
+                const p = profile || {};
+                document.getElementById('modal-name').textContent = p.full_name || 'تکمیل نشده';
+                document.getElementById('modal-phone').textContent = p.phone || 'تکمیل نشده';
+                document.getElementById('modal-national').textContent = p.national_code || 'تکمیل نشده';
+                document.getElementById('modal-date').textContent = appt.date || '-';
+                document.getElementById('modal-time').textContent = appt.time || '-';
+                document.getElementById('modal-type').textContent = appt.type || '-';
+                document.getElementById('modal-topic').textContent = appt.topic || '-';
+                document.getElementById('user-details-modal').classList.add('open');
+            } catch (err) {
+                console.error('❌ Exception:', err);
+                showToast('❌ خطا: ' + err.message, 'error');
+            }
         };
 
         window.closeModal = function() {
@@ -997,7 +1010,7 @@
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 currentFilter = this.dataset.filter;
-                renderAppointments();
+                loadAppointments();
             });
         });
 
@@ -1037,7 +1050,6 @@
                     const profile = profiles.find(p => p.id === appt.user_id);
                     return { ...appt, profiles: profile || {} };
                 });
-                console.log('✅ داده‌های ترکیبی:', combined);
                 allAppointments = combined;
                 renderAppointments();
                 updateStats();
@@ -1046,6 +1058,8 @@
                 showToast('❌ خطا: ' + err.message, 'error');
             }
         }
+
+        let allAppointments = [];
 
         function renderAppointments() {
             const container = document.getElementById('appointments-list');
@@ -1191,11 +1205,6 @@
                 return `<div class="appointment-item"><div class="appointment-top"><span class="appointment-user">${a.date} - ${a.time}</span><span class="status-badge ${statusMap[a.status] || 'pending'}">${a.status}</span></div><div class="appointment-info"><i class="fas fa-handshake"></i> ${a.type} &nbsp;|&nbsp; <i class="fas fa-tag"></i> ${a.topic}</div></div>`;
             }).join('');
         }
-
-        window.debugAppointments = async function() {
-            showToast('🔄 در حال دریافت نوبت‌ها...', 'info');
-            await loadAppointments();
-        };
 
         function showToast(message, type = 'success') {
             const existing = document.querySelector('.toast');
