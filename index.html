@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
+        /* === تمام استایل‌های قبلی (همون کد آخر) === */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Vazir', -apple-system, BlinkMacSystemFont, sans-serif; }
         body { background: #f5f7fb; display: flex; justify-content: center; min-height: 100vh; padding-bottom: 90px; padding-top: 0; direction: rtl; color: #1a1a2e; }
         #app { max-width: 430px; width: 100%; background: #ffffff; min-height: 100vh; box-shadow: 0 0 60px rgba(108,99,255,0.04); position: relative; }
@@ -144,7 +145,6 @@
         .btn-sm.done { background: rgba(79,70,229,0.06); color: #4f46e5; }
         .btn-sm.delete { background: rgba(239,68,68,0.04); color: #ef4444; }
         .btn-sm.details { background: rgba(108,99,255,0.06); color: #4A3DBF; }
-        .btn-sm.debug { background: rgba(251,191,36,0.08); color: #b45309; }
 
         .status-badge {
             padding: 2px 12px; border-radius: 20px;
@@ -805,44 +805,83 @@
             });
         }
 
-        // ===== مودال و دیباگ =====
+        // ===== مودال (با ساخت خودکار پروفایل) =====
         window.showUserDetails = async function(appointmentId) {
-            currentDebugAppointmentId = appointmentId;
             try {
+                // ۱. گرفتن نوبت
                 const { data: appt, error: err1 } = await supabase
                     .from('appointments')
                     .select('*')
                     .eq('id', appointmentId)
                     .single();
+
                 if (err1 || !appt) {
                     showToast('❌ نوبت یافت نشد.', 'error');
                     return;
                 }
 
+                let full_name = 'تکمیل نشده';
+                let phone = 'تکمیل نشده';
+                let national_code = 'تکمیل نشده';
+
+                // ۲. بررسی وجود پروفایل
                 const { data: profile, error: err2 } = await supabase
                     .from('profiles')
-                    .select('full_name, phone, national_code')
+                    .select('*')
                     .eq('id', appt.user_id)
                     .single();
 
-                if (err2) {
-                    console.error('❌ خطا در دریافت پروفایل:', err2);
-                    document.getElementById('modal-name').textContent = 'خطا در دریافت';
-                    document.getElementById('modal-phone').textContent = 'خطا در دریافت';
-                    document.getElementById('modal-national').textContent = 'خطا در دریافت';
+                if (err2 || !profile) {
+                    // ۳. اگر پروفایل وجود نداشت، از auth.users بگیر
+                    console.log('⚠️ پروفایل وجود ندارد، از auth.users می‌گیریم...');
+                    const { data: authUser, error: authErr } = await supabase
+                        .from('auth.users')
+                        .select('email, raw_user_meta_data')
+                        .eq('id', appt.user_id)
+                        .single();
+
+                    if (!authErr && authUser) {
+                        const meta = authUser.raw_user_meta_data || {};
+                        full_name = meta.full_name || meta.name || authUser.email || 'کاربر گوگل';
+                        phone = meta.phone || '';
+                        national_code = meta.national_code || '';
+
+                        // ۴. ساخت پروفایل جدید
+                        const { error: insertErr } = await supabase
+                            .from('profiles')
+                            .insert({
+                                id: appt.user_id,
+                                full_name: full_name,
+                                phone: phone,
+                                national_code: national_code,
+                                updated_at: new Date().toISOString()
+                            });
+
+                        if (insertErr) {
+                            console.error('❌ خطا در ساخت پروفایل:', insertErr);
+                        } else {
+                            console.log('✅ پروفایل ساخته شد.');
+                        }
+                    } else {
+                        console.error('❌ خطا در دریافت اطلاعات از auth.users:', authErr);
+                    }
                 } else {
-                    document.getElementById('modal-name').textContent = profile?.full_name || 'تکمیل نشده';
-                    document.getElementById('modal-phone').textContent = profile?.phone || 'تکمیل نشده';
-                    document.getElementById('modal-national').textContent = profile?.national_code || 'تکمیل نشده';
+                    // پروفایل وجود دارد
+                    full_name = profile.full_name || 'تکمیل نشده';
+                    phone = profile.phone || 'تکمیل نشده';
+                    national_code = profile.national_code || 'تکمیل نشده';
                 }
 
+                // ۵. نمایش در مودال
+                document.getElementById('modal-name').textContent = full_name;
+                document.getElementById('modal-phone').textContent = phone;
+                document.getElementById('modal-national').textContent = national_code;
                 document.getElementById('modal-date').textContent = appt.date || '-';
                 document.getElementById('modal-time').textContent = appt.time || '-';
                 document.getElementById('modal-type').textContent = appt.type || '-';
                 document.getElementById('modal-topic').textContent = appt.topic || '-';
                 document.getElementById('user-details-modal').classList.add('open');
-                document.getElementById('debug-data').classList.remove('open');
-                document.getElementById('debug-data').innerHTML = '';
+
             } catch (err) {
                 console.error('❌ Exception:', err);
                 showToast('❌ خطا: ' + err.message, 'error');
@@ -853,7 +892,6 @@
             if (!currentDebugAppointmentId) return;
             const debugDiv = document.getElementById('debug-data');
             try {
-                // دریافت نوبت
                 const { data: appt } = await supabase
                     .from('appointments')
                     .select('*')
@@ -861,7 +899,6 @@
                     .single();
                 if (!appt) { debugDiv.innerHTML = 'نوبت یافت نشد'; debugDiv.classList.add('open'); return; }
 
-                // دریافت پروفایل
                 const { data: profile } = await supabase
                     .from('profiles')
                     .select('*')
