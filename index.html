@@ -7,10 +7,12 @@
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* === تمام استایل‌های قبلی === */
+        /* === تنظیمات پایه === */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Vazir', -apple-system, BlinkMacSystemFont, sans-serif; }
         body { background: #f5f7fb; display: flex; justify-content: center; min-height: 100vh; padding-bottom: 90px; padding-top: 0; direction: rtl; color: #1a1a2e; }
         #app { max-width: 430px; width: 100%; background: #ffffff; min-height: 100vh; box-shadow: 0 0 60px rgba(108,99,255,0.04); position: relative; }
+
+        /* === هدر === */
         #app-header {
             position: sticky; top: 0; z-index: 150;
             background: rgba(255,255,255,0.75); backdrop-filter: blur(24px);
@@ -18,9 +20,7 @@
             padding: 10px 16px;
             display: flex; align-items: center; justify-content: space-between;
             height: 56px;
-            transition: height 0.3s ease;
         }
-        #app-header.scrolled { height: 48px; }
         .header-left { display: flex; align-items: center; gap: 10px; }
         .header-logo {
             width: 34px; height: 34px;
@@ -29,9 +29,7 @@
             display: flex; align-items: center; justify-content: center;
             color: #fff; font-size: 15px; font-weight: 700;
             box-shadow: 0 4px 12px rgba(108,99,255,0.15);
-            transition: all 0.3s ease;
         }
-        #app-header.scrolled .header-logo { width: 28px; height: 28px; font-size: 12px; }
         .header-brand { font-size: 14px; font-weight: 700; color: #1a1a2e; }
         .header-brand span { font-weight: 400; color: #8A8A9A; font-size: 11px; }
         .header-center { position: absolute; left: 50%; transform: translateX(-50%); font-size: 15px; font-weight: 600; color: #1a1a2e; }
@@ -45,6 +43,7 @@
         }
         .header-btn:active { transform: scale(0.92); background: rgba(108,99,255,0.08); }
 
+        /* === صفحات === */
         .page {
             display: none;
             padding: 16px 16px 24px;
@@ -57,6 +56,7 @@
         }
         .hidden { display: none !important; }
 
+        /* === کارت‌ها === */
         .glass-card {
             background: rgba(255,255,255,0.6);
             backdrop-filter: blur(12px);
@@ -65,11 +65,11 @@
             border: 1px solid rgba(255,255,255,0.3);
             box-shadow: 0 8px 32px rgba(108,99,255,0.04), 0 2px 8px rgba(0,0,0,0.02);
             margin-bottom: 16px;
-            transition: all 0.3s ease;
         }
         .glass-card .title { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
         .glass-card .subtitle { font-size: 13px; color: #8A8A9A; margin-bottom: 16px; }
 
+        /* === ورود === */
         .login-card {
             text-align: center;
             padding: 40px 24px;
@@ -96,6 +96,7 @@
         .btn-google:active { transform: scale(0.96); background: #f8f9fe; }
         .btn-google i { font-size: 22px; color: #EA4335; }
 
+        /* === آمار === */
         .stats-grid {
             display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 20px;
         }
@@ -106,11 +107,11 @@
             padding: 14px 8px;
             text-align: center;
             border: 1px solid rgba(255,255,255,0.2);
-            transition: all 0.2s;
         }
         .stat-box .num { font-size: 24px; font-weight: 700; color: #1a1a2e; }
         .stat-box .label { font-size: 11px; color: #8A8A9A; margin-top: 4px; }
 
+        /* === فیلتر === */
         .filter-bar { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; flex-wrap: nowrap; }
         .filter-bar::-webkit-scrollbar { height: 2px; }
         .filter-bar::-webkit-scrollbar-thumb { background: #6C63FF; border-radius: 10px; }
@@ -124,6 +125,7 @@
         }
         .filter-btn.active { background: rgba(108,99,255,0.08); border-color: #6C63FF; color: #4A3DBF; }
 
+        /* === آیتم نوبت === */
         .appointment-item {
             background: rgba(255,255,255,0.3);
             backdrop-filter: blur(8px);
@@ -131,7 +133,6 @@
             padding: 14px;
             border: 1px solid rgba(255,255,255,0.2);
             margin-bottom: 10px;
-            transition: all 0.2s;
         }
         .appointment-item:active { transform: scale(0.98); }
         .appointment-top { display: flex; justify-content: space-between; align-items: start; margin-bottom: 6px; }
@@ -162,6 +163,7 @@
         .status-badge.cancelled { background: rgba(239,68,68,0.04); color: #dc2626; }
         .status-badge.done { background: rgba(79,70,229,0.04); color: #4f46e5; }
 
+        /* === مودال === */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.3);
@@ -206,6 +208,7 @@
         }
         .modal-close:active { transform: scale(0.96); background: rgba(108,99,255,0.10); }
 
+        /* === ساعات کاری === */
         .hours-grid { display: flex; flex-direction: column; gap: 10px; }
         .hour-row {
             display: flex; align-items: center; gap: 10px;
@@ -419,6 +422,7 @@
         }
         .date-wrapper input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0.4; filter: invert(0.3); padding: 4px; }
 
+        /* === منوی پایین === */
         #bottom-nav {
             position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
             width: calc(100% - 32px); max-width: 400px;
@@ -493,6 +497,29 @@
         }
         #error-display.show { display: block; }
         #error-display .close-btn { float: left; background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; }
+
+        /* === جستجو === */
+        .search-box {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid rgba(0,0,0,0.04);
+            border-radius: 16px;
+            font-size: 15px;
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(8px);
+            outline: none;
+            font-family: 'Vazir', sans-serif;
+            margin-bottom: 12px;
+            transition: all 0.25s;
+        }
+        .search-box:focus {
+            border-color: #6C63FF;
+            background: rgba(255,255,255,0.7);
+            box-shadow: 0 0 0 4px rgba(108,99,255,0.04);
+        }
+        .search-box::placeholder {
+            color: #bbb;
+        }
     </style>
 </head>
 <body>
@@ -504,10 +531,10 @@
         <div class="header-right"><button class="header-btn" onclick="alert('تنظیمات')"><i class="fas fa-ellipsis-vertical"></i></button></div>
     </header>
 
+    <!-- ===== صفحه خانه ===== -->
     <div id="page-home" class="page"><div class="empty-state"><i class="fas fa-home"></i><p>صفحه‌ی خانه</p><p style="font-size:14px;color:#bbb;">به‌زودی تکمیل می‌شود</p></div></div>
-    <div id="page-social" class="page"><div class="empty-state"><i class="fas fa-share-alt"></i><p>شبکه‌های اجتماعی</p><p style="font-size:14px;color:#bbb;">به‌زودی تکمیل می‌شود</p></div></div>
-    <div id="page-contact" class="page"><div class="empty-state"><i class="fas fa-map-pin"></i><p>تماس و لوکیشن</p><p style="font-size:14px;color:#bbb;">به‌زودی تکمیل می‌شود</p></div></div>
 
+    <!-- ===== صفحه نوبت (تایید/رد سریع) ===== -->
     <div id="page-appointments" class="page">
         <div id="auth-section-appointments"><div class="login-card"><div class="icon">⚖️</div><div class="title">خوش آمدید</div><div class="subtitle">برای مدیریت یا ثبت نوبت، وارد شوید</div><button class="btn-google" id="google-signin-app"><i class="fab fa-google"></i> ورود با گوگل</button></div></div>
         <div id="admin-panel" class="hidden">
@@ -594,6 +621,30 @@
         </div>
     </div>
 
+    <!-- ===== صفحه مدیریت نوبت‌ها (ویژه وکیل) ===== -->
+    <div id="page-manage" class="page">
+        <div id="auth-section-manage"><div class="login-card"><div class="icon">⚖️</div><div class="title">خوش آمدید</div><div class="subtitle">برای مدیریت نوبت‌ها وارد شوید</div><button class="btn-google" id="google-signin-manage"><i class="fab fa-google"></i> ورود با گوگل</button></div></div>
+        <div id="manage-panel" class="hidden">
+            <div class="glass-card">
+                <div class="title">📋 مدیریت نوبت‌ها</div>
+                <div class="subtitle">مشاهده و مدیریت تمام نوبت‌ها با اطلاعات کامل کاربران</div>
+                <input type="text" class="search-box" id="search-appointments" placeholder="🔍 جستجو بر اساس نام، شماره یا کد ملی...">
+                <div class="filter-bar" id="filter-bar-manage">
+                    <button class="filter-btn active" data-filter="all">همه</button>
+                    <button class="filter-btn" data-filter="در انتظار">در انتظار</button>
+                    <button class="filter-btn" data-filter="تایید">تایید</button>
+                    <button class="filter-btn" data-filter="رد">رد</button>
+                    <button class="filter-btn" data-filter="انجام شده">انجام شده</button>
+                </div>
+                <div id="manage-list"><div class="empty-state"><i class="fas fa-calendar-plus"></i><p>هیچ نوبتی ثبت نشده</p></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-social" class="page"><div class="empty-state"><i class="fas fa-share-alt"></i><p>شبکه‌های اجتماعی</p><p style="font-size:14px;color:#bbb;">به‌زودی تکمیل می‌شود</p></div></div>
+    <div id="page-contact" class="page"><div class="empty-state"><i class="fas fa-map-pin"></i><p>تماس و لوکیشن</p><p style="font-size:14px;color:#bbb;">به‌زودی تکمیل می‌شود</p></div></div>
+
+    <!-- ===== صفحه حساب ===== -->
     <div id="page-account" class="page">
         <div id="auth-section-account"><div class="login-card"><div class="icon">⚖️</div><div class="title">خوش آمدید</div><div class="subtitle">با حساب گوگل خود وارد شوید</div><button class="btn-google" id="google-signin-account"><i class="fab fa-google"></i> ورود با گوگل</button></div></div>
         <div id="dashboard-section" class="hidden">
@@ -643,12 +694,13 @@
     </div>
 </div>
 
+<!-- ===== منوی پایین ===== -->
 <nav id="bottom-nav">
     <button class="nav-item" data-page="page-home" data-title="خانه"><span class="nav-icon-wrapper"><i class="fas fa-house"></i></span><span class="nav-label">خانه</span></button>
     <button class="nav-item" data-page="page-appointments" data-title="نوبت"><span class="nav-icon-wrapper"><i class="fas fa-calendar-day"></i></span><span class="nav-label">نوبت</span></button>
+    <button class="nav-item" data-page="page-manage" data-title="مدیریت"><span class="nav-icon-wrapper"><i class="fas fa-list-check"></i></span><span class="nav-label">مدیریت</span></button>
     <button class="nav-item" data-page="page-social" data-title="شبکه‌ها"><span class="nav-icon-wrapper"><i class="fas fa-share-nodes"></i></span><span class="nav-label">شبکه‌ها</span></button>
-    <button class="nav-item" data-page="page-contact" data-title="تماس"><span class="nav-icon-wrapper"><i class="fas fa-phone"></i></span><span class="nav-label">تماس</span></button>
-    <button class="nav-item active" data-page="page-account" data-title="حساب"><span class="nav-icon-wrapper"><i class="fas fa-user"></i></span><span class="nav-label">حساب</span></button>
+    <button class="nav-item" data-page="page-account" data-title="حساب"><span class="nav-icon-wrapper"><i class="fas fa-user"></i></span><span class="nav-label">حساب</span></button>
 </nav>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -667,6 +719,7 @@
             'sb_publishable_PYNaTLccSNKtkzN_UANBpw_fGA2H9F2'
         );
 
+        // ===== منوی پایین =====
         const navItems = document.querySelectorAll('.nav-item');
         const pages = document.querySelectorAll('.page');
         const pageTitle = document.getElementById('page-title');
@@ -682,24 +735,25 @@
                 if (title) pageTitle.textContent = title;
                 if (pageId === 'page-account') checkAuthAccount();
                 if (pageId === 'page-appointments') checkAuthAppointments();
+                if (pageId === 'page-manage') checkAuthManage();
             });
         });
 
-        let currentUser = null, userRole = 'user', currentFilter = 'all', selectedGender = '';
-        let selectedTime = '', selectedType = '', selectedTopic = '';
+        let currentUser = null, userRole = 'user', currentFilter = 'all', currentFilterManage = 'all';
+        let selectedGender = '', selectedTime = '', selectedType = '', selectedTopic = '';
+        let allAppointments = [], allAppointmentsManage = [];
 
         // ===== منوهای کشویی =====
         function setupSelect(toggleId, optionsId, selectedId, callback) {
             const toggle = document.getElementById(toggleId);
             const options = document.getElementById(optionsId);
             const selected = document.getElementById(selectedId);
-
+            if (!toggle) return;
             toggle.addEventListener('click', function(e) {
                 e.stopPropagation();
                 closeAllSelects();
                 options.classList.toggle('open');
             });
-
             options.querySelectorAll('.option').forEach(opt => {
                 opt.addEventListener('click', function() {
                     const val = this.dataset.value;
@@ -717,7 +771,6 @@
         function closeAllSelects() {
             document.querySelectorAll('.custom-select-options, .gender-options').forEach(el => el.classList.remove('open'));
         }
-
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.custom-select-wrapper') && !e.target.closest('.gender-wrapper')) closeAllSelects();
         });
@@ -730,14 +783,12 @@
         const genderToggle = document.getElementById('gender-toggle');
         const genderOptions = document.getElementById('gender-options');
         const genderSelected = document.getElementById('gender-selected');
-
         if (genderToggle) {
             genderToggle.addEventListener('click', function(e) {
                 e.stopPropagation();
                 closeAllSelects();
                 genderOptions.classList.toggle('open');
             });
-
             document.querySelectorAll('.gender-options .option').forEach(opt => {
                 opt.addEventListener('click', function() {
                     const val = this.dataset.value, text = this.textContent.trim().replace('✓', '').trim();
@@ -752,78 +803,19 @@
             });
         }
 
-        // ===== مودال با ساخت خودکار پروفایل =====
+        // ===== مودال =====
         window.showUserDetails = async function(appointmentId) {
             try {
-                console.log("🔍 دریافت نوبت با ID:", appointmentId);
-
-                // ۱. گرفتن نوبت
-                const { data: appt, error: err1 } = await supabase
+                const { data: appt, error } = await supabase
                     .from('appointments')
                     .select('*, profiles!appointments_user_id_fkey(full_name, phone, national_code)')
                     .eq('id', appointmentId)
                     .single();
-
-                if (err1 || !appt) {
+                if (error || !appt) {
                     showToast('❌ نوبت یافت نشد.', 'error');
                     return;
                 }
-
-                console.log("✅ نوبت:", appt);
-
-                // ۲. اگر پروفایل وجود نداشت، از auth.users بگیر و بساز
-                let profile = appt.profiles;
-                if (!profile || !profile.full_name) {
-                    console.log("⚠️ پروفایل وجود ندارد، در حال ساخت از auth.users...");
-
-                    // گرفتن اطلاعات از auth.users
-                    const { data: userData, error: userErr } = await supabase
-                        .from('auth.users')
-                        .select('raw_user_meta_data')
-                        .eq('id', appt.user_id)
-                        .single();
-
-                    if (userErr) {
-                        console.error("❌ خطا در دریافت اطلاعات کاربر از auth:", userErr);
-                    } else {
-                        const meta = userData?.raw_user_meta_data || {};
-                        const full_name = meta.full_name || meta.name || 'کاربر گوگل';
-                        const phone = meta.phone || '';
-                        const national_code = meta.national_code || '';
-
-                        // درج یا بروزرسانی در profiles
-                        const { error: upsertErr } = await supabase
-                            .from('profiles')
-                            .upsert({
-                                id: appt.user_id,
-                                full_name: full_name,
-                                phone: phone,
-                                national_code: national_code,
-                                updated_at: new Date().toISOString()
-                            }, { onConflict: 'id' });
-
-                        if (upsertErr) {
-                            console.error("❌ خطا در ساخت پروفایل:", upsertErr);
-                        } else {
-                            console.log("✅ پروفایل ساخته شد.");
-                            // دوباره نوبت رو بگیر تا پروفایل جدید رو نشون بده
-                            const { data: newAppt } = await supabase
-                                .from('appointments')
-                                .select('*, profiles!appointments_user_id_fkey(full_name, phone, national_code)')
-                                .eq('id', appointmentId)
-                                .single();
-                            if (newAppt) {
-                                profile = newAppt.profiles;
-                                appt.date = newAppt.date;
-                                appt.time = newAppt.time;
-                                appt.type = newAppt.type;
-                                appt.topic = newAppt.topic;
-                            }
-                        }
-                    }
-                }
-
-                const p = profile || {};
+                const p = appt.profiles || {};
                 document.getElementById('modal-name').textContent = p.full_name || 'تکمیل نشده';
                 document.getElementById('modal-phone').textContent = p.phone || 'تکمیل نشده';
                 document.getElementById('modal-national').textContent = p.national_code || 'تکمیل نشده';
@@ -832,9 +824,7 @@
                 document.getElementById('modal-type').textContent = appt.type || '-';
                 document.getElementById('modal-topic').textContent = appt.topic || '-';
                 document.getElementById('user-details-modal').classList.add('open');
-
             } catch (err) {
-                console.error("❌ Exception:", err);
                 showToast('❌ خطا: ' + err.message, 'error');
             }
         };
@@ -842,12 +832,11 @@
         window.closeModal = function() {
             document.getElementById('user-details-modal').classList.remove('open');
         };
-
         document.getElementById('user-details-modal').addEventListener('click', function(e) {
             if (e.target === this) closeModal();
         });
 
-        // ===== ورود و خروج =====
+        // ===== ورود =====
         async function signInWithGoogle() {
             try {
                 const { data, error } = await supabase.auth.signInWithOAuth({
@@ -859,6 +848,7 @@
         }
         document.getElementById('google-signin-app')?.addEventListener('click', signInWithGoogle);
         document.getElementById('google-signin-account')?.addEventListener('click', signInWithGoogle);
+        document.getElementById('google-signin-manage')?.addEventListener('click', signInWithGoogle);
 
         document.getElementById('logout-btn')?.addEventListener('click', async function() {
             try { await supabase.auth.signOut(); window.location.reload(); } catch (err) { showToast('❌ خطا در خروج: ' + err.message, 'error'); }
@@ -889,7 +879,7 @@
         async function loadMyAppointments() {
             if (!currentUser) return;
             const { data, error } = await supabase.from('appointments').select('*').eq('user_id', currentUser.id).order('date', { ascending: false });
-            if (error) { console.error(error); showToast('❌ خطا: ' + error.message, 'error'); return; }
+            if (error) { showToast('❌ خطا: ' + error.message, 'error'); return; }
             const container = document.getElementById('my-appointments-list');
             if (!data || data.length === 0) {
                 container.innerHTML = `<div class="empty-state"><i class="fas fa-calendar-plus"></i><p>هنوز نوبتی ثبت نکرده‌اید.</p></div>`;
@@ -992,6 +982,7 @@
         }
         document.querySelectorAll('#profile-form input, #profile-form textarea').forEach(el => el.addEventListener('input', updateCompletion));
 
+        // ===== احراز هویت =====
         async function checkAuthAccount() {
             const { data: { user } } = await supabase.auth.getUser();
             currentUser = user;
@@ -1039,15 +1030,121 @@
             }
         }
 
-        document.querySelectorAll('.filter-btn').forEach(btn => {
+        async function checkAuthManage() {
+            const { data: { user } } = await supabase.auth.getUser();
+            currentUser = user;
+            if (user) {
+                document.getElementById('auth-section-manage').classList.add('hidden');
+                const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+                userRole = profile?.role === 'admin' ? 'admin' : 'user';
+                if (userRole === 'admin') {
+                    document.getElementById('manage-panel').classList.remove('hidden');
+                    await loadManageAppointments();
+                } else {
+                    document.getElementById('manage-panel').classList.add('hidden');
+                    showToast('❌ این بخش فقط برای وکیل قابل دسترسی است.', 'error');
+                }
+            } else {
+                document.getElementById('auth-section-manage').classList.remove('hidden');
+                document.getElementById('manage-panel').classList.add('hidden');
+            }
+        }
+
+        // ===== بارگذاری نوبت‌ها برای مدیریت =====
+        async function loadManageAppointments() {
+            try {
+                const { data: appointments, error: err1 } = await supabase.from('appointments').select('*').order('date', { ascending: false });
+                if (err1) { console.error(err1); showToast('❌ خطا: ' + err1.message, 'error'); return; }
+                const { data: profiles, error: err2 } = await supabase.from('profiles').select('id, full_name, phone, national_code');
+                if (err2) { console.error(err2); showToast('❌ خطا: ' + err2.message, 'error'); return; }
+                allAppointmentsManage = appointments.map(appt => {
+                    const profile = profiles.find(p => p.id === appt.user_id);
+                    return { ...appt, profiles: profile || {} };
+                });
+                renderManageAppointments();
+            } catch (err) {
+                showToast('❌ خطا: ' + err.message, 'error');
+            }
+        }
+
+        function renderManageAppointments() {
+            const container = document.getElementById('manage-list');
+            const searchText = document.getElementById('search-appointments')?.value.toLowerCase() || '';
+            let filtered = allAppointmentsManage;
+            if (currentFilterManage !== 'all') {
+                filtered = filtered.filter(a => a.status === currentFilterManage);
+            }
+            if (searchText) {
+                filtered = filtered.filter(a => {
+                    const p = a.profiles || {};
+                    return (p.full_name || '').toLowerCase().includes(searchText) ||
+                           (p.phone || '').includes(searchText) ||
+                           (p.national_code || '').includes(searchText);
+                });
+            }
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-calendar-plus"></i><p>هیچ نوبتی یافت نشد</p></div>`;
+                return;
+            }
+            container.innerHTML = filtered.map(a => {
+                const p = a.profiles || {};
+                const statusMap = { 'در انتظار': 'pending', 'تایید': 'confirmed', 'رد': 'cancelled', 'انجام شده': 'done' };
+                const statusClass = statusMap[a.status] || 'pending';
+                return `
+                    <div class="appointment-item">
+                        <div class="appointment-top">
+                            <div class="appointment-user">
+                                ${p.full_name || 'کاربر ناشناس'}
+                                <small>📱 ${p.phone || 'ندارد'} • 🆔 ${p.national_code || 'ندارد'}</small>
+                            </div>
+                            <span class="status-badge ${statusClass}">${a.status}</span>
+                        </div>
+                        <div class="appointment-info">
+                            <i class="fas fa-calendar"></i> ${a.date} &nbsp; <i class="fas fa-clock"></i> ${a.time}
+                            <br><i class="fas fa-handshake"></i> ${a.type} &nbsp;|&nbsp; <i class="fas fa-tag"></i> ${a.topic}
+                            ${a.description ? `<br><i class="fas fa-pen"></i> ${a.description}` : ''}
+                        </div>
+                        <div class="appointment-actions">
+                            <button class="btn-sm details" onclick="showUserDetails('${a.id}')"><i class="fas fa-user-circle"></i> جزئیات</button>
+                            ${a.status === 'در انتظار' ? `
+                                <button class="btn-sm approve" onclick="updateAppointment('${a.id}','تایید')"><i class="fas fa-check"></i> تایید</button>
+                                <button class="btn-sm reject" onclick="updateAppointment('${a.id}','رد')"><i class="fas fa-times"></i> رد</button>
+                            ` : ''}
+                            ${a.status === 'تایید' ? `
+                                <button class="btn-sm done" onclick="updateAppointment('${a.id}','انجام شده')"><i class="fas fa-check-double"></i> انجام شد</button>
+                            ` : ''}
+                            <button class="btn-sm delete" onclick="updateAppointment('${a.id}','لغو')"><i class="fas fa-trash"></i> لغو</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ===== مدیریت فیلترهای مدیریت =====
+        document.querySelectorAll('#filter-bar-manage .filter-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('#filter-bar-manage .filter-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
-                currentFilter = this.dataset.filter;
-                loadAppointments();
+                currentFilterManage = this.dataset.filter;
+                renderManageAppointments();
             });
         });
 
+        document.getElementById('search-appointments')?.addEventListener('input', function() {
+            renderManageAppointments();
+        });
+
+        // ===== فیلترهای نوبت معمولی =====
+        document.querySelectorAll('#filter-bar .filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('#filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                renderAppointments();
+            });
+        });
+
+        // ===== مدیریت ساعات کاری =====
         document.getElementById('add-hour-btn')?.addEventListener('click', async function() {
             if (!currentUser || userRole !== 'admin') { showToast('❌ فقط وکیل می‌تواند این کار را انجام دهد.', 'error'); return; }
             const day = parseInt(document.getElementById('day-select').value), start = document.getElementById('start-time').value, end = document.getElementById('end-time').value;
@@ -1074,26 +1171,23 @@
             container.innerHTML = data.map(h => `<div class="hour-row"><span class="day">${days[h.day_of_week] || h.day_of_week}</span><span class="time">${h.start_time} - ${h.end_time}</span><button class="remove-btn" onclick="removeHour('${h.id}')"><i class="fas fa-times"></i></button></div>`).join('');
         }
 
+        // ===== بارگذاری نوبت‌ها (صفحه نوبت معمولی) =====
         async function loadAppointments() {
             try {
                 const { data: appointments, error: err1 } = await supabase.from('appointments').select('*').order('date', { ascending: false });
-                if (err1) { console.error('❌ خطا در گرفتن نوبت‌ها:', err1); showToast('❌ خطا: ' + err1.message, 'error'); return; }
-                const { data: profiles, error: err2 } = await supabase.from('profiles').select('id, full_name, national_code, phone');
-                if (err2) { console.error('❌ خطا در گرفتن پروفایل‌ها:', err2); showToast('❌ خطا: ' + err2.message, 'error'); return; }
-                const combined = appointments.map(appt => {
+                if (err1) { console.error(err1); showToast('❌ خطا: ' + err1.message, 'error'); return; }
+                const { data: profiles, error: err2 } = await supabase.from('profiles').select('id, full_name, phone, national_code');
+                if (err2) { console.error(err2); showToast('❌ خطا: ' + err2.message, 'error'); return; }
+                allAppointments = appointments.map(appt => {
                     const profile = profiles.find(p => p.id === appt.user_id);
                     return { ...appt, profiles: profile || {} };
                 });
-                allAppointments = combined;
                 renderAppointments();
                 updateStats();
             } catch (err) {
-                console.error('❌ Exception:', err);
                 showToast('❌ خطا: ' + err.message, 'error');
             }
         }
-
-        let allAppointments = [];
 
         function renderAppointments() {
             const container = document.getElementById('appointments-list');
@@ -1106,15 +1200,15 @@
                 return;
             }
             container.innerHTML = filtered.map(a => {
-                const profile = a.profiles || {};
+                const p = a.profiles || {};
                 const statusMap = { 'در انتظار': 'pending', 'تایید': 'confirmed', 'رد': 'cancelled', 'انجام شده': 'done' };
                 const statusClass = statusMap[a.status] || 'pending';
                 return `
                     <div class="appointment-item">
                         <div class="appointment-top">
                             <div class="appointment-user">
-                                ${profile.full_name || 'کاربر ناشناس'}
-                                <small>📱 ${profile.phone || 'ندارد'} • 🆔 ${profile.national_code || 'ندارد'}</small>
+                                ${p.full_name || 'کاربر ناشناس'}
+                                <small>📱 ${p.phone || 'ندارد'} • 🆔 ${p.national_code || 'ندارد'}</small>
                             </div>
                             <span class="status-badge ${statusClass}">${a.status}</span>
                         </div>
@@ -1142,7 +1236,12 @@
         window.updateAppointment = async function(id, status) {
             if (!currentUser || userRole !== 'admin') { showToast('❌ فقط وکیل می‌تواند این کار را انجام دهد.', 'error'); return; }
             const { error } = await supabase.from('appointments').update({ status }).eq('id', id);
-            if (error) { showToast('❌ خطا: ' + error.message, 'error'); } else { showToast('✅ وضعیت نوبت به‌روز شد.', 'success'); loadAppointments(); loadUserAppointments(); }
+            if (error) { showToast('❌ خطا: ' + error.message, 'error'); } else {
+                showToast('✅ وضعیت نوبت به‌روز شد.', 'success');
+                loadAppointments();
+                loadUserAppointments();
+                loadManageAppointments();
+            }
         };
 
         function updateStats() {
@@ -1153,6 +1252,7 @@
             document.getElementById('stat-today').textContent = today;
         }
 
+        // ===== ساعات کاری مشتری =====
         async function loadUserHours() {
             const { data, error } = await supabase.from('working_hours').select('*').eq('is_active', true).order('day_of_week', { ascending: true });
             if (error) { console.error(error); showToast('❌ خطا در بارگذاری ساعات: ' + error.message, 'error'); return; }
@@ -1184,6 +1284,7 @@
             }
         }
 
+        // ===== ثبت نوبت مشتری =====
         document.getElementById('user-submit-appointment')?.addEventListener('click', async function() {
             if (!currentUser) { showToast('❌ لطفاً وارد شوید.', 'error'); return; }
             if (userRole === 'admin') { showToast('❌ شما وکیل هستید، نمی‌توانید نوبت بگیرید.', 'error'); return; }
@@ -1192,15 +1293,12 @@
             const type = selectedType;
             const topic = selectedTopic;
             const description = document.getElementById('user-appt-desc').value.trim();
-
             if (!date) { showToast('❌ تاریخ نوبت را انتخاب کنید.', 'error'); return; }
             if (!time) { showToast('❌ ساعت نوبت را انتخاب کنید.', 'error'); return; }
             if (!type) { showToast('❌ نوع مشاوره را انتخاب کنید.', 'error'); return; }
             if (!topic) { showToast('❌ موضوع را انتخاب کنید.', 'error'); return; }
-
             const { data: existing } = await supabase.from('appointments').select('id').eq('date', date).eq('time', time).in('status', ['تایید', 'انجام شده']);
             if (existing && existing.length > 0) { showToast('❌ این وقت قبلاً رزرو شده است.', 'error'); return; }
-
             const { error } = await supabase.from('appointments').insert({
                 user_id: currentUser.id, date, time, type, topic, description, status: 'در انتظار'
             });
@@ -1250,11 +1348,14 @@
             setTimeout(() => { div.style.opacity = '0'; setTimeout(() => div.remove(), 400); }, 3000);
         }
 
+        // ===== اجرا =====
         checkAuthAccount();
         checkAuthAppointments();
+        checkAuthManage();
         supabase.auth.onAuthStateChange((event, session) => {
             checkAuthAccount();
             checkAuthAppointments();
+            checkAuthManage();
         });
     });
 </script>
