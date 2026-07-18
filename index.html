@@ -8,12 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         /* === تمام استایل‌های قبلی (همون کد آخر) === */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Vazir', -apple-system, BlinkMacSystemFont, sans-serif; }
-        body { background: #f5f7fb; display: flex; justify-content: center; min-height: 100vh; padding-bottom: 90px; padding-top: 0; direction: rtl; color: #1a1a2e; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Vazir', -apple-system, BlinkMacSystemFont, sans-serif; -webkit-tap-highlight-color: transparent; }
+        html { -webkit-text-size-adjust: 100%; }
+        body { background: #f5f7fb; display: flex; justify-content: center; min-height: 100vh; padding-bottom: 90px; padding-top: 0; direction: rtl; color: #1a1a2e; overscroll-behavior-y: none; -webkit-overflow-scrolling: touch; }
+        button, .nav-item, .dash-item, .filter-btn, .btn-sm, .header-btn, .option { touch-action: manipulation; }
         #app { max-width: 430px; width: 100%; background: #ffffff; min-height: 100vh; box-shadow: 0 0 60px rgba(108,99,255,0.04); position: relative; }
         #app-header {
             position: sticky; top: 0; z-index: 150;
-            background: rgba(255,255,255,0.75); backdrop-filter: blur(24px);
+            background: rgba(255,255,255,0.75); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px);
             border-bottom: 1px solid rgba(108,99,255,0.04);
             padding: 10px 16px;
             display: flex; align-items: center; justify-content: space-between;
@@ -44,18 +46,19 @@
         .page {
             display: none;
             padding: 16px 16px 24px;
-            animation: fadeSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: fadeSlide 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform, opacity;
         }
         .page.active { display: block; }
         @keyframes fadeSlide {
-            from { opacity: 0; transform: translateY(12px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .hidden { display: none !important; }
 
         .glass-card {
             background: rgba(255,255,255,0.6);
-            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
             border-radius: 24px;
             padding: 20px;
             border: 1px solid rgba(255,255,255,0.3);
@@ -69,7 +72,7 @@
             text-align: center;
             padding: 40px 24px;
             background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
             border-radius: 28px;
             border: 1px solid rgba(255,255,255,0.3);
             box-shadow: 0 12px 48px rgba(108,99,255,0.04);
@@ -96,7 +99,7 @@
         }
         .stat-box {
             background: rgba(255,255,255,0.4);
-            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
             border-radius: 16px;
             padding: 14px 8px;
             text-align: center;
@@ -105,7 +108,7 @@
         .stat-box .num { font-size: 24px; font-weight: 700; color: #1a1a2e; }
         .stat-box .label { font-size: 11px; color: #8A8A9A; margin-top: 4px; }
 
-        .filter-bar { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; flex-wrap: nowrap; }
+        .filter-bar { display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; margin-bottom: 16px; flex-wrap: nowrap; }
         .filter-bar::-webkit-scrollbar { height: 2px; }
         .filter-bar::-webkit-scrollbar-thumb { background: #6C63FF; border-radius: 10px; }
         .filter-btn {
@@ -120,7 +123,7 @@
 
         .appointment-item {
             background: rgba(255,255,255,0.3);
-            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
             border-radius: 18px;
             padding: 14px;
             border: 1px solid rgba(255,255,255,0.2);
@@ -158,7 +161,7 @@
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
             display: none; justify-content: center; align-items: center;
             z-index: 1000;
             padding: 20px;
@@ -166,7 +169,7 @@
         .modal-overlay.open { display: flex; }
         .modal-box {
             background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
             border-radius: 28px;
             max-width: 400px;
             width: 100%;
@@ -276,7 +279,7 @@
         }
         .dash-item {
             background: rgba(255,255,255,0.4);
-            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
             border: 1px solid rgba(255,255,255,0.2);
             border-radius: 18px;
             padding: 18px 12px;
@@ -297,7 +300,7 @@
         .form-group .input-wrapper {
             display: flex; align-items: center;
             background: rgba(255,255,255,0.4);
-            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
             border-radius: 16px;
             padding: 0 14px;
             border: 2px solid rgba(255,255,255,0.2);
@@ -341,7 +344,7 @@
 
         .btn-secondary {
             width: 100%; padding: 12px;
-            background: rgba(255,255,255,0.4); backdrop-filter: blur(8px);
+            background: rgba(255,255,255,0.4); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
             color: #6C63FF;
             border: 2px solid rgba(108,99,255,0.06);
             border-radius: 16px;
@@ -364,7 +367,7 @@
 
         .profile-completion {
             background: rgba(255,255,255,0.3);
-            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
             border-radius: 14px;
             padding: 12px 16px; margin-bottom: 16px;
             display: flex; align-items: center; justify-content: space-between;
@@ -383,7 +386,7 @@
         .gender-wrapper .input-wrapper, .custom-select-wrapper .input-wrapper { cursor: pointer; user-select: none; }
         .gender-options, .custom-select-options {
             position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-            background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+            background: rgba(255,255,255,0.95); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
             border-radius: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.06);
             border: 1px solid rgba(0,0,0,0.04); overflow: hidden;
             max-height: 0; opacity: 0;
@@ -405,7 +408,7 @@
 
         .date-wrapper {
             display: flex; align-items: center;
-            background: rgba(255,255,255,0.4); backdrop-filter: blur(8px);
+            background: rgba(255,255,255,0.4); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
             border-radius: 16px; padding: 0 14px;
             border: 2px solid rgba(255,255,255,0.2);
             transition: all 0.25s ease;
@@ -428,7 +431,7 @@
         #bottom-nav {
             position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
             width: calc(100% - 32px); max-width: 400px;
-            background: rgba(255,255,255,0.78); backdrop-filter: blur(24px);
+            background: rgba(255,255,255,0.78); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px);
             display: flex; justify-content: space-around; align-items: center;
             padding: 6px 8px 12px;
             border: 1px solid rgba(255,255,255,0.4);
@@ -447,7 +450,7 @@
         .nav-item.active { opacity: 1; }
         .nav-item.active .nav-icon-wrapper {
             background: linear-gradient(135deg, rgba(108,99,255,0.08), rgba(74,61,191,0.04));
-            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
             border: 1px solid rgba(108,99,255,0.08);
             color: #6C63FF;
             transform: scale(1);
@@ -479,7 +482,7 @@
             z-index: 999; animation: toastIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
             box-shadow: 0 8px 32px rgba(0,0,0,0.06);
             max-width: 90%; text-align: center;
-            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
         }
         .toast.success { background: rgba(16,185,129,0.85); }
         .toast.error { background: rgba(239,68,68,0.85); }
@@ -507,7 +510,7 @@
             border-radius: 16px;
             font-size: 15px;
             background: rgba(255,255,255,0.3);
-            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
             outline: none;
             font-family: 'Vazir', sans-serif;
             margin-bottom: 12px;
@@ -519,6 +522,40 @@
             box-shadow: 0 0 0 4px rgba(108,99,255,0.04);
         }
         .search-box::placeholder { color: #bbb; }
+
+        .profile-brand-card { text-align: center; padding: 26px 20px; }
+        .profile-brand-card .brand-logo {
+            width: 64px; height: 64px; border-radius: 20px; margin: 0 auto 14px;
+            background: linear-gradient(135deg, #6C63FF, #4A3DBF);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; box-shadow: 0 8px 24px rgba(108,99,255,0.15);
+        }
+        .social-links { display: flex; flex-direction: column; gap: 10px; }
+        .social-link-item {
+            display: flex; align-items: center; gap: 12px;
+            background: rgba(255,255,255,0.4);
+            -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 18px;
+            padding: 12px 14px;
+            text-decoration: none;
+            transition: transform 0.2s ease, background 0.2s ease;
+            cursor: pointer;
+        }
+        .social-link-item:active { transform: scale(0.97); background: rgba(108,99,255,0.05); }
+        .social-icon {
+            width: 46px; height: 46px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 21px; flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+        }
+        .social-link-item.instagram .social-icon {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+        }
+        .social-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+        .social-name { font-size: 15px; font-weight: 700; color: #1a1a2e; }
+        .social-sub { font-size: 12px; color: #8A8A9A; margin-top: 2px; direction: ltr; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .social-arrow { color: #c7c7d6; font-size: 13px; flex-shrink: 0; }
     </style>
 </head>
 <body>
@@ -570,7 +607,13 @@
         
         <!-- پنل مشتری -->
         <div id="user-panel" class="hidden">
-            <div class="glass-card">
+            <div class="glass-card" id="profile-required-banner" style="display:none; text-align:center; border:1px solid rgba(255,159,67,0.25); background:rgba(255,159,67,0.06);">
+                <i class="fas fa-triangle-exclamation" style="font-size:32px; color:#f59e0b; margin-bottom:10px; display:block;"></i>
+                <div class="title" style="margin-bottom:6px;">تکمیل پروفایل ضروری است</div>
+                <div class="subtitle" style="margin-bottom:16px;">برای ثبت نوبت، لطفاً ابتدا نام، نام‌خانوادگی، کد ملی و شماره تماس خود را در پروفایل تکمیل کنید.</div>
+                <button type="button" class="btn-primary" id="go-complete-profile"><i class="fas fa-user-edit"></i> تکمیل پروفایل</button>
+            </div>
+            <div class="glass-card" id="booking-form-card">
                 <div class="title">📅 ثبت نوبت جدید</div>
                 <div class="subtitle">اطلاعات نوبت خود را وارد کنید</div>
                 <form id="user-appointment-form">
@@ -644,7 +687,26 @@
         </div>
     </div>
 
-    <div id="page-social" class="page"><div class="empty-state"><i class="fas fa-share-alt"></i><p>شبکه‌های اجتماعی</p><p style="font-size:14px;color:#bbb;">به‌زودی تکمیل می‌شود</p></div></div>
+    <!-- ===== صفحه شبکه‌های اجتماعی ===== -->
+    <div id="page-social" class="page">
+        <div class="glass-card profile-brand-card">
+            <div class="brand-logo">⚖️</div>
+            <div class="title" style="margin-bottom:2px;">فاطمه کرامتی</div>
+            <div class="subtitle" style="margin-bottom:0;">وکیل پایه یک دادگستری</div>
+        </div>
+        <div class="glass-card">
+            <div class="title">🔗 شبکه‌های اجتماعی</div>
+            <div class="subtitle">همین حالا صفحات ما را دنبال کنید</div>
+            <div class="social-links" id="social-links-list">
+                <a class="social-link-item instagram" href="https://www.instagram.com/vakil_keramatii?igsh=MTc2YWw5ajFtcmw3Zw==" target="_blank" rel="noopener noreferrer">
+                    <span class="social-icon"><i class="fab fa-instagram"></i></span>
+                    <span class="social-text"><span class="social-name">اینستاگرام</span><span class="social-sub">vakil_keramatii</span></span>
+                    <span class="social-arrow"><i class="fas fa-chevron-left"></i></span>
+                </a>
+                <!-- برای افزودن شبکه‌ی جدید، یک <a class="social-link-item ..."> دیگر با همین ساختار اضافه کن -->
+            </div>
+        </div>
+    </div>
     <div id="page-contact" class="page"><div class="empty-state"><i class="fas fa-map-pin"></i><p>تماس و لوکیشن</p><p style="font-size:14px;color:#bbb;">به‌زودی تکمیل می‌شود</p></div></div>
 
     <!-- ===== صفحه حساب ===== -->
@@ -704,7 +766,7 @@
     <button class="nav-item" data-page="page-home" data-title="خانه"><span class="nav-icon-wrapper"><i class="fas fa-house"></i></span><span class="nav-label">خانه</span></button>
     <button class="nav-item" data-page="page-appointments" data-title="نوبت"><span class="nav-icon-wrapper"><i class="fas fa-calendar-day"></i></span><span class="nav-label">نوبت</span></button>
     <button class="nav-item" data-page="page-manage" data-title="مدیریت" id="nav-manage"><span class="nav-icon-wrapper"><i class="fas fa-list-check"></i></span><span class="nav-label">مدیریت</span></button>
-    <button class="nav-item" data-page="page-social" data-title="شبکه‌ها"><span class="nav-icon-wrapper"><i class="fas fa-share-nodes"></i></span><span class="nav-label">شبکه‌ها</span></button>
+    <button class="nav-item" data-page="page-social" data-title="شبکه‌های اجتماعی"><span class="nav-icon-wrapper"><i class="fas fa-share-nodes"></i></span><span class="nav-label" style="font-size:8px; line-height:1.15; white-space:normal;">شبکه‌های اجتماعی</span></button>
     <button class="nav-item" data-page="page-account" data-title="حساب"><span class="nav-icon-wrapper"><i class="fas fa-user"></i></span><span class="nav-label">حساب</span></button>
 </nav>
 
@@ -746,6 +808,7 @@
         });
 
         let currentUser = null, userRole = 'user', currentFilter = 'all', currentFilterManage = 'all';
+        let currentUserProfile = null;
         let selectedGender = '', selectedTime = '', selectedType = '', selectedTopic = '';
         let allAppointments = [], allAppointmentsManage = [];
         let currentDebugAppointmentId = null;
@@ -813,64 +876,43 @@
         // ===== مودال (با ساخت خودکار پروفایل) =====
         window.showUserDetails = async function(appointmentId) {
             try {
-                const { data: appt, error: err1 } = await supabase
-                    .from('appointments')
-                    .select('*')
-                    .eq('id', appointmentId)
-                    .single();
+                currentDebugAppointmentId = appointmentId;
 
-                if (err1 || !appt) {
-                    showToast('❌ نوبت یافت نشد.', 'error');
-                    return;
-                }
+                // اول از لیست‌هایی که همین حالا با پروفایل join شده‌اند می‌خوانیم (سریع و بدون مشکل دسترسی)
+                let appt = allAppointmentsManage.find(a => String(a.id) === String(appointmentId))
+                        || allAppointments.find(a => String(a.id) === String(appointmentId));
+                let profile = appt ? appt.profiles : null;
 
-                let full_name = 'تکمیل نشده';
-                let phone = 'تکمیل نشده';
-                let national_code = 'تکمیل نشده';
-
-                const { data: profile, error: err2 } = await supabase
-                    .from('profiles')
-                    .select('*')
-                    .eq('id', appt.user_id)
-                    .single();
-
-                if (err2 || !profile) {
-                    console.log('⚠️ پروفایل وجود ندارد، از auth.users می‌گیریم...');
-                    const { data: authUser, error: authErr } = await supabase
-                        .from('auth.users')
-                        .select('email, raw_user_meta_data')
-                        .eq('id', appt.user_id)
+                if (!appt) {
+                    const { data: fetchedAppt, error: err1 } = await supabase
+                        .from('appointments')
+                        .select('*')
+                        .eq('id', appointmentId)
                         .single();
-
-                    if (!authErr && authUser) {
-                        const meta = authUser.raw_user_meta_data || {};
-                        full_name = meta.full_name || meta.name || authUser.email || 'کاربر گوگل';
-                        phone = meta.phone || '';
-                        national_code = meta.national_code || '';
-
-                        const { error: insertErr } = await supabase
-                            .from('profiles')
-                            .insert({
-                                id: appt.user_id,
-                                full_name: full_name,
-                                phone: phone,
-                                national_code: national_code,
-                                updated_at: new Date().toISOString()
-                            });
-
-                        if (insertErr) {
-                            console.error('❌ خطا در ساخت پروفایل:', insertErr);
-                        } else {
-                            console.log('✅ پروفایل ساخته شد.');
-                        }
-                    } else {
-                        console.error('❌ خطا در دریافت اطلاعات از auth.users:', authErr);
+                    if (err1 || !fetchedAppt) {
+                        showToast('❌ نوبت یافت نشد.', 'error');
+                        return;
                     }
-                } else {
-                    full_name = profile.full_name || 'تکمیل نشده';
-                    phone = profile.phone || 'تکمیل نشده';
-                    national_code = profile.national_code || 'تکمیل نشده';
+                    appt = fetchedAppt;
+                    const { data: fetchedProfile } = await supabase
+                        .from('profiles')
+                        .select('*')
+                        .eq('id', appt.user_id)
+                        .maybeSingle();
+                    profile = fetchedProfile;
+                } else if (!profile || Object.keys(profile).length === 0) {
+                    // اطلاعات اولیه لیست، پروفایل نداشت؛ یک‌بار دیگر مستقیم چک می‌کنیم
+                    const { data: fetchedProfile } = await supabase
+                        .from('profiles')
+                        .select('*')
+                        .eq('id', appt.user_id)
+                        .maybeSingle();
+                    profile = fetchedProfile;
                 }
+
+                const full_name = (profile && profile.full_name) ? profile.full_name : 'پروفایل تکمیل نشده';
+                const phone = (profile && profile.phone) ? profile.phone : 'تکمیل نشده';
+                const national_code = (profile && profile.national_code) ? profile.national_code : 'تکمیل نشده';
 
                 document.getElementById('modal-name').textContent = full_name;
                 document.getElementById('modal-phone').textContent = phone;
@@ -1051,6 +1093,8 @@
                 updateCompletion();
                 document.getElementById('dash-name').textContent = full_name;
                 document.getElementById('dash-avatar').textContent = (first || 'ک').charAt(0).toUpperCase();
+                currentUserProfile = payload;
+                updateBookingAccess();
             }
         });
 
@@ -1097,6 +1141,38 @@
             }
         }
 
+        function isProfileComplete(profile) {
+            if (!profile) return false;
+            const full = (profile.full_name || '').trim();
+            const parts = full.split(/\s+/).filter(Boolean);
+            const hasFullName = parts.length >= 2;
+            const hasNational = (profile.national_code || '').trim().length === 10;
+            const hasPhone = (profile.phone || '').trim().length >= 10;
+            return hasFullName && hasNational && hasPhone;
+        }
+
+        function updateBookingAccess() {
+            const banner = document.getElementById('profile-required-banner');
+            const formCard = document.getElementById('booking-form-card');
+            if (!banner || !formCard) return;
+            if (isProfileComplete(currentUserProfile)) {
+                banner.style.display = 'none';
+                formCard.style.display = 'block';
+            } else {
+                banner.style.display = 'block';
+                formCard.style.display = 'none';
+            }
+        }
+
+        document.getElementById('go-complete-profile')?.addEventListener('click', function() {
+            navItems.forEach(n => n.classList.remove('active'));
+            document.querySelector('.nav-item[data-page="page-account"]').classList.add('active');
+            pages.forEach(p => p.classList.remove('active'));
+            document.getElementById('page-account').classList.add('active');
+            pageTitle.textContent = 'حساب';
+            checkAuthAccount().then(() => showProfile());
+        });
+
         async function checkAuthAppointments() {
             const { data: { user } } = await supabase.auth.getUser();
             currentUser = user;
@@ -1111,6 +1187,9 @@
                 } else {
                     document.getElementById('admin-panel').classList.add('hidden');
                     document.getElementById('user-panel').classList.remove('hidden');
+                    const { data: fullProfile } = await supabase.from('profiles').select('*').eq('id', user.id).maybeSingle();
+                    currentUserProfile = fullProfile || null;
+                    updateBookingAccess();
                     await Promise.all([loadUserHours(), loadUserAppointments()]);
                 }
             } else {
@@ -1381,6 +1460,13 @@
         document.getElementById('user-submit-appointment')?.addEventListener('click', async function() {
             if (!currentUser) { showToast('❌ لطفاً وارد شوید.', 'error'); return; }
             if (userRole === 'admin') { showToast('❌ شما وکیل هستید، نمی‌توانید نوبت بگیرید.', 'error'); return; }
+            const { data: freshProfile } = await supabase.from('profiles').select('*').eq('id', currentUser.id).maybeSingle();
+            currentUserProfile = freshProfile || null;
+            if (!isProfileComplete(currentUserProfile)) {
+                showToast('❌ لطفاً ابتدا پروفایل خود را تکمیل کنید.', 'error');
+                updateBookingAccess();
+                return;
+            }
             const date = document.getElementById('user-appt-date').value;
             const time = selectedTime;
             const type = selectedType;
