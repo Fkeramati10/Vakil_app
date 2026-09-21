@@ -6,12 +6,10 @@
 
     <title>فاطمه کرامتی | وکیل پایه یک دادگستری</title>
 
-    <!-- فونت -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
@@ -78,11 +76,10 @@
             margin: auto;
         }
 
-        /* Glass Cards */
-
         .glass {
             background: var(--white-glass);
             border: 1px solid var(--border);
+
             box-shadow:
                 0 15px 40px rgba(73, 52, 142, 0.10),
                 inset 0 1px 0 rgba(255,255,255,0.8);
@@ -94,7 +91,7 @@
             margin-bottom: 18px;
         }
 
-        /* Header */
+        /* TOP */
 
         .topbar {
             display: flex;
@@ -110,7 +107,7 @@
             color: var(--purple);
         }
 
-        /* Hero */
+        /* HERO */
 
         .hero {
             position: relative;
@@ -140,7 +137,9 @@
             justify-content: center;
 
             border-radius: 50%;
+
             background: rgba(255,255,255,0.45);
+
             box-shadow:
                 0 10px 30px rgba(70, 45, 135, 0.14),
                 inset 0 1px 5px rgba(255,255,255,0.9);
@@ -205,6 +204,7 @@
             padding: 9px 20px;
 
             border-radius: 50px;
+
             background: rgba(255,255,255,0.42);
             border: 1px solid rgba(130,110,200,0.15);
 
@@ -217,7 +217,7 @@
             color: var(--purple);
         }
 
-        /* Section */
+        /* SECTION */
 
         .section {
             padding: 22px 18px 24px;
@@ -241,7 +241,7 @@
             font-size: 23px;
         }
 
-        /* Practice Areas */
+        /* AREAS */
 
         .areas {
             display: grid;
@@ -259,13 +259,15 @@
             padding: 0 17px;
 
             border-radius: 50px;
+
             background: rgba(255,255,255,0.32);
             border: 1px solid rgba(126, 100, 210, 0.18);
 
             font-size: 14px;
             font-weight: 500;
 
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.7);
         }
 
         .area::after {
@@ -277,7 +279,7 @@
             flex-shrink: 0;
         }
 
-        /* Social */
+        /* SOCIAL */
 
         .social-grid {
             display: grid;
@@ -308,7 +310,8 @@
 
         .social:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(76, 54, 143, 0.13);
+            box-shadow:
+                0 12px 25px rgba(76, 54, 143, 0.13);
         }
 
         .social i {
@@ -331,7 +334,7 @@
             color: #e86b38;
         }
 
-        /* Contact */
+        /* CONTACT */
 
         .contact-box {
             display: flex;
@@ -341,6 +344,7 @@
             padding: 13px 16px;
 
             border-radius: 50px;
+
             background: rgba(255,255,255,0.35);
             border: 1px solid rgba(126,100,210,0.15);
 
@@ -356,10 +360,12 @@
             justify-content: center;
 
             border-radius: 50%;
+
             background: rgba(255,255,255,0.55);
 
             color: var(--purple);
             font-size: 19px;
+
             flex-shrink: 0;
         }
 
@@ -377,6 +383,7 @@
         .phone {
             font-size: 17px;
             font-weight: 600;
+
             direction: ltr;
             text-align: right;
         }
@@ -415,7 +422,7 @@
             font-size: 15px;
         }
 
-        /* Office */
+        /* OFFICE */
 
         .office-row {
             display: flex;
@@ -424,7 +431,7 @@
 
             padding: 13px 15px;
 
-            border-radius: 50px;
+            border-radius: 28px;
 
             background: rgba(255,255,255,0.34);
             border: 1px solid rgba(126,100,210,0.15);
@@ -444,7 +451,7 @@
 
         .address {
             font-size: 13px;
-            line-height: 1.8;
+            line-height: 1.9;
         }
 
         .work-hours {
@@ -467,7 +474,7 @@
             font-size: 20px;
         }
 
-        /* Footer */
+        /* FOOTER */
 
         footer {
             text-align: center;
@@ -481,7 +488,7 @@
             margin: 0 8px;
         }
 
-        /* Mobile */
+        /* MOBILE */
 
         @media (max-width: 480px) {
 
@@ -564,6 +571,10 @@
                 border-radius: 25px;
             }
 
+            .office-info {
+                min-width: 0;
+            }
+
             .maps-button {
                 width: 100%;
             }
@@ -580,8 +591,9 @@
 
 <div class="container">
 
-    <!-- بالای صفحه -->
+    <!-- TOPBAR -->
     <div class="topbar">
+
         <span>
             <i class="fa-solid fa-scale-balanced"></i>
             کارت دیجیتال وکیل
@@ -590,28 +602,39 @@
         <span>
             <i class="fa-regular fa-id-card"></i>
         </span>
+
     </div>
 
 
-    <!-- معرفی -->
+    <!-- HERO -->
     <section class="glass hero">
 
         <div class="logo-wrapper">
-            <img src="logo.png"
-                 alt="لوگوی فاطمه کرامتی"
-                 class="logo">
+
+            <img
+                src="logo.png"
+                alt="لوگوی فاطمه کرامتی"
+                class="logo"
+            >
+
         </div>
 
-        <h1 class="name">فاطمه کرامتی</h1>
+        <h1 class="name">
+            فاطمه کرامتی
+        </h1>
 
         <div class="title">
             وکیل پایه یک دادگستری
         </div>
 
         <div class="divider">
+
             <span></span>
+
             <i class="fa-solid fa-diamond"></i>
+
             <span></span>
+
         </div>
 
         <div class="degree">
@@ -619,19 +642,27 @@
         </div>
 
         <div class="license">
+
             <i class="fa-regular fa-file-lines"></i>
+
             شماره پروانه: ۸۲۴۲۸
+
         </div>
 
     </section>
 
 
-    <!-- زمینه های فعالیت -->
+    <!-- PRACTICE AREAS -->
     <section class="glass section">
 
         <div class="section-title">
+
             <i class="fa-solid fa-gavel"></i>
-            <span>زمینه‌های فعالیت</span>
+
+            <span>
+                زمینه‌های فعالیت
+            </span>
+
         </div>
 
         <div class="areas">
@@ -665,22 +696,29 @@
     </section>
 
 
-    <!-- شبکه های اجتماعی -->
+    <!-- SOCIAL MEDIA -->
     <section class="glass section">
 
         <div class="section-title">
+
             <i class="fa-solid fa-share-nodes"></i>
-            <span>ارتباط در شبکه‌های اجتماعی</span>
+
+            <span>
+                ارتباط در شبکه‌های اجتماعی
+            </span>
+
         </div>
 
         <div class="social-grid">
 
             <!-- WhatsApp -->
-            <a class="social whatsapp"
-               href="https://wa.me/989151895338"
-               target="_blank"
-               rel="noopener noreferrer"
-               aria-label="واتساپ">
+            <a
+                class="social whatsapp"
+                href="https://wa.me/989151895338"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="واتساپ"
+            >
 
                 <i class="fa-brands fa-whatsapp"></i>
 
@@ -688,11 +726,13 @@
 
 
             <!-- Telegram -->
-            <a class="social telegram"
-               href="https://t.me/Fatemeh_Keramatiii"
-               target="_blank"
-               rel="noopener noreferrer"
-               aria-label="تلگرام">
+            <a
+                class="social telegram"
+                href="https://t.me/Fatemeh_Keramatiii"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="تلگرام"
+            >
 
                 <i class="fa-brands fa-telegram"></i>
 
@@ -700,11 +740,13 @@
 
 
             <!-- Instagram -->
-            <a class="social instagram"
-               href="https://www.instagram.com/vakil_keramatii?stkn=MTc2YWw5ajFtcmw3Zw=="
-               target="_blank"
-               rel="noopener noreferrer"
-               aria-label="اینستاگرام">
+            <a
+                class="social instagram"
+                href="https://www.instagram.com/vakil_keramatii?stkn=MTc2YWw5ajFtcmw3Zw=="
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="اینستاگرام"
+            >
 
                 <i class="fa-brands fa-instagram"></i>
 
@@ -712,11 +754,13 @@
 
 
             <!-- Rubika -->
-            <a class="social rubika"
-               href="https://rubika.ir/fatemeh_keramatii"
-               target="_blank"
-               rel="noopener noreferrer"
-               aria-label="روبیکا">
+            <a
+                class="social rubika"
+                href="https://rubika.ir/fatemeh_keramatii"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="روبیکا"
+            >
 
                 <i class="fa-solid fa-cube"></i>
 
@@ -727,18 +771,25 @@
     </section>
 
 
-    <!-- تماس -->
+    <!-- CONTACT -->
     <section class="glass section">
 
         <div class="section-title">
+
             <i class="fa-solid fa-phone"></i>
-            <span>تماس</span>
+
+            <span>
+                تماس
+            </span>
+
         </div>
 
         <div class="contact-box">
 
             <div class="contact-icon">
+
                 <i class="fa-solid fa-phone"></i>
+
             </div>
 
             <div class="contact-info">
@@ -753,10 +804,13 @@
 
             </div>
 
-            <a class="call-button"
-               href="tel:+989151895338">
+            <a
+                class="call-button"
+                href="tel:+989151895338"
+            >
 
                 <i class="fa-solid fa-phone"></i>
+
                 تماس با وکیل
 
             </a>
@@ -766,18 +820,26 @@
     </section>
 
 
-    <!-- دفتر وکیل -->
+    <!-- OFFICE -->
     <section class="glass section">
 
         <div class="section-title">
+
             <i class="fa-solid fa-location-dot"></i>
-            <span>دفتر وکیل</span>
+
+            <span>
+                دفتر وکیل
+            </span>
+
         </div>
+
 
         <div class="office-row">
 
             <div class="contact-icon">
+
                 <i class="fa-solid fa-location-dot"></i>
+
             </div>
 
             <div class="office-info">
@@ -787,22 +849,24 @@
                 </div>
 
                 <div class="address">
-                    آدرس کامل دفتر وکیل در این قسمت قرار می‌گیرد
+
+                    چهارراه مخابرات، خیابان شریعتی جنوبی،
+                    بعد از شریعتی ۱۴، ساختمان نورا
+
                 </div>
 
             </div>
 
-            <!--
-                بعداً لینک واقعی Google Maps
-                اینجا قرار می‌گیرد
-            -->
 
-            <a class="maps-button"
-               href="#"
-               target="_blank"
-               rel="noopener noreferrer">
+            <a
+                class="maps-button"
+                href="https://maps.app.goo.gl/6r5gifdyWQ3Tb5EH6?g_st=ac"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
 
                 <i class="fa-solid fa-diamond-turn-right"></i>
+
                 مسیریابی با Google Maps
 
             </a>
@@ -815,7 +879,10 @@
             <i class="fa-regular fa-clock"></i>
 
             <span>
-                ساعات کاری در این قسمت قرار می‌گیرد
+
+                ساعات کاری:
+                شنبه تا چهارشنبه، ۱۸:۰۰ تا ۲۱:۰۰
+
             </span>
 
         </div>
@@ -823,12 +890,16 @@
     </section>
 
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer>
 
-        <span>عدالت، حق هر فرد است</span>
+        <span>
+            عدالت، حق هر فرد است
+        </span>
 
-        <span class="gold">◆</span>
+        <span class="gold">
+            ◆
+        </span>
 
     </footer>
 
